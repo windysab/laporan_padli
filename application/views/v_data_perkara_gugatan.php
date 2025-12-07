@@ -161,6 +161,7 @@
 				<div class="row">
 					<?php
 					// Calculate totals for summary cards
+					$card_total_sisa = 0;
 					$card_total_masuk = 0;
 					$card_total_putus = 0;
 					$card_total_bht = 0;
@@ -168,6 +169,7 @@
 
 					if (!empty($datafilter)) {
 						foreach ($datafilter as $row) {
+							$card_total_sisa += $row->SISA_BULAN_LALU;
 							$card_total_masuk += $row->PERKARA_MASUK;
 							$card_total_putus += $row->PERKARA_PUTUS;
 							$card_total_bht += $row->PERKARA_TELAH_BHT;
@@ -189,6 +191,18 @@
 						$persentase_bht = 0;
 					}
 					?>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-secondary">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_sisa); ?></h3>
+								<p>Sisa Bulan Lalu</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-hourglass-half"></i>
+							</div>
+						</div>
+					</div>
 
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
@@ -425,6 +439,7 @@
 										<thead>
 											<tr class="bg-primary">
 												<th>Kecamatan</th>
+												<th>Sisa Bulan Lalu</th>
 												<th>Perkara Masuk</th>
 												<th>Perkara Putus</th>
 												<th>Perkara Telah BHT</th>
@@ -433,6 +448,7 @@
 										</thead>
 										<tbody>
 											<?php
+											$total_sisa = 0;
 											$total_masuk = 0;
 											$total_putus = 0;
 											$total_bht = 0;
@@ -440,14 +456,16 @@
 
 											if (!empty($datafilter)):
 												foreach ($datafilter as $row):
+													$total_sisa += $row->SISA_BULAN_LALU;
 													$total_masuk += $row->PERKARA_MASUK;
 													$total_putus += $row->PERKARA_PUTUS;
 													$total_bht += $row->PERKARA_TELAH_BHT;
 													$total_akta += $row->JUMLAH_AKTA_CERAI;
-											?>
-													<tr>
-														<td><?php echo $row->KECAMATAN; ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_MASUK); ?></td>
+												?>
+														<tr>
+															<td><?php echo $row->KECAMATAN; ?></td>
+															<td class="text-center"><?php echo number_format($row->SISA_BULAN_LALU); ?></td>
+															<td class="text-center"><?php echo number_format($row->PERKARA_MASUK); ?></td>
 														<td class="text-center"><?php echo number_format($row->PERKARA_PUTUS); ?></td>
 														<td class="text-center"><?php echo number_format($row->PERKARA_TELAH_BHT); ?></td>
 														<td class="text-center"><?php echo number_format($row->JUMLAH_AKTA_CERAI); ?></td>
@@ -461,15 +479,16 @@
 												</tr>
 											<?php endif; ?>
 										</tbody>
-										<tfoot>
-											<tr class="bg-light font-weight-bold">
-												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_masuk); ?></th>
-												<th class="text-center"><?php echo number_format($total_putus); ?></th>
-												<th class="text-center"><?php echo number_format($total_bht); ?></th>
-												<th class="text-center"><?php echo number_format($total_akta); ?></th>
-											</tr>
-										</tfoot>
+									<tfoot>
+										<tr class="bg-light font-weight-bold">
+											<th>TOTAL</th>
+											<th class="text-center"><?php echo number_format($total_sisa); ?></th>
+											<th class="text-center"><?php echo number_format($total_masuk); ?></th>
+											<th class="text-center"><?php echo number_format($total_putus); ?></th>
+											<th class="text-center"><?php echo number_format($total_bht); ?></th>
+											<th class="text-center"><?php echo number_format($total_akta); ?></th>
+										</tr>
+									</tfoot>
 									</table>
 								</div>
 

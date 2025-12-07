@@ -24,7 +24,8 @@ class M_data_perkara_gugatan extends CI_Model
                 COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_bht' THEN subquery.COUNT ELSE 0 END), 0),
                 COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0)
             ) AS PERKARA_TELAH_BHT,
-            COALESCE(SUM(CASE WHEN subquery.date_type = 'tgl_akta_cerai' THEN subquery.COUNT ELSE 0 END), 0) AS JUMLAH_AKTA_CERAI
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'tgl_akta_cerai' THEN subquery.COUNT ELSE 0 END), 0) AS JUMLAH_AKTA_CERAI,
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'sisa_bulan_lalu' THEN subquery.COUNT ELSE 0 END), 0) AS SISA_BULAN_LALU
         FROM ($kecamatan_list) AS locations
         LEFT JOIN (";
 
@@ -42,6 +43,9 @@ class M_data_perkara_gugatan extends CI_Model
 
 		// Tanggal BHT
 		$subqueries[] = $this->_build_subquery('tanggal_bht', 'perkara_putusan', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+
+		// Sisa Bulan Lalu (perkara masuk bulan lalu yang belum putus)
+		$subqueries[] = $this->_build_sisa_bulan_lalu_subquery($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 
 		$sql .= implode(' UNION ALL ', $subqueries);
 		$sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
@@ -66,7 +70,8 @@ class M_data_perkara_gugatan extends CI_Model
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_pendaftaran' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_MASUK,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_PUTUS,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_bht' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_TELAH_BHT,
-            COALESCE(SUM(CASE WHEN subquery.date_type = 'tgl_akta_cerai' THEN subquery.COUNT ELSE 0 END), 0) AS JUMLAH_AKTA_CERAI
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'tgl_akta_cerai' THEN subquery.COUNT ELSE 0 END), 0) AS JUMLAH_AKTA_CERAI,
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'sisa_bulan_lalu' THEN subquery.COUNT ELSE 0 END), 0) AS SISA_BULAN_LALU
         FROM ($kecamatan_list) AS locations
         LEFT JOIN (";
 
@@ -75,6 +80,7 @@ class M_data_perkara_gugatan extends CI_Model
 		$subqueries[] = $this->_build_yearly_subquery('tanggal_pendaftaran', 'perkara', $lap_tahun, $jenis_perkara, $wilayah);
 		$subqueries[] = $this->_build_yearly_subquery('tanggal_putusan', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
 		$subqueries[] = $this->_build_yearly_subquery('tanggal_bht', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
+		$subqueries[] = $this->_build_sisa_tahun_lalu_subquery($lap_tahun, $jenis_perkara, $wilayah);
 
 		$sql .= implode(' UNION ALL ', $subqueries);
 		$sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
@@ -404,6 +410,49 @@ class M_data_perkara_gugatan extends CI_Model
         WHERE YEAR($date_field) = '$lap_tahun' 
             AND jenis_perkara_nama = '$jenis_perkara'
             AND perkara_pihak1.urutan = '1'
+        GROUP BY KECAMATAN";
+	}
+
+	// Method untuk menghitung sisa bulan lalu
+	private function _build_sisa_bulan_lalu_subquery($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
+	{
+		// Hitung bulan sebelumnya
+		$bulan_lalu = $lap_bulan - 1;
+		$tahun_lalu = $lap_tahun;
+		if ($bulan_lalu <= 0) {
+			$bulan_lalu = 12;
+			$tahun_lalu = $lap_tahun - 1;
+		}
+
+		return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
+            'sisa_bulan_lalu' AS date_type, 
+            COUNT(*) AS COUNT
+        FROM perkara
+        LEFT JOIN perkara_pihak1 ON perkara.perkara_id = perkara_pihak1.perkara_id
+        LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
+        WHERE YEAR(perkara.tanggal_pendaftaran) = '$tahun_lalu' 
+            AND MONTH(perkara.tanggal_pendaftaran) = '$bulan_lalu'
+            AND perkara.jenis_perkara_nama = '$jenis_perkara'
+            AND perkara_pihak1.urutan = '1'
+            AND perkara_putusan.tanggal_putusan IS NULL
+        GROUP BY KECAMATAN";
+	}
+
+	// Method untuk menghitung sisa tahun lalu
+	private function _build_sisa_tahun_lalu_subquery($lap_tahun, $jenis_perkara, $wilayah)
+	{
+		$tahun_lalu = $lap_tahun - 1;
+
+		return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
+            'sisa_bulan_lalu' AS date_type, 
+            COUNT(*) AS COUNT
+        FROM perkara
+        LEFT JOIN perkara_pihak1 ON perkara.perkara_id = perkara_pihak1.perkara_id
+        LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
+        WHERE YEAR(perkara.tanggal_pendaftaran) = '$tahun_lalu' 
+            AND perkara.jenis_perkara_nama = '$jenis_perkara'
+            AND perkara_pihak1.urutan = '1'
+            AND perkara_putusan.tanggal_putusan IS NULL
         GROUP BY KECAMATAN";
 	}
 

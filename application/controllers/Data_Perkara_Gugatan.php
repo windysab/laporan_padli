@@ -135,10 +135,11 @@ class Data_Perkara_Gugatan extends CI_Controller
 			case 'yearly':
 			case 'monthly':
 				$sheet->setCellValue('A1', 'Kecamatan');
-				$sheet->setCellValue('B1', 'Perkara Masuk');
-				$sheet->setCellValue('C1', 'Perkara Putus');
-				$sheet->setCellValue('D1', 'Perkara Telah BHT');
-				$sheet->setCellValue('E1', 'Jumlah Akta Cerai');
+				$sheet->setCellValue('B1', 'Sisa Bulan Lalu');
+				$sheet->setCellValue('C1', 'Perkara Masuk');
+				$sheet->setCellValue('D1', 'Perkara Putus');
+				$sheet->setCellValue('E1', 'Perkara Telah BHT');
+				$sheet->setCellValue('F1', 'Jumlah Akta Cerai');
 				break;
 			case 'comparison':
 				$sheet->setCellValue('A1', 'Kecamatan');
@@ -164,10 +165,11 @@ class Data_Perkara_Gugatan extends CI_Controller
 				case 'yearly':
 				case 'monthly':
 					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
-					$sheet->setCellValue('B' . $row, $item->PERKARA_MASUK);
-					$sheet->setCellValue('C' . $row, $item->PERKARA_PUTUS);
-					$sheet->setCellValue('D' . $row, $item->PERKARA_TELAH_BHT);
-					$sheet->setCellValue('E' . $row, $item->JUMLAH_AKTA_CERAI);
+					$sheet->setCellValue('B' . $row, $item->SISA_BULAN_LALU);
+					$sheet->setCellValue('C' . $row, $item->PERKARA_MASUK);
+					$sheet->setCellValue('D' . $row, $item->PERKARA_PUTUS);
+					$sheet->setCellValue('E' . $row, $item->PERKARA_TELAH_BHT);
+					$sheet->setCellValue('F' . $row, $item->JUMLAH_AKTA_CERAI);
 					break;
 				case 'comparison':
 					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
