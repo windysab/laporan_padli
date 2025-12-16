@@ -20,6 +20,8 @@ class Data_Perkara_Gugatan extends CI_Controller
 		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
 		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Cerai Gugat';
 		$report_type = $this->input->post('report_type') ?: 'summary';
+		$tanggal_mulai = $this->input->post('tanggal_mulai');
+		$tanggal_akhir = $this->input->post('tanggal_akhir');
 
 		$data = array();
 		$data['selected_wilayah'] = $wilayah;
@@ -27,6 +29,8 @@ class Data_Perkara_Gugatan extends CI_Controller
 		$data['selected_tahun'] = $lap_tahun;
 		$data['selected_jenis'] = $jenis_perkara;
 		$data['selected_report'] = $report_type;
+		$data['selected_tanggal_mulai'] = $tanggal_mulai;
+		$data['selected_tanggal_akhir'] = $tanggal_akhir;
 
 		// Get data based on report type and region
 		switch ($report_type) {
@@ -50,6 +54,12 @@ class Data_Perkara_Gugatan extends CI_Controller
 			case 'faktor_detail':
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
 				break;
+			case 'custom_range':
+				$data['datafilter'] = $this->M_data_perkara_gugatan->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				break;
+			case 'yearly_comparison':
+				$data['datafilter'] = $this->M_data_perkara_gugatan->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
+				break;
 			default:
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 		}
@@ -72,6 +82,8 @@ class Data_Perkara_Gugatan extends CI_Controller
 		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
 		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Cerai Gugat';
 		$report_type = $this->input->post('report_type') ?: 'summary';
+		$tanggal_mulai = $this->input->post('tanggal_mulai');
+		$tanggal_akhir = $this->input->post('tanggal_akhir');
 
 		// Get data for export
 		switch ($report_type) {
@@ -93,6 +105,12 @@ class Data_Perkara_Gugatan extends CI_Controller
 				break;
 			case 'faktor_detail':
 				$data = $this->M_data_perkara_gugatan->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
+				break;
+			case 'custom_range':
+				$data = $this->M_data_perkara_gugatan->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				break;
+			case 'yearly_comparison':
+				$data = $this->M_data_perkara_gugatan->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
 				break;
 			default:
 				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
@@ -152,6 +170,19 @@ class Data_Perkara_Gugatan extends CI_Controller
 				$sheet->setCellValue('B1', 'Jumlah Kasus');
 				$sheet->setCellValue('C1', 'Persentase');
 				break;
+			case 'custom_range':
+				$sheet->setCellValue('A1', 'Kecamatan');
+				$sheet->setCellValue('B1', 'Perkara Masuk');
+				$sheet->setCellValue('C1', 'Perkara Putus');
+				$sheet->setCellValue('D1', 'Perkara Telah BHT');
+				$sheet->setCellValue('E1', 'Jumlah Akta Cerai');
+				break;
+			case 'yearly_comparison':
+				$sheet->setCellValue('A1', 'Tahun');
+				$sheet->setCellValue('B1', 'Cerai Gugat');
+				$sheet->setCellValue('C1', 'Cerai Talak');
+				$sheet->setCellValue('D1', 'Total');
+				break;
 		}
 	}
 
@@ -180,6 +211,19 @@ class Data_Perkara_Gugatan extends CI_Controller
 					$sheet->setCellValue('A' . $row, isset($item->faktor_perceraian) ? $item->faktor_perceraian : $item->FAKTOR);
 					$sheet->setCellValue('B' . $row, isset($item->jumlah) ? $item->jumlah : $item->JUMLAH);
 					$sheet->setCellValue('C' . $row, isset($item->persentase) ? $item->persentase . '%' : (isset($item->PERSENTASE) ? $item->PERSENTASE . '%' : '0%'));
+					break;
+				case 'custom_range':
+					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
+					$sheet->setCellValue('B' . $row, $item->PERKARA_MASUK);
+					$sheet->setCellValue('C' . $row, $item->PERKARA_PUTUS);
+					$sheet->setCellValue('D' . $row, $item->PERKARA_TELAH_BHT);
+					$sheet->setCellValue('E' . $row, $item->JUMLAH_AKTA_CERAI);
+					break;
+				case 'yearly_comparison':
+					$sheet->setCellValue('A' . $row, $item->TAHUN);
+					$sheet->setCellValue('B' . $row, $item->CERAI_GUGAT);
+					$sheet->setCellValue('C' . $row, $item->CERAI_TALAK);
+					$sheet->setCellValue('D' . $row, $item->TOTAL);
 					break;
 			}
 			$row++;

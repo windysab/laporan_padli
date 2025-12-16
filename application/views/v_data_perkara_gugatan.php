@@ -121,8 +121,26 @@
 												<option value="summary" <?php echo ($selected_report == 'summary') ? 'selected' : ''; ?>>Ringkasan Bulanan</option>
 												<option value="yearly" <?php echo ($selected_report == 'yearly') ? 'selected' : ''; ?>>Laporan Tahunan</option>
 												<!-- <option value="monthly" <?php echo ($selected_report == 'monthly') ? 'selected' : ''; ?>>Breakdown Bulanan</option> -->
-												<option value="comparison" <?php echo ($selected_report == 'comparison') ? 'selected' : ''; ?>>Perbandingan Gugat vs Talak</option>
+												<option value="comparison" <?php echo ($selected_report == 'comparison') ? 'selected' : ''; ?>>Perbandingan Gugat dan Talak</option>
+												<option value="custom_range" <?php echo ($selected_report == 'custom_range') ? 'selected' : ''; ?>>Custom Range</option>
+												<option value="yearly_comparison" <?php echo ($selected_report == 'yearly_comparison') ? 'selected' : ''; ?>>Perbandingan Tahunan Gugat dan Talak</option>
 											</select>
+										</div>
+									</div>
+								</div>
+
+								<!-- Filter Custom Range -->
+								<div class="row" id="custom_range_filter" style="<?php echo ($selected_report == 'custom_range') ? 'display:block;' : 'display:none;'; ?>">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Tanggal Mulai</label>
+											<input type="date" name="tanggal_mulai" class="form-control" value="<?php echo isset($selected_tanggal_mulai) ? $selected_tanggal_mulai : date('Y-m-01'); ?>">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Tanggal Akhir</label>
+											<input type="date" name="tanggal_akhir" class="form-control" value="<?php echo isset($selected_tanggal_akhir) ? $selected_tanggal_akhir : date('Y-m-d'); ?>">
 										</div>
 									</div>
 								</div>
@@ -385,6 +403,150 @@
 						</div>
 					</div>
 				</div>
+			<?php elseif ($selected_report == 'custom_range'): ?>
+				<!-- Summary Cards for Custom Range -->
+				<?php
+				$card_total_masuk = 0;
+				$card_total_putus = 0;
+				$card_total_bht = 0;
+				$card_total_akta = 0;
+
+				if (!empty($datafilter)) {
+					foreach ($datafilter as $row) {
+						$card_total_masuk += $row->PERKARA_MASUK;
+						$card_total_putus += $row->PERKARA_PUTUS;
+						$card_total_bht += $row->PERKARA_TELAH_BHT;
+						$card_total_akta += $row->JUMLAH_AKTA_CERAI;
+					}
+				}
+
+				$persentase_bht = $card_total_putus > 0 ? min(100, ($card_total_bht / $card_total_putus) * 100) : 0;
+				?>
+
+				<div class="row">
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-info">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_masuk); ?></h3>
+								<p>Total Perkara Masuk</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-file-import"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-warning">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_putus); ?></h3>
+								<p>Total Perkara Putus</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-gavel"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-success">
+							<div class="inner">
+								<h3><?php echo number_format($persentase_bht, 1) . '%'; ?></h3>
+								<p>Persentase BHT</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-chart-pie"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-danger">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_akta); ?></h3>
+								<p>Total Akta Cerai</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-certificate"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php elseif ($selected_report == 'yearly_comparison'): ?>
+				<!-- Summary Cards for Yearly Comparison -->
+				<?php
+				$card_total_gugat = 0;
+				$card_total_talak = 0;
+				$card_grand_total = 0;
+				$tahun_tertinggi = 0;
+				$max_total = 0;
+
+				if (!empty($datafilter)) {
+					foreach ($datafilter as $row) {
+						$card_total_gugat += $row->CERAI_GUGAT;
+						$card_total_talak += $row->CERAI_TALAK;
+						$card_grand_total += $row->TOTAL;
+
+						if ($row->TOTAL > $max_total) {
+							$max_total = $row->TOTAL;
+							$tahun_tertinggi = $row->TAHUN;
+						}
+					}
+				}
+
+				$persentase_gugat = $card_grand_total > 0 ? ($card_total_gugat / $card_grand_total) * 100 : 0;
+				$persentase_talak = $card_grand_total > 0 ? ($card_total_talak / $card_grand_total) * 100 : 0;
+				?>
+
+				<div class="row">
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-primary">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_gugat); ?></h3>
+								<p>Total Cerai Gugat</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-user-friends"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-secondary">
+							<div class="inner">
+								<h3><?php echo number_format($card_total_talak); ?></h3>
+								<p>Total Cerai Talak</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-user-minus"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-info">
+							<div class="inner">
+								<h3><?php echo number_format($max_total); ?></h3>
+								<p>Tertinggi (<?php echo $tahun_tertinggi; ?>)</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-chart-line"></i>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-6">
+						<div class="small-box bg-success">
+							<div class="inner">
+								<h3><?php echo number_format($persentase_gugat, 1) . '% : ' . number_format($persentase_talak, 1) . '%'; ?></h3>
+								<p>Ratio Gugat : Talak</p>
+							</div>
+							<div class="icon">
+								<i class="fas fa-balance-scale"></i>
+							</div>
+						</div>
+					</div>
+				</div>
 			<?php endif; ?>
 
 			<!-- Data Table -->
@@ -404,6 +566,14 @@
 										break;
 									case 'comparison':
 										echo 'Perbandingan Cerai Gugat vs Cerai Talak';
+										break;
+									case 'custom_range':
+										$mulai = !empty($selected_tanggal_mulai) ? $selected_tanggal_mulai : date('Y-m-01');
+										$akhir = !empty($selected_tanggal_akhir) ? $selected_tanggal_akhir : date('Y-m-d');
+										echo 'Laporan Custom Range (' . $mulai . ' s/d ' . $akhir . ')';
+										break;
+									case 'yearly_comparison':
+										echo 'Laporan Perbandingan Tahunan (5 Tahun Terakhir)';
 										break;
 									case 'faktor':
 										echo 'Faktor Perceraian Berdasarkan Usia';
@@ -689,6 +859,120 @@
 										</tfoot>
 									</table>
 								</div>
+
+							<?php elseif ($selected_report == 'custom_range'): ?>
+								<!-- Tabel Custom Range -->
+								<div class="table-responsive">
+									<table id="dataTable" class="table table-bordered table-striped">
+										<thead>
+											<tr class="bg-primary">
+												<th>Kecamatan</th>
+												<th>Perkara Masuk</th>
+												<th>Perkara Putus</th>
+												<th>Perkara Telah BHT</th>
+												<th>Jumlah Akta Cerai</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											$total_masuk = 0;
+											$total_putus = 0;
+											$total_bht = 0;
+											$total_akta = 0;
+
+											if (!empty($datafilter)):
+												foreach ($datafilter as $row):
+													$total_masuk += $row->PERKARA_MASUK;
+													$total_putus += $row->PERKARA_PUTUS;
+													$total_bht += $row->PERKARA_TELAH_BHT;
+													$total_akta += $row->JUMLAH_AKTA_CERAI;
+											?>
+													<tr>
+														<td><?php echo $row->KECAMATAN; ?></td>
+														<td class="text-center"><?php echo number_format($row->PERKARA_MASUK); ?></td>
+														<td class="text-center"><?php echo number_format($row->PERKARA_PUTUS); ?></td>
+														<td class="text-center"><?php echo number_format($row->PERKARA_TELAH_BHT); ?></td>
+														<td class="text-center"><?php echo number_format($row->JUMLAH_AKTA_CERAI); ?></td>
+													</tr>
+												<?php
+												endforeach;
+											else:
+												?>
+												<tr>
+													<td colspan="5" class="text-center">Tidak ada data</td>
+												</tr>
+											<?php endif; ?>
+										</tbody>
+										<tfoot>
+											<tr class="bg-light font-weight-bold">
+												<th>TOTAL</th>
+												<th class="text-center"><?php echo number_format($total_masuk); ?></th>
+												<th class="text-center"><?php echo number_format($total_putus); ?></th>
+												<th class="text-center"><?php echo number_format($total_bht); ?></th>
+												<th class="text-center"><?php echo number_format($total_akta); ?></th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+
+							<?php elseif ($selected_report == 'yearly_comparison'): ?>
+								<!-- Tabel Yearly Comparison -->
+								<div class="table-responsive">
+									<table id="dataTable" class="table table-bordered table-striped">
+										<thead>
+											<tr class="bg-primary">
+												<th>Tahun</th>
+												<th>Cerai Gugat</th>
+												<th>Cerai Talak</th>
+												<th>Total</th>
+												<th>% Gugat</th>
+												<th>% Talak</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											$total_gugat_all = 0;
+											$total_talak_all = 0;
+											$grand_total_all = 0;
+
+											if (!empty($datafilter)):
+												foreach ($datafilter as $row):
+													$total_gugat_all += $row->CERAI_GUGAT;
+													$total_talak_all += $row->CERAI_TALAK;
+													$grand_total_all += $row->TOTAL;
+
+													$pct_gugat = $row->TOTAL > 0 ? ($row->CERAI_GUGAT / $row->TOTAL * 100) : 0;
+													$pct_talak = $row->TOTAL > 0 ? ($row->CERAI_TALAK / $row->TOTAL * 100) : 0;
+											?>
+													<tr>
+														<td class="font-weight-bold"><?php echo $row->TAHUN; ?></td>
+														<td class="text-center"><?php echo number_format($row->CERAI_GUGAT); ?></td>
+														<td class="text-center"><?php echo number_format($row->CERAI_TALAK); ?></td>
+														<td class="text-center font-weight-bold"><?php echo number_format($row->TOTAL); ?></td>
+														<td class="text-center"><?php echo number_format($pct_gugat, 1) . '%'; ?></td>
+														<td class="text-center"><?php echo number_format($pct_talak, 1) . '%'; ?></td>
+													</tr>
+												<?php
+												endforeach;
+											else:
+												?>
+												<tr>
+													<td colspan="6" class="text-center">Tidak ada data</td>
+												</tr>
+											<?php endif; ?>
+										</tbody>
+										<tfoot>
+											<tr class="bg-light font-weight-bold">
+												<th>TOTAL</th>
+												<th class="text-center"><?php echo number_format($total_gugat_all); ?></th>
+												<th class="text-center"><?php echo number_format($total_talak_all); ?></th>
+												<th class="text-center"><?php echo number_format($grand_total_all); ?></th>
+												<th class="text-center"><?php echo $grand_total_all > 0 ? number_format($total_gugat_all / $grand_total_all * 100, 1) . '%' : '0%'; ?></th>
+												<th class="text-center"><?php echo $grand_total_all > 0 ? number_format($total_talak_all / $grand_total_all * 100, 1) . '%' : '0%'; ?></th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -734,6 +1018,13 @@
 				$('#gender_filter').show();
 			} else {
 				$('#gender_filter').hide();
+			}
+
+			// Show/hide custom range filter
+			if ($(this).val() == 'custom_range') {
+				$('#custom_range_filter').show();
+			} else {
+				$('#custom_range_filter').hide();
 			}
 		});
 

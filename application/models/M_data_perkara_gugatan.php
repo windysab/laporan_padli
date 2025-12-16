@@ -3,19 +3,19 @@
 class M_data_perkara_gugatan extends CI_Model
 {
 
-	// Data summary perceraian per kecamatan
-	function data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
-	{
-		// Set default values
-		if (empty($lap_bulan)) $lap_bulan = date('m');
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
-		if (empty($wilayah)) $wilayah = 'HSU';
+    // Data summary perceraian per kecamatan
+    function data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
+    {
+        // Set default values
+        if (empty($lap_bulan)) $lap_bulan = date('m');
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
+        if (empty($wilayah)) $wilayah = 'HSU';
 
-		// Define kecamatan based on wilayah
-		$kecamatan_list = $this->_get_kecamatan_list($wilayah);
+        // Define kecamatan based on wilayah
+        $kecamatan_list = $this->_get_kecamatan_list($wilayah);
 
-		$sql = "SELECT 
+        $sql = "SELECT 
             locations.KECAMATAN,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_pendaftaran' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_MASUK,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_PUTUS,
@@ -28,40 +28,40 @@ class M_data_perkara_gugatan extends CI_Model
         FROM ($kecamatan_list) AS locations
         LEFT JOIN (";
 
-		// Add subqueries for each date type
-		$subqueries = array();
+        // Add subqueries for each date type
+        $subqueries = array();
 
-		// Akta Cerai
-		$subqueries[] = $this->_build_subquery('tgl_akta_cerai', 'perkara_akta_cerai', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+        // Akta Cerai
+        $subqueries[] = $this->_build_subquery('tgl_akta_cerai', 'perkara_akta_cerai', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 
-		// Tanggal Pendaftaran
-		$subqueries[] = $this->_build_subquery('tanggal_pendaftaran', 'perkara', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+        // Tanggal Pendaftaran
+        $subqueries[] = $this->_build_subquery('tanggal_pendaftaran', 'perkara', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 
-		// Tanggal Putusan
-		$subqueries[] = $this->_build_subquery('tanggal_putusan', 'perkara_putusan', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+        // Tanggal Putusan
+        $subqueries[] = $this->_build_subquery('tanggal_putusan', 'perkara_putusan', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 
-		// Tanggal BHT
-		$subqueries[] = $this->_build_subquery('tanggal_bht', 'perkara_putusan', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+        // Tanggal BHT
+        $subqueries[] = $this->_build_subquery('tanggal_bht', 'perkara_putusan', $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 
-		$sql .= implode(' UNION ALL ', $subqueries);
-		$sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
+        $sql .= implode(' UNION ALL ', $subqueries);
+        $sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
         GROUP BY locations.KECAMATAN
         ORDER BY locations.KECAMATAN";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Data yearly perceraian
-	function data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah)
-	{
-		// Set default values
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
-		if (empty($wilayah)) $wilayah = 'HSU';
+    // Data yearly perceraian
+    function data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah)
+    {
+        // Set default values
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
+        if (empty($wilayah)) $wilayah = 'HSU';
 
-		$kecamatan_list = $this->_get_kecamatan_list($wilayah);
+        $kecamatan_list = $this->_get_kecamatan_list($wilayah);
 
-		$sql = "SELECT 
+        $sql = "SELECT 
             locations.KECAMATAN,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_pendaftaran' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_MASUK,
             COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_PUTUS,
@@ -70,28 +70,28 @@ class M_data_perkara_gugatan extends CI_Model
         FROM ($kecamatan_list) AS locations
         LEFT JOIN (";
 
-		$subqueries = array();
-		$subqueries[] = $this->_build_yearly_subquery('tgl_akta_cerai', 'perkara_akta_cerai', $lap_tahun, $jenis_perkara, $wilayah);
-		$subqueries[] = $this->_build_yearly_subquery('tanggal_pendaftaran', 'perkara', $lap_tahun, $jenis_perkara, $wilayah);
-		$subqueries[] = $this->_build_yearly_subquery('tanggal_putusan', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
-		$subqueries[] = $this->_build_yearly_subquery('tanggal_bht', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
+        $subqueries = array();
+        $subqueries[] = $this->_build_yearly_subquery('tgl_akta_cerai', 'perkara_akta_cerai', $lap_tahun, $jenis_perkara, $wilayah);
+        $subqueries[] = $this->_build_yearly_subquery('tanggal_pendaftaran', 'perkara', $lap_tahun, $jenis_perkara, $wilayah);
+        $subqueries[] = $this->_build_yearly_subquery('tanggal_putusan', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
+        $subqueries[] = $this->_build_yearly_subquery('tanggal_bht', 'perkara_putusan', $lap_tahun, $jenis_perkara, $wilayah);
 
-		$sql .= implode(' UNION ALL ', $subqueries);
-		$sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
+        $sql .= implode(' UNION ALL ', $subqueries);
+        $sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
         GROUP BY locations.KECAMATAN
         ORDER BY locations.KECAMATAN";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Data monthly breakdown
-	function data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah)
-	{
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
-		if (empty($wilayah)) $wilayah = 'HSU';
+    // Data monthly breakdown
+    function data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah)
+    {
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
+        if (empty($wilayah)) $wilayah = 'HSU';
 
-		$sql = "SELECT 
+        $sql = "SELECT 
             MONTH(tanggal_pendaftaran) as BULAN,
             MONTHNAME(tanggal_pendaftaran) as NAMA_BULAN,
             COUNT(*) as JUMLAH
@@ -101,26 +101,26 @@ class M_data_perkara_gugatan extends CI_Model
             AND jenis_perkara_nama = '$jenis_perkara'
             AND perkara_pihak1.urutan = '1'";
 
-		if ($wilayah !== 'Semua') {
-			$sql .= $this->_get_alamat_condition($wilayah);
-		}
+        if ($wilayah !== 'Semua') {
+            $sql .= $this->_get_alamat_condition($wilayah);
+        }
 
-		$sql .= " GROUP BY MONTH(tanggal_pendaftaran), MONTHNAME(tanggal_pendaftaran)
+        $sql .= " GROUP BY MONTH(tanggal_pendaftaran), MONTHNAME(tanggal_pendaftaran)
         ORDER BY BULAN";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Comparison data cerai gugat vs cerai talak
-	function data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah)
-	{
-		if (empty($lap_bulan)) $lap_bulan = date('m');
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($wilayah)) $wilayah = 'HSU';
+    // Comparison data cerai gugat vs cerai talak
+    function data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah)
+    {
+        if (empty($lap_bulan)) $lap_bulan = date('m');
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($wilayah)) $wilayah = 'HSU';
 
-		$kecamatan_list = $this->_get_kecamatan_list($wilayah);
+        $kecamatan_list = $this->_get_kecamatan_list($wilayah);
 
-		$sql = "SELECT 
+        $sql = "SELECT 
             locations.KECAMATAN,
             COALESCE(gugat.JUMLAH, 0) AS CERAI_GUGAT,
             COALESCE(talak.JUMLAH, 0) AS CERAI_TALAK,
@@ -148,24 +148,24 @@ class M_data_perkara_gugatan extends CI_Model
         ) AS talak ON locations.KECAMATAN = talak.KECAMATAN
         ORDER BY locations.KECAMATAN";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Data faktor perceraian
-	function data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin = 'L')
-	{
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($wilayah)) $wilayah = 'HSU';
-		if (empty($jenis_kelamin)) $jenis_kelamin = 'L';
+    // Data faktor perceraian
+    function data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin = 'L')
+    {
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($wilayah)) $wilayah = 'HSU';
+        if (empty($jenis_kelamin)) $jenis_kelamin = 'L';
 
-		$where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun'";
-		if ($wilayah !== 'Semua') {
-			$where_clause .= $this->_get_alamat_condition($wilayah, 'pp1');
-		}
+        $where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun'";
+        if ($wilayah !== 'Semua') {
+            $where_clause .= $this->_get_alamat_condition($wilayah, 'pp1');
+        }
 
-		$gender_suffix = "($jenis_kelamin)";
+        $gender_suffix = "($jenis_kelamin)";
 
-		$sql = "SELECT
+        $sql = "SELECT
             faktor.FaktorPerceraian,
             COALESCE(agg.`Usia 16-19 $gender_suffix`, 0) AS `Usia 16-19 $gender_suffix`,
             COALESCE(agg.`Usia 20-25 $gender_suffix`, 0) AS `Usia 20-25 $gender_suffix`,
@@ -201,22 +201,22 @@ class M_data_perkara_gugatan extends CI_Model
                 GROUP BY pac.faktor_perceraian_id
             ) AS agg ON faktor.id = agg.faktor_perceraian_id";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Data faktor perceraian detail
-	function data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah)
-	{
-		if (empty($lap_bulan)) $lap_bulan = date('m');
-		if (empty($lap_tahun)) $lap_tahun = date('Y');
-		if (empty($wilayah)) $wilayah = 'HSU';
+    // Data faktor perceraian detail
+    function data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah)
+    {
+        if (empty($lap_bulan)) $lap_bulan = date('m');
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($wilayah)) $wilayah = 'HSU';
 
-		$where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun' AND MONTH(pac.tgl_akta_cerai) = '$lap_bulan'";
-		if ($wilayah !== 'Semua') {
-			$where_clause .= $this->_get_alamat_condition($wilayah, 'pp1');
-		}
+        $where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun' AND MONTH(pac.tgl_akta_cerai) = '$lap_bulan'";
+        if ($wilayah !== 'Semua') {
+            $where_clause .= $this->_get_alamat_condition($wilayah, 'pp1');
+        }
 
-		$sql = "SELECT 
+        $sql = "SELECT 
             CASE 
                 WHEN pac.faktor_perceraian_id = '9' THEN 'Perselisihan Terus Menerus'
                 WHEN pac.faktor_perceraian_id = '10' THEN 'Kawin Paksa'
@@ -231,7 +231,7 @@ class M_data_perkara_gugatan extends CI_Model
                 JOIN perkara_pihak1 pp12 ON p2.perkara_id = pp12.perkara_id 
                 WHERE YEAR(pac2.tgl_akta_cerai) = '$lap_tahun' 
                     AND MONTH(pac2.tgl_akta_cerai) = '$lap_bulan'" .
-			($wilayah !== 'Semua' ? $this->_get_alamat_condition($wilayah, 'pp12') : '') . ")), 2) AS PERSENTASE
+            ($wilayah !== 'Semua' ? $this->_get_alamat_condition($wilayah, 'pp12') : '') . ")), 2) AS PERSENTASE
         FROM perkara_akta_cerai pac
         JOIN perkara p ON pac.perkara_id = p.perkara_id
         JOIN perkara_pihak1 pp1 ON p.perkara_id = pp1.perkara_id
@@ -239,15 +239,91 @@ class M_data_perkara_gugatan extends CI_Model
         GROUP BY pac.faktor_perceraian_id
         ORDER BY JUMLAH DESC";
 
-		return $this->db->query($sql)->result();
-	}
+        return $this->db->query($sql)->result();
+    }
 
-	// Private helper functions
-	private function _get_kecamatan_list($wilayah)
-	{
-		switch ($wilayah) {
-			case 'HSU':
-				return "SELECT 'Danau Panggang' AS KECAMATAN
+    // Data custom range
+    function data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah)
+    {
+        // Set default values
+        if (empty($tanggal_mulai)) $tanggal_mulai = date('Y-m-01');
+        if (empty($tanggal_akhir)) $tanggal_akhir = date('Y-m-d');
+        if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
+        if (empty($wilayah)) $wilayah = 'HSU';
+
+        // Define kecamatan based on wilayah
+        $kecamatan_list = $this->_get_kecamatan_list($wilayah);
+
+        $sql = "SELECT 
+            locations.KECAMATAN,
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_pendaftaran' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_MASUK,
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0) AS PERKARA_PUTUS,
+            -- BHT tidak boleh lebih dari PUTUS (fix untuk mengatasi persentase > 100%)
+            LEAST(
+                COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_bht' THEN subquery.COUNT ELSE 0 END), 0),
+                COALESCE(SUM(CASE WHEN subquery.date_type = 'tanggal_putusan' THEN subquery.COUNT ELSE 0 END), 0)
+            ) AS PERKARA_TELAH_BHT,
+            COALESCE(SUM(CASE WHEN subquery.date_type = 'tgl_akta_cerai' THEN subquery.COUNT ELSE 0 END), 0) AS JUMLAH_AKTA_CERAI
+        FROM ($kecamatan_list) AS locations
+        LEFT JOIN (";
+
+        // Add subqueries for each date type
+        $subqueries = array();
+
+        // Akta Cerai
+        $subqueries[] = $this->_build_custom_range_subquery('tgl_akta_cerai', 'perkara_akta_cerai', $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+
+        // Tanggal Pendaftaran
+        $subqueries[] = $this->_build_custom_range_subquery('tanggal_pendaftaran', 'perkara', $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+
+        // Tanggal Putusan
+        $subqueries[] = $this->_build_custom_range_subquery('tanggal_putusan', 'perkara_putusan', $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+
+        // Tanggal BHT
+        $subqueries[] = $this->_build_custom_range_subquery('tanggal_bht', 'perkara_putusan', $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+
+        $sql .= implode(' UNION ALL ', $subqueries);
+        $sql .= ") AS subquery ON locations.KECAMATAN = subquery.KECAMATAN
+        GROUP BY locations.KECAMATAN
+        ORDER BY locations.KECAMATAN";
+
+        return $this->db->query($sql)->result();
+    }
+
+    // Data yearly comparison gugat vs talak
+    function data_yearly_comparison_gugat_talak($lap_tahun, $wilayah)
+    {
+        if (empty($lap_tahun)) $lap_tahun = date('Y');
+        if (empty($wilayah)) $wilayah = 'HSU';
+
+        $sql = "SELECT 
+            YEAR(tanggal_pendaftaran) as TAHUN,
+            SUM(CASE WHEN jenis_perkara_nama = 'Cerai Gugat' THEN 1 ELSE 0 END) AS CERAI_GUGAT,
+            SUM(CASE WHEN jenis_perkara_nama = 'Cerai Talak' THEN 1 ELSE 0 END) AS CERAI_TALAK,
+            COUNT(*) AS TOTAL
+        FROM perkara
+        LEFT JOIN perkara_pihak1 ON perkara.perkara_id = perkara_pihak1.perkara_id
+        WHERE YEAR(tanggal_pendaftaran) <= '$lap_tahun' 
+            AND YEAR(tanggal_pendaftaran) >= ($lap_tahun - 4)
+            AND jenis_perkara_nama IN ('Cerai Gugat', 'Cerai Talak')
+            AND perkara_pihak1.urutan = '1'";
+
+        if ($wilayah !== 'Semua') {
+            $sql .= $this->_get_alamat_condition($wilayah);
+        }
+
+        $sql .= " GROUP BY YEAR(tanggal_pendaftaran)
+        ORDER BY TAHUN DESC";
+
+        return $this->db->query($sql)->result();
+    }
+
+    // Private helper functions
+    private function _get_kecamatan_list($wilayah)
+    {
+        switch ($wilayah) {
+            case 'HSU':
+                return "SELECT 'Danau Panggang' AS KECAMATAN
                     UNION ALL SELECT 'Babirik'
                     UNION ALL SELECT 'Sungai Pandan'
                     UNION ALL SELECT 'Amuntai Selatan'
@@ -258,8 +334,8 @@ class M_data_perkara_gugatan extends CI_Model
                     UNION ALL SELECT 'Paminggir'
                     UNION ALL SELECT 'Sungai Tabukan'";
 
-			case 'Balangan':
-				return "SELECT 'Awayan' AS KECAMATAN
+            case 'Balangan':
+                return "SELECT 'Awayan' AS KECAMATAN
                     UNION ALL SELECT 'Batu Mandi'
                     UNION ALL SELECT 'Halong'
                     UNION ALL SELECT 'Juai'
@@ -268,8 +344,8 @@ class M_data_perkara_gugatan extends CI_Model
                     UNION ALL SELECT 'Paringin Selatan'
                     UNION ALL SELECT 'Tebing Tinggi'";
 
-			default:
-				return "SELECT 'Danau Panggang' AS KECAMATAN
+            default:
+                return "SELECT 'Danau Panggang' AS KECAMATAN
                     UNION ALL SELECT 'Babirik'
                     UNION ALL SELECT 'Sungai Pandan'
                     UNION ALL SELECT 'Amuntai Selatan'
@@ -287,14 +363,14 @@ class M_data_perkara_gugatan extends CI_Model
                     UNION ALL SELECT 'Paringin'
                     UNION ALL SELECT 'Paringin Selatan'
                     UNION ALL SELECT 'Tebing Tinggi'";
-		}
-	}
+        }
+    }
 
-	private function _get_case_statement($wilayah)
-	{
-		switch ($wilayah) {
-			case 'HSU':
-				return "CASE 
+    private function _get_case_statement($wilayah)
+    {
+        switch ($wilayah) {
+            case 'HSU':
+                return "CASE 
                     WHEN perkara_pihak1.alamat LIKE '%Danau Panggang%' THEN 'Danau Panggang'
                     WHEN perkara_pihak1.alamat LIKE '%Babirik%' THEN 'Babirik'
                     WHEN perkara_pihak1.alamat LIKE '%Sungai Pandan%' THEN 'Sungai Pandan'
@@ -308,8 +384,8 @@ class M_data_perkara_gugatan extends CI_Model
                     ELSE 'Lainnya'
                 END";
 
-			case 'Balangan':
-				return "CASE 
+            case 'Balangan':
+                return "CASE 
                     WHEN perkara_pihak1.alamat LIKE '%Awayan%' THEN 'Awayan'
                     WHEN perkara_pihak1.alamat LIKE '%Batu Mandi%' THEN 'Batu Mandi'
                     WHEN perkara_pihak1.alamat LIKE '%Halong%' THEN 'Halong'
@@ -321,8 +397,8 @@ class M_data_perkara_gugatan extends CI_Model
                     ELSE 'Lainnya'
                 END";
 
-			default:
-				return "CASE 
+            default:
+                return "CASE 
                     WHEN perkara_pihak1.alamat LIKE '%Danau Panggang%' THEN 'Danau Panggang'
                     WHEN perkara_pihak1.alamat LIKE '%Babirik%' THEN 'Babirik'
                     WHEN perkara_pihak1.alamat LIKE '%Sungai Pandan%' THEN 'Sungai Pandan'
@@ -343,35 +419,35 @@ class M_data_perkara_gugatan extends CI_Model
                     WHEN perkara_pihak1.alamat LIKE '%Tebing Tinggi%' THEN 'Tebing Tinggi'
                     ELSE 'Lainnya'
                 END";
-		}
-	}
+        }
+    }
 
-	private function _get_alamat_condition($wilayah, $alias = 'perkara_pihak1')
-	{
-		switch ($wilayah) {
-			case 'HSU':
-				return " AND ($alias.alamat LIKE '%Danau Panggang%' OR $alias.alamat LIKE '%Babirik%' OR $alias.alamat LIKE '%Sungai Pandan%' OR $alias.alamat LIKE '%Amuntai%' OR $alias.alamat LIKE '%Banjang%' OR $alias.alamat LIKE '%Haur Gading%' OR $alias.alamat LIKE '%Paminggir%' OR $alias.alamat LIKE '%Sungai Tabukan%')";
-			case 'Balangan':
-				return " AND ($alias.alamat LIKE '%Awayan%' OR $alias.alamat LIKE '%Batu Mandi%' OR $alias.alamat LIKE '%Halong%' OR $alias.alamat LIKE '%Juai%' OR $alias.alamat LIKE '%Lampihong%' OR $alias.alamat LIKE '%Paringin%' OR $alias.alamat LIKE '%Tebing Tinggi%')";
-			default:
-				return "";
-		}
-	}
+    private function _get_alamat_condition($wilayah, $alias = 'perkara_pihak1')
+    {
+        switch ($wilayah) {
+            case 'HSU':
+                return " AND ($alias.alamat LIKE '%Danau Panggang%' OR $alias.alamat LIKE '%Babirik%' OR $alias.alamat LIKE '%Sungai Pandan%' OR $alias.alamat LIKE '%Amuntai%' OR $alias.alamat LIKE '%Banjang%' OR $alias.alamat LIKE '%Haur Gading%' OR $alias.alamat LIKE '%Paminggir%' OR $alias.alamat LIKE '%Sungai Tabukan%')";
+            case 'Balangan':
+                return " AND ($alias.alamat LIKE '%Awayan%' OR $alias.alamat LIKE '%Batu Mandi%' OR $alias.alamat LIKE '%Halong%' OR $alias.alamat LIKE '%Juai%' OR $alias.alamat LIKE '%Lampihong%' OR $alias.alamat LIKE '%Paringin%' OR $alias.alamat LIKE '%Tebing Tinggi%')";
+            default:
+                return "";
+        }
+    }
 
-	private function _build_subquery($date_field, $table, $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
-	{
-		$join_clause = "";
-		if ($table !== 'perkara') {
-			$join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
-		}
-		if ($table === 'perkara_putusan') {
-			$join_clause = "LEFT JOIN perkara ON perkara_putusan.perkara_id = perkara.perkara_id ";
-		}
-		if ($table === 'perkara_akta_cerai') {
-			$join_clause = "LEFT JOIN perkara ON perkara_akta_cerai.perkara_id = perkara.perkara_id ";
-		}
+    private function _build_subquery($date_field, $table, $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
+    {
+        $join_clause = "";
+        if ($table !== 'perkara') {
+            $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_putusan') {
+            $join_clause = "LEFT JOIN perkara ON perkara_putusan.perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_akta_cerai') {
+            $join_clause = "LEFT JOIN perkara ON perkara_akta_cerai.perkara_id = perkara.perkara_id ";
+        }
 
-		return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
+        return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
             '$date_field' AS date_type, COUNT(*) AS COUNT
         FROM $table
         $join_clause
@@ -381,22 +457,22 @@ class M_data_perkara_gugatan extends CI_Model
             AND jenis_perkara_nama = '$jenis_perkara'
             AND perkara_pihak1.urutan = '1'
         GROUP BY KECAMATAN";
-	}
+    }
 
-	private function _build_yearly_subquery($date_field, $table, $lap_tahun, $jenis_perkara, $wilayah)
-	{
-		$join_clause = "";
-		if ($table !== 'perkara') {
-			$join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
-		}
-		if ($table === 'perkara_putusan') {
-			$join_clause = "LEFT JOIN perkara ON perkara_putusan.perkara_id = perkara.perkara_id ";
-		}
-		if ($table === 'perkara_akta_cerai') {
-			$join_clause = "LEFT JOIN perkara ON perkara_akta_cerai.perkara_id = perkara.perkara_id ";
-		}
+    private function _build_yearly_subquery($date_field, $table, $lap_tahun, $jenis_perkara, $wilayah)
+    {
+        $join_clause = "";
+        if ($table !== 'perkara') {
+            $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_putusan') {
+            $join_clause = "LEFT JOIN perkara ON perkara_putusan.perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_akta_cerai') {
+            $join_clause = "LEFT JOIN perkara ON perkara_akta_cerai.perkara_id = perkara.perkara_id ";
+        }
 
-		return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
+        return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
             '$date_field' AS date_type, COUNT(*) AS COUNT
         FROM $table
         $join_clause
@@ -405,12 +481,37 @@ class M_data_perkara_gugatan extends CI_Model
             AND jenis_perkara_nama = '$jenis_perkara'
             AND perkara_pihak1.urutan = '1'
         GROUP BY KECAMATAN";
-	}
+    }
 
-	// Get daftar jenis perkara gugatan untuk dropdown
-	public function get_jenis_perkara_gugatan()
-	{
-		$sql = "SELECT DISTINCT p.jenis_perkara_nama 
+    private function _build_custom_range_subquery($date_field, $table, $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah)
+    {
+        $join_clause = "";
+        if ($table !== 'perkara') {
+            $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_putusan') {
+            $join_clause = "LEFT JOIN perkara ON perkara_putusan.perkara_id = perkara.perkara_id ";
+        }
+        if ($table === 'perkara_akta_cerai') {
+            $join_clause = "LEFT JOIN perkara ON perkara_akta_cerai.perkara_id = perkara.perkara_id ";
+        }
+
+        return "SELECT " . $this->_get_case_statement($wilayah) . " AS KECAMATAN,
+            '$date_field' AS date_type, COUNT(*) AS COUNT
+        FROM $table
+        $join_clause
+        LEFT JOIN perkara_pihak1 ON perkara.perkara_id = perkara_pihak1.perkara_id
+        WHERE DATE($date_field) >= '$tanggal_mulai' 
+            AND DATE($date_field) <= '$tanggal_akhir' 
+            AND jenis_perkara_nama = '$jenis_perkara'
+            AND perkara_pihak1.urutan = '1'
+        GROUP BY KECAMATAN";
+    }
+
+    // Get daftar jenis perkara gugatan untuk dropdown
+    public function get_jenis_perkara_gugatan()
+    {
+        $sql = "SELECT DISTINCT p.jenis_perkara_nama 
                 FROM perkara p 
                 WHERE p.jenis_perkara_nama IS NOT NULL 
                   AND p.jenis_perkara_nama != ''
@@ -421,7 +522,7 @@ class M_data_perkara_gugatan extends CI_Model
                        OR p.jenis_perkara_nama = 'Cerai Gugat')
                 ORDER BY p.jenis_perkara_nama";
 
-		$query = $this->db->query($sql);
-		return $query->result();
-	}
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
 }
