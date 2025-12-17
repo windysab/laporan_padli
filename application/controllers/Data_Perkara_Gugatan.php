@@ -116,117 +116,103 @@ class Data_Perkara_Gugatan extends CI_Controller
 				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 		}
 
-		// Load PHPExcel library and create export
-		$this->load->library('PHPExcel');
-		$excel = new PHPExcel();
+		// Generate filename
+		$filename = 'Data_Perkara_Gugatan_' . $wilayah . '_' . $report_type . '_' . date('Y-m-d_H-i-s') . '.csv';
 
-		// Set document properties
-		$excel->getProperties()
-			->setCreator("PA Amuntai")
-			->setTitle("Data Perkara Gugatan - " . ucwords(str_replace('_', ' ', $report_type)))
-			->setDescription("Laporan Data Perkara Gugatan " . strtoupper($wilayah) . " - " . date('F Y', mktime(0, 0, 0, $lap_bulan, 1, $lap_tahun)));
+		// Set CSV headers
+		header('Content-Type: text/csv; charset=UTF-8');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		header('Pragma: public');
 
-		$sheet = $excel->getActiveSheet();
+		// Open output stream
+		$output = fopen('php://output', 'w');
+
+		// Add BOM for proper UTF-8 encoding in Excel
+		fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
 		// Set headers based on report type
-		$this->_set_excel_headers($sheet, $report_type);
+		$headers = $this->_get_csv_headers($report_type);
+		fputcsv($output, $headers, ';');
 
-		// Add data to excel
-		$this->_add_excel_data($sheet, $data, $report_type);
+		// Add data
+		$this->_add_csv_data($output, $data, $report_type);
 
-		// Set filename
-		$filename = 'Data_Perkara_Gugatan_' . $wilayah . '_' . $report_type . '_' . $lap_bulan . '_' . $lap_tahun . '.xlsx';
-
-		// Output file
-		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $filename . '"');
-		header('Cache-Control: max-age=0');
-
-		$writer = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-		$writer->save('php://output');
+		// Close output stream
+		fclose($output);
+		exit();
 	}
 
-	private function _set_excel_headers($sheet, $report_type)
+	private function _get_csv_headers($report_type)
 	{
 		switch ($report_type) {
 			case 'summary':
 			case 'yearly':
 			case 'monthly':
-				$sheet->setCellValue('A1', 'Kecamatan');
-				$sheet->setCellValue('B1', 'Perkara Masuk');
-				$sheet->setCellValue('C1', 'Perkara Putus');
-				$sheet->setCellValue('D1', 'Perkara Telah BHT');
-				$sheet->setCellValue('E1', 'Jumlah Akta Cerai');
-				break;
+			case 'custom_range':
+				return array('Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai');
 			case 'comparison':
-				$sheet->setCellValue('A1', 'Kecamatan');
-				$sheet->setCellValue('B1', 'Cerai Gugat');
-				$sheet->setCellValue('C1', 'Cerai Talak');
-				$sheet->setCellValue('D1', 'Total');
-				break;
+				return array('Kecamatan', 'Cerai Gugat', 'Cerai Talak', 'Total');
 			case 'faktor':
 			case 'faktor_detail':
-				$sheet->setCellValue('A1', 'Faktor Perceraian');
-				$sheet->setCellValue('B1', 'Jumlah Kasus');
-				$sheet->setCellValue('C1', 'Persentase');
-				break;
-			case 'custom_range':
-				$sheet->setCellValue('A1', 'Kecamatan');
-				$sheet->setCellValue('B1', 'Perkara Masuk');
-				$sheet->setCellValue('C1', 'Perkara Putus');
-				$sheet->setCellValue('D1', 'Perkara Telah BHT');
-				$sheet->setCellValue('E1', 'Jumlah Akta Cerai');
-				break;
+				return array('Faktor Perceraian', 'Jumlah Kasus', 'Persentase');
 			case 'yearly_comparison':
-				$sheet->setCellValue('A1', 'Tahun');
-				$sheet->setCellValue('B1', 'Cerai Gugat');
-				$sheet->setCellValue('C1', 'Cerai Talak');
-				$sheet->setCellValue('D1', 'Total');
-				break;
+				return array('Tahun', 'Cerai Gugat', 'Cerai Talak', 'Total');
+			default:
+				return array('Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai');
 		}
 	}
 
-	private function _add_excel_data($sheet, $data, $report_type)
+	private function _add_csv_data($output, $data, $report_type)
 	{
-		$row = 2;
 		foreach ($data as $item) {
 			switch ($report_type) {
 				case 'summary':
 				case 'yearly':
 				case 'monthly':
-					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
-					$sheet->setCellValue('B' . $row, $item->PERKARA_MASUK);
-					$sheet->setCellValue('C' . $row, $item->PERKARA_PUTUS);
-					$sheet->setCellValue('D' . $row, $item->PERKARA_TELAH_BHT);
-					$sheet->setCellValue('E' . $row, $item->JUMLAH_AKTA_CERAI);
+				case 'custom_range':
+					$row_data = array(
+						$item->KECAMATAN,
+						$item->PERKARA_MASUK,
+						$item->PERKARA_PUTUS,
+						$item->PERKARA_TELAH_BHT,
+						$item->JUMLAH_AKTA_CERAI
+					);
 					break;
 				case 'comparison':
-					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
-					$sheet->setCellValue('B' . $row, $item->CERAI_GUGAT);
-					$sheet->setCellValue('C' . $row, $item->CERAI_TALAK);
-					$sheet->setCellValue('D' . $row, $item->TOTAL);
+					$row_data = array(
+						$item->KECAMATAN,
+						$item->CERAI_GUGAT,
+						$item->CERAI_TALAK,
+						$item->TOTAL
+					);
 					break;
 				case 'faktor':
 				case 'faktor_detail':
-					$sheet->setCellValue('A' . $row, isset($item->faktor_perceraian) ? $item->faktor_perceraian : $item->FAKTOR);
-					$sheet->setCellValue('B' . $row, isset($item->jumlah) ? $item->jumlah : $item->JUMLAH);
-					$sheet->setCellValue('C' . $row, isset($item->persentase) ? $item->persentase . '%' : (isset($item->PERSENTASE) ? $item->PERSENTASE . '%' : '0%'));
-					break;
-				case 'custom_range':
-					$sheet->setCellValue('A' . $row, $item->KECAMATAN);
-					$sheet->setCellValue('B' . $row, $item->PERKARA_MASUK);
-					$sheet->setCellValue('C' . $row, $item->PERKARA_PUTUS);
-					$sheet->setCellValue('D' . $row, $item->PERKARA_TELAH_BHT);
-					$sheet->setCellValue('E' . $row, $item->JUMLAH_AKTA_CERAI);
+					$row_data = array(
+						isset($item->faktor_perceraian) ? $item->faktor_perceraian : $item->FAKTOR,
+						isset($item->jumlah) ? $item->jumlah : $item->JUMLAH,
+						(isset($item->persentase) ? $item->persentase : (isset($item->PERSENTASE) ? $item->PERSENTASE : '0')) . '%'
+					);
 					break;
 				case 'yearly_comparison':
-					$sheet->setCellValue('A' . $row, $item->TAHUN);
-					$sheet->setCellValue('B' . $row, $item->CERAI_GUGAT);
-					$sheet->setCellValue('C' . $row, $item->CERAI_TALAK);
-					$sheet->setCellValue('D' . $row, $item->TOTAL);
+					$row_data = array(
+						$item->TAHUN,
+						$item->CERAI_GUGAT,
+						$item->CERAI_TALAK,
+						$item->TOTAL
+					);
 					break;
+				default:
+					$row_data = array(
+						$item->KECAMATAN,
+						$item->PERKARA_MASUK,
+						$item->PERKARA_PUTUS,
+						$item->PERKARA_TELAH_BHT,
+						$item->JUMLAH_AKTA_CERAI
+					);
 			}
-			$row++;
+			fputcsv($output, $row_data, ';');
 		}
 	}
 }
