@@ -55,6 +55,16 @@ class M_data_permohonan extends CI_Model
 		}
 	}
 
+	private function build_address_filter($wilayah, $alias = 'pp1')
+	{
+		$kecamatan_list = $this->get_kecamatan_list($wilayah);
+		$conditions = [];
+		foreach ($kecamatan_list as $kec) {
+			$conditions[] = "{$alias}.alamat LIKE '%{$kec}%'";
+		}
+		return '(' . implode(' OR ', $conditions) . ')';
+	}
+
 	private function build_case_when($wilayah, $fallback)
 	{
 		$kecamatan_list = $this->get_kecamatan_list($wilayah);
@@ -81,6 +91,7 @@ class M_data_permohonan extends CI_Model
 		$fallback = ($wilayah == 'HSU') ? 'HULU SUNGAI UTARA' : (($wilayah == 'Balangan') ? 'BALANGAN' : 'LAINNYA');
 		$case_when = $this->build_case_when($wilayah, $fallback);
 		$kecamatan_filter = "'" . implode("', '", $kecamatan_list) . "'";
+		$address_filter = $this->build_address_filter($wilayah);
 
 		$sql = "SELECT 
 			locations.KECAMATAN,
@@ -155,6 +166,7 @@ class M_data_permohonan extends CI_Model
 			WHERE YEAR(p.tanggal_pendaftaran) = ? 
 				AND MONTH(p.tanggal_pendaftaran) = ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -165,6 +177,7 @@ class M_data_permohonan extends CI_Model
 			WHERE YEAR(pp.tanggal_putusan) = ? 
 				AND MONTH(pp.tanggal_putusan) = ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -178,6 +191,7 @@ class M_data_permohonan extends CI_Model
 					(YEAR(pp.tanggal_putusan) = ? AND MONTH(pp.tanggal_putusan) >= ?) OR
 					(YEAR(pp.tanggal_putusan) > ?))
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -188,6 +202,7 @@ class M_data_permohonan extends CI_Model
 			WHERE YEAR(p.tanggal_pendaftaran) < ? 
 				AND (pp.tanggal_putusan IS NULL OR YEAR(pp.tanggal_putusan) >= ?)
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 		) AS subquery
 		ORDER BY CASE WHEN KECAMATAN = 'TOTAL' THEN 1 ELSE 0 END, KECAMATAN";
 
@@ -243,6 +258,7 @@ class M_data_permohonan extends CI_Model
 
 		$fallback = ($wilayah == 'HSU') ? 'HULU SUNGAI UTARA' : (($wilayah == 'Balangan') ? 'BALANGAN' : 'LAINNYA');
 		$case_when = $this->build_case_when($wilayah, $fallback);
+		$address_filter = $this->build_address_filter($wilayah);
 
 		$sql = "SELECT 
 			locations.KECAMATAN,
@@ -304,6 +320,7 @@ class M_data_permohonan extends CI_Model
 			INNER JOIN perkara_pihak1 pp1 ON p.perkara_id = pp1.perkara_id AND pp1.urutan = 1
 			WHERE YEAR(p.tanggal_pendaftaran) = ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -313,6 +330,7 @@ class M_data_permohonan extends CI_Model
 			INNER JOIN perkara_putusan pp ON p.perkara_id = pp.perkara_id
 			WHERE YEAR(pp.tanggal_putusan) = ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -323,6 +341,7 @@ class M_data_permohonan extends CI_Model
 			WHERE YEAR(p.tanggal_pendaftaran) < ? 
 				AND (pp.tanggal_putusan IS NULL OR YEAR(pp.tanggal_putusan) >= ?)
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 		) AS subquery
 		ORDER BY CASE WHEN KECAMATAN = 'TOTAL' THEN 1 ELSE 0 END, KECAMATAN";
 
@@ -360,6 +379,7 @@ class M_data_permohonan extends CI_Model
 
 		$fallback = ($wilayah == 'HSU') ? 'HULU SUNGAI UTARA' : (($wilayah == 'Balangan') ? 'BALANGAN' : 'LAINNYA');
 		$case_when = $this->build_case_when($wilayah, $fallback);
+		$address_filter = $this->build_address_filter($wilayah);
 
 		$sql = "SELECT 
 			locations.KECAMATAN,
@@ -421,6 +441,7 @@ class M_data_permohonan extends CI_Model
 			INNER JOIN perkara_pihak1 pp1 ON p.perkara_id = pp1.perkara_id AND pp1.urutan = 1
 			WHERE p.tanggal_pendaftaran BETWEEN ? AND ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -430,6 +451,7 @@ class M_data_permohonan extends CI_Model
 			INNER JOIN perkara_putusan pp ON p.perkara_id = pp.perkara_id
 			WHERE pp.tanggal_putusan BETWEEN ? AND ? 
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			UNION ALL
 			SELECT 
 				'TOTAL' AS KECAMATAN,
@@ -440,6 +462,7 @@ class M_data_permohonan extends CI_Model
 			WHERE p.tanggal_pendaftaran < ? 
 				AND (pp.tanggal_putusan IS NULL OR pp.tanggal_putusan > ?)
 				AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 		) AS subquery
 		ORDER BY CASE WHEN KECAMATAN = 'TOTAL' THEN 1 ELSE 0 END, KECAMATAN";
 
@@ -474,6 +497,7 @@ class M_data_permohonan extends CI_Model
 		$where_clause = "";
 		$params = [];
 		$like_pattern = '%' . $jenis_perkara . '%';
+		$address_filter = $this->build_address_filter($wilayah);
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
@@ -501,6 +525,7 @@ class M_data_permohonan extends CI_Model
 				FROM perkara p
 				INNER JOIN perkara_pihak1 pp1 ON p.perkara_id = pp1.perkara_id AND pp1.urutan = 1
 				WHERE {$where_clause} AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			) as total_masuk,
 			(
 				SELECT COUNT(*) 
@@ -508,6 +533,7 @@ class M_data_permohonan extends CI_Model
 				INNER JOIN perkara_pihak1 pp1 ON p.perkara_id = pp1.perkara_id AND pp1.urutan = 1
 				INNER JOIN perkara_putusan pp ON p.perkara_id = pp.perkara_id
 				WHERE {$where_clause_putusan} AND p.jenis_perkara_nama LIKE ?
+				AND {$address_filter}
 			) as total_putus";
 
 		$query = $this->db->query($sql, $params);
