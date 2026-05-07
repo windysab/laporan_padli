@@ -225,10 +225,10 @@
                                                                     <span class="badge badge-primary"><?php echo $row->jenis_perkara_nama; ?></span>
                                                                 <?php endif; ?>
                                                             </td>
-                                                            <td><?php echo character_limiter($row->nama_pihak_1, 25); ?></td>
+                                                            <td><?php echo $row->nama_pihak_1; ?></td>
                                                             <td><?php echo $row->nik_pihak_1; ?></td>
                                                             <td><?php echo $row->pekerjaan_pihak_1; ?></td>
-                                                            <td><?php echo character_limiter($row->nama_pihak_2, 25); ?></td>
+                                                            <td><?php echo $row->nama_pihak_2; ?></td>
                                                             <td><?php echo $row->nik_pihak_2; ?></td>
                                                             <td><?php echo $row->pekerjaan_pihak_2; ?></td>
                                                             <td><?php echo $row->tanggal_putusan; ?></td>
