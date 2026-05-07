@@ -116,6 +116,24 @@
   						</li>
   					</ul>
   				</li>
+  				<!-- Laporan Perceraian Menu -->
+  				<li class="nav-item">
+  					<a href="#" class="nav-link">
+  						<i class="nav-icon fas fa-heart-broken"></i>
+  						<p>
+  							LAPORAN PERCERAIAN
+  							<i class="fas fa-angle-left right"></i>
+  						</p>
+  					</a>
+  					<ul class="nav nav-treeview">
+  						<li class="nav-item">
+  							<a href="<?php echo site_url('Laporan_perceraian') ?>" class="nav-link">
+  								<i class="fas fa-file-alt nav-icon"></i>
+  								<p>DATA PERCERAIAN</p>
+  							</a>
+  						</li>
+  					</ul>
+  				</li>
   				<!-- Akta Cerai Menu -->
   				<li class="nav-item">
   					<a href="#" class="nav-link">
