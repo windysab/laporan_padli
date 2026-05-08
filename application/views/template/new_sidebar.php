@@ -134,6 +134,24 @@
   						</li>
   					</ul>
   				</li>
+  				<!-- Perkara Gaib Menu -->
+  				<li class="nav-item">
+  					<a href="#" class="nav-link">
+  						<i class="nav-icon fas fa-user-secret"></i>
+  						<p>
+  							PERKARA GAIB
+  							<i class="fas fa-angle-left right"></i>
+  						</p>
+  					</a>
+  					<ul class="nav nav-treeview">
+  						<li class="nav-item">
+  							<a href="<?php echo site_url('Perkara_gaib') ?>" class="nav-link">
+  								<i class="fas fa-search nav-icon"></i>
+  								<p>DATA PERKARA GAIB</p>
+  							</a>
+  						</li>
+  					</ul>
+  				</li>
   				<!-- Akta Cerai Menu -->
   				<li class="nav-item">
   					<a href="#" class="nav-link">
