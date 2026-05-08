@@ -206,6 +206,7 @@
                                                     <th>Tgl BHT</th>
                                                     <th>Status Putusan</th>
                                                     <th>No. Akta Cerai</th>
+                                                    <th>No. Seri Akta Cerai</th>
                                                     <th>Tgl Akta Cerai</th>
                                                 </tr>
                                             </thead>
@@ -237,12 +238,13 @@
                                                                 <span class="badge badge-success"><?php echo $row->status_putusan; ?></span>
                                                             </td>
                                                             <td><strong><?php echo $row->nomor_akta_cerai; ?></strong></td>
+                                                            <td><?php echo $row->no_seri_akta_cerai; ?></td>
                                                             <td><?php echo $row->tgl_akta_cerai; ?></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
                                                     <tr>
-                                                        <td colspan="14" class="text-center">
+                                                        <td colspan="15" class="text-center">
                                                             <div class="alert alert-info">
                                                                 <i class="fas fa-info-circle"></i> Tidak ada data perceraian untuk periode ini
                                                             </div>
@@ -322,7 +324,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Indonesian.json"
                 },
                 "order": [
-                    [13, "desc"]
+                    [14, "desc"]
                 ],
                 "dom": 'Bfrtip',
                 "buttons": [{

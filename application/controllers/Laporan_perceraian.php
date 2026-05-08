@@ -96,6 +96,7 @@ class Laporan_perceraian extends CI_Controller
 			'Tanggal BHT',
 			'Status Putusan',
 			'Nomor Akta Cerai',
+			'No Seri Akta Cerai',
 			'Tanggal Akta Cerai'
 		];
 
@@ -138,12 +139,13 @@ class Laporan_perceraian extends CI_Controller
 			$excel->getActiveSheet()->setCellValue('K' . $row, $item->tanggal_bht);
 			$excel->getActiveSheet()->setCellValue('L' . $row, $item->status_putusan);
 			$excel->getActiveSheet()->setCellValue('M' . $row, $item->nomor_akta_cerai);
-			$excel->getActiveSheet()->setCellValue('N' . $row, $item->tgl_akta_cerai);
+			$excel->getActiveSheet()->setCellValue('N' . $row, $item->no_seri_akta_cerai);
+			$excel->getActiveSheet()->setCellValue('O' . $row, $item->tgl_akta_cerai);
 			$row++;
 		}
 
 		// Auto size columns
-		foreach (range('A', 'N') as $columnID) {
+		foreach (range('A', 'O') as $columnID) {
 			$excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}
 

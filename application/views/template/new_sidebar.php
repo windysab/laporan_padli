@@ -184,6 +184,43 @@
   					</ul>
   				</li>
 
+				<!-- Monitoring SIPP Menu -->
+				<li class="nav-item">
+					<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-desktop"></i>
+						<p>
+							MONITORING SIPP
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_sipp?tab=dashboard') ?>" class="nav-link">
+								<i class="fas fa-tachometer-alt nav-icon"></i>
+								<p>Dashboard Harian</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_sipp?tab=aging') ?>" class="nav-link">
+								<i class="fas fa-hourglass-half nav-icon"></i>
+								<p>Aging Report</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_sipp?tab=minutasi') ?>" class="nav-link">
+								<i class="fas fa-tasks nav-icon"></i>
+								<p>Monitoring Minutasi</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_sipp?tab=kinerja') ?>" class="nav-link">
+								<i class="fas fa-chart-line nav-icon"></i>
+								<p>Kinerja</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+
   			</ul>
   		</nav>
   		<!-- /.sidebar-menu -->

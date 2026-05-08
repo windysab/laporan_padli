@@ -23,6 +23,7 @@ class M_laporan_perceraian extends CI_Model
 				DATE_FORMAT(A.tanggal_bht, '%d-%m-%Y') AS tanggal_bht,
 				SP.nama AS status_putusan,
 				C.nomor_akta_cerai,
+				C.no_seri_akta_cerai,
 				DATE_FORMAT(C.tgl_akta_cerai, '%d-%m-%Y') AS tgl_akta_cerai
 			FROM perkara AS P
 			INNER JOIN perkara_putusan AS A ON A.perkara_id = P.perkara_id
@@ -62,6 +63,7 @@ class M_laporan_perceraian extends CI_Model
 				DATE_FORMAT(A.tanggal_bht, '%d-%m-%Y') AS tanggal_bht,
 				SP.nama AS status_putusan,
 				C.nomor_akta_cerai,
+				C.no_seri_akta_cerai,
 				DATE_FORMAT(C.tgl_akta_cerai, '%d-%m-%Y') AS tgl_akta_cerai
 			FROM perkara AS P
 			INNER JOIN perkara_putusan AS A ON A.perkara_id = P.perkara_id
@@ -100,6 +102,7 @@ class M_laporan_perceraian extends CI_Model
 				DATE_FORMAT(A.tanggal_bht, '%d-%m-%Y') AS tanggal_bht,
 				SP.nama AS status_putusan,
 				C.nomor_akta_cerai,
+				C.no_seri_akta_cerai,
 				DATE_FORMAT(C.tgl_akta_cerai, '%d-%m-%Y') AS tgl_akta_cerai
 			FROM perkara AS P
 			INNER JOIN perkara_putusan AS A ON A.perkara_id = P.perkara_id
