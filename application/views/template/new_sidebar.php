@@ -174,6 +174,24 @@
   								<p>LAPORAN PENYERAHAN AKTA CERAI</p>
   							</a>
   						</li>
+  						<li class="nav-item">
+  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=belum_lengkap') ?>" class="nav-link">
+  								<i class="fas fa-clipboard-check nav-icon"></i>
+  								<p>VALIDASI DATA AKTA CERAI</p>
+  							</a>
+  						</li>
+  						<li class="nav-item">
+  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=terlambat') ?>" class="nav-link">
+  								<i class="fas fa-clock nav-icon"></i>
+  								<p>AKTA CERAI TERLAMBAT</p>
+  							</a>
+  						</li>
+  						<li class="nav-item">
+  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=cek_nomor') ?>" class="nav-link">
+  								<i class="fas fa-search nav-icon"></i>
+  								<p>CEK NOMOR AKTA CERAI</p>
+  							</a>
+  						</li>
   					</ul>
   				</li>
 
@@ -234,6 +252,18 @@
 							<a href="<?php echo site_url('Monitoring_sipp?tab=kinerja') ?>" class="nav-link">
 								<i class="fas fa-chart-line nav-icon"></i>
 								<p>Kinerja</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_dirput') ?>" class="nav-link">
+								<i class="fas fa-file-upload nav-icon"></i>
+								<p>Dirput Anonimisasi</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Monitoring_dirput?mode=upload_gagal') ?>" class="nav-link">
+								<i class="fas fa-upload nav-icon"></i>
+								<p>Upload Dirput Gagal</p>
 							</a>
 						</li>
 					</ul>
