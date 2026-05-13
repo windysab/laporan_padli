@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Data_Perceraian_balangan extends CI_Controller {
+class Data_Perceraian_balangan extends MY_Controller {
 
 	public function __construct()
 	{

@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class Perkara_Banding extends CI_Controller
+class Perkara_Banding extends MY_Controller
 {
 	public function __construct()
 	{

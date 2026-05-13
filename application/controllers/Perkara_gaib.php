@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Perkara_gaib extends CI_Controller
+class Perkara_gaib extends MY_Controller
 {
 
 	public function __construct()

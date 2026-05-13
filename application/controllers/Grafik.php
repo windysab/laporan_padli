@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Grafik extends CI_Controller
+class Grafik extends MY_Controller
 {
 
 

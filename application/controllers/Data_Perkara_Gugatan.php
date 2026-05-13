@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Data_Perkara_Gugatan extends CI_Controller
+class Data_Perkara_Gugatan extends MY_Controller
 {
 
 	public function __construct()

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Delegasi_k extends CI_Controller
+class Delegasi_k extends MY_Controller
 {
 	public function __construct()
 	{

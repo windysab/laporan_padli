@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Monitoring_dirput extends CI_Controller
+class Monitoring_dirput extends MY_Controller
 {
 	public function __construct()
 	{

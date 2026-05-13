@@ -42,26 +42,21 @@
 
 			<!-- Right navbar links -->
 			<ul class="navbar-nav ml-auto">
-				<!-- Messages Dropdown Menu -->
-				<li class="nav-item dropdown">
-					<a class="nav-link" data-toggle="dropdown" href="#">
-						<i class="far fa-comments"></i>
-						<span class="badge badge-danger navbar-badge">3</span>
+				<!-- User Info -->
+				<?php if ($this->session->userdata('logged_in')): ?>
+				<li class="nav-item d-none d-sm-inline-block">
+					<span class="nav-link text-muted">
+						<i class="fas fa-user-circle mr-1"></i>
+						<?php echo htmlspecialchars($this->session->userdata('username')); ?>
+					</span>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?php echo site_url('auth/logout'); ?>" title="Logout">
+						<i class="fas fa-sign-out-alt"></i> Logout
 					</a>
-					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-						<a href="#" class="dropdown-item">
-							<!-- Message Start -->
-							<div class="media">
-								<img src="https://sikep.mahkamahagung.go.id/uploads/foto_formal/40257.jpg?v=1655191332" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-								<div class="media-body">
-									<h3 class="dropdown-item-title">
-										Windy Sabtami.S.Kom
-										<span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-									</h3>
-									<p class="text-sm">Contact me whenever you can. if there is an application error .........</p>
-									<p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 1 Hours Ago</p>
-								</div>
-							</div>
+				</li>
+				<?php endif; ?>
+			</ul>
 		</nav>
 
 

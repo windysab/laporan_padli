@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Monitoring_sipp extends CI_Controller
+class Monitoring_sipp extends MY_Controller
 {
 
 	public function __construct()

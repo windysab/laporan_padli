@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Penerbitan_akta_cerai extends CI_Controller
+class Penerbitan_akta_cerai extends MY_Controller
 {
 
 	public function __construct()

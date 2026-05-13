@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Faktor_perceraian_detail extends CI_Controller
+class Faktor_perceraian_detail extends MY_Controller
 {
 
 	public function __construct()

@@ -6,7 +6,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Lipa1 extends CI_Controller
+class Lipa1 extends MY_Controller
 {
 	public function __construct()
 	{
