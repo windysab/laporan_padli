@@ -7,6 +7,9 @@ class M_data_perceraian_hsu extends CI_Model
 
 	function data_perceraian_hsu($lap_bulan, $lap_tahun)
 	{
+		// Sanitize inputs
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$lap_tahun = $this->db->escape_str($lap_tahun);
 		
 		$sql = "SELECT 
 		KECAMATAN,

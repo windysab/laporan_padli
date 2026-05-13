@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -5,6 +6,10 @@ class M_lipa1 extends CI_Model
 {
     public function getData($lap_tahun, $lap_bulan, $jenis_perkara)
     {
+		// Sanitize inputs
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$jenis_perkara = $this->db->escape_str($jenis_perkara);
 
 		$query = $this->db->query("SELECT nomor_perkara, jenis_perkara_nama, majelis_hakim_nama, panitera_pengganti_text, tanggal_pendaftaran, penetapan_majelis_hakim, penetapan_hari_sidang, sidang_pertama, tanggal_putusan, status_putusan.`nama` AS amar, pekerjaan, perkara_pihak2.alamat as alamat_pihak2, prodeo, pihak.email as email_pihak1 FROM perkara
 			LEFT JOIN perkara_penetapan ON perkara.perkara_id = perkara_penetapan.perkara_id
@@ -34,6 +39,11 @@ class M_lipa1 extends CI_Model
 
 	public function getJumlah($lap_tahun, $lap_bulan, $jenis_perkara)
 	{
+		// Sanitize inputs
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$jenis_perkara = $this->db->escape_str($jenis_perkara);
+
 		$query = $this->db->query("SELECT COUNT(perkara.perkara_id) AS jumlah FROM perkara
 			LEFT JOIN perkara_penetapan ON perkara.perkara_id = perkara_penetapan.perkara_id
 			LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
@@ -43,7 +53,7 @@ class M_lipa1 extends CI_Model
 			LEFT JOIN perkara_efiling_id ON perkara.perkara_id = perkara_efiling_id.perkara_id
 			WHERE (
 				-- YEAR(tanggal_pendaftaran)='$lap_tahun' AND MONTH(tanggal_pendaftaran)='$lap_bulan'
-				(YEAR(tanggal_pendaftaran) < '$lap_tahun' OR (YEAR(tanggal_pendaftaran) = '$lap_tahun' AND MONTH(tanggal_pendaftaran) < 'lap_bulan')) AND tanggal_putusan IS NULL
+				(YEAR(tanggal_pendaftaran) < '$lap_tahun' OR (YEAR(tanggal_pendaftaran) = '$lap_tahun' AND MONTH(tanggal_pendaftaran) < '$lap_bulan')) AND tanggal_putusan IS NULL
 				OR YEAR(penetapan_majelis_hakim)='$lap_tahun' AND MONTH(penetapan_majelis_hakim)='$lap_bulan'
 				OR YEAR(penetapan_hari_sidang)='$lap_tahun' AND MONTH(penetapan_hari_sidang)='$lap_bulan'
 				OR YEAR(sidang_pertama)='$lap_tahun' AND MONTH(sidang_pertama)='$lap_bulan'
@@ -61,6 +71,11 @@ class M_lipa1 extends CI_Model
 
 	public function getJumlahPensiunan($lap_tahun, $lap_bulan, $jenis_perkara)
 	{
+		// Sanitize inputs
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$jenis_perkara = $this->db->escape_str($jenis_perkara);
+
 		$query = $this->db->query("SELECT COUNT(perkara.perkara_id) AS jumlah FROM perkara
 			LEFT JOIN perkara_penetapan ON perkara.perkara_id = perkara_penetapan.perkara_id
 			LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
@@ -87,6 +102,11 @@ class M_lipa1 extends CI_Model
 
 	public function getJumlahPNS($lap_tahun, $lap_bulan, $jenis_perkara)
 	{
+		// Sanitize inputs
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$jenis_perkara = $this->db->escape_str($jenis_perkara);
+
 		$query = $this->db->query("SELECT COUNT(perkara.perkara_id) AS jumlah FROM perkara
 			LEFT JOIN perkara_penetapan ON perkara.perkara_id = perkara_penetapan.perkara_id
 			LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id

@@ -7,6 +7,10 @@ class M_data_perceraian_balangan extends CI_Model
 
 	function data_perceraian_balangan($lap_bulan, $lap_tahun)
 	{
+		// Sanitize inputs
+		$lap_bulan = $this->db->escape_str($lap_bulan);
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+
 		$sql = "SELECT 
 		all_kecamatan.KECAMATAN,
 		COALESCE(subquery.PERKARA_MASUK, 0) AS PERKARA_MASUK,

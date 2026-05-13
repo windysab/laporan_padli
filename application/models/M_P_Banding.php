@@ -34,6 +34,9 @@ class M_P_Banding extends CI_Model
 {
 	public function getData($lap_tahun, $lap_bulan)
 	{
+		// Sanitize inputs
+		$lap_tahun = $this->db->escape_str($lap_tahun);
+		$lap_bulan = $this->db->escape_str($lap_bulan);
 		
 		$query = $this->db->query("SELECT nomor_perkara_pn, putusan_pn, permohonan_banding, pemberitahuan_inzage, pengiriman_berkas_banding, putusan_banding, penerimaan_kembali_berkas_banding,  pemberitahuan_putusan_banding FROM perkara
 			LEFT JOIN perkara_banding ON perkara.perkara_id = perkara_banding.perkara_id

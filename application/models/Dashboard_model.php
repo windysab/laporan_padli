@@ -350,26 +350,28 @@ class Dashboard_model extends CI_Model
 	// Get monthly classification data
 	public function get_monthly_classification()
 	{
-		$current_year = date('Y');
+		$current_year = (int) date('Y');
 		$classifications = [];
 
-		// Get data for each classification type
+		// Get data for each classification type (hardcoded whitelist - safe)
 		$types = ['perceraian', 'waris', 'wakaf', 'ekonomi_syariah', 'lainnya'];
 
 		foreach ($types as $type) {
+			$type_escaped = $this->db->escape_str($type);
+			$type_ucfirst = $this->db->escape_str(ucfirst($type));
 			$query = $this->db->query("
 				SELECT 
 					MONTH(tanggal_pendaftaran) as bulan,
 					COUNT(*) as total
 				FROM perkara 
-				WHERE YEAR(tanggal_pendaftaran) = $current_year
+				WHERE YEAR(tanggal_pendaftaran) = ?
 				AND (
-					jenis_perkara_nama LIKE '%$type%' OR 
-					jenis_perkara_nama LIKE '%" . ucfirst($type) . "%'
+					jenis_perkara_nama LIKE ? OR 
+					jenis_perkara_nama LIKE ?
 				)
 				GROUP BY MONTH(tanggal_pendaftaran)
 				ORDER BY bulan
-			");
+			", array($current_year, '%' . $type_escaped . '%', '%' . $type_ucfirst . '%'));
 
 			$monthly_data = array_fill(0, 12, 0); // Initialize 12 months with 0
 

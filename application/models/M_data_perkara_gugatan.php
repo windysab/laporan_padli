@@ -91,6 +91,10 @@ class M_data_perkara_gugatan extends CI_Model
         if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
         if (empty($wilayah)) $wilayah = 'HSU';
 
+        // Sanitize inputs
+        $lap_tahun = $this->db->escape_str($lap_tahun);
+        $jenis_perkara = $this->db->escape_str($jenis_perkara);
+
         $sql = "SELECT 
             MONTH(tanggal_pendaftaran) as BULAN,
             MONTHNAME(tanggal_pendaftaran) as NAMA_BULAN,
@@ -117,6 +121,10 @@ class M_data_perkara_gugatan extends CI_Model
         if (empty($lap_bulan)) $lap_bulan = date('m');
         if (empty($lap_tahun)) $lap_tahun = date('Y');
         if (empty($wilayah)) $wilayah = 'HSU';
+
+        // Sanitize inputs
+        $lap_bulan = $this->db->escape_str($lap_bulan);
+        $lap_tahun = $this->db->escape_str($lap_tahun);
 
         $kecamatan_list = $this->_get_kecamatan_list($wilayah);
 
@@ -157,6 +165,11 @@ class M_data_perkara_gugatan extends CI_Model
         if (empty($lap_tahun)) $lap_tahun = date('Y');
         if (empty($wilayah)) $wilayah = 'HSU';
         if (empty($jenis_kelamin)) $jenis_kelamin = 'L';
+
+        // Sanitize inputs
+        $lap_tahun = $this->db->escape_str($lap_tahun);
+        // Whitelist jenis_kelamin to only allow L or P
+        $jenis_kelamin = in_array($jenis_kelamin, array('L', 'P')) ? $jenis_kelamin : 'L';
 
         $where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun'";
         if ($wilayah !== 'Semua') {
@@ -211,6 +224,10 @@ class M_data_perkara_gugatan extends CI_Model
         if (empty($lap_tahun)) $lap_tahun = date('Y');
         if (empty($wilayah)) $wilayah = 'HSU';
 
+        // Sanitize inputs
+        $lap_bulan = $this->db->escape_str($lap_bulan);
+        $lap_tahun = $this->db->escape_str($lap_tahun);
+
         $where_clause = "YEAR(pac.tgl_akta_cerai) = '$lap_tahun' AND MONTH(pac.tgl_akta_cerai) = '$lap_bulan'";
         if ($wilayah !== 'Semua') {
             $where_clause .= $this->_get_alamat_condition($wilayah, 'pp1');
@@ -250,6 +267,9 @@ class M_data_perkara_gugatan extends CI_Model
         if (empty($tanggal_akhir)) $tanggal_akhir = date('Y-m-d');
         if (empty($jenis_perkara)) $jenis_perkara = 'Cerai Gugat';
         if (empty($wilayah)) $wilayah = 'HSU';
+
+        // Whitelist wilayah
+        $wilayah = $this->_validate_wilayah($wilayah);
 
         // Define kecamatan based on wilayah
         $kecamatan_list = $this->_get_kecamatan_list($wilayah);
@@ -295,6 +315,9 @@ class M_data_perkara_gugatan extends CI_Model
     {
         if (empty($lap_tahun)) $lap_tahun = date('Y');
         if (empty($wilayah)) $wilayah = 'HSU';
+
+        // Sanitize inputs
+        $lap_tahun = $this->db->escape_str($lap_tahun);
 
         $sql = "SELECT 
             YEAR(tanggal_pendaftaran) as TAHUN,
@@ -434,8 +457,20 @@ class M_data_perkara_gugatan extends CI_Model
         }
     }
 
+    // Whitelist validation for wilayah parameter
+    private function _validate_wilayah($wilayah)
+    {
+        $allowed = array('HSU', 'Balangan', 'Semua');
+        return in_array($wilayah, $allowed) ? $wilayah : 'HSU';
+    }
+
     private function _build_subquery($date_field, $table, $lap_bulan, $lap_tahun, $jenis_perkara, $wilayah)
     {
+        // Sanitize inputs
+        $lap_bulan = $this->db->escape_str($lap_bulan);
+        $lap_tahun = $this->db->escape_str($lap_tahun);
+        $jenis_perkara = $this->db->escape_str($jenis_perkara);
+
         $join_clause = "";
         if ($table !== 'perkara') {
             $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
@@ -461,6 +496,10 @@ class M_data_perkara_gugatan extends CI_Model
 
     private function _build_yearly_subquery($date_field, $table, $lap_tahun, $jenis_perkara, $wilayah)
     {
+        // Sanitize inputs
+        $lap_tahun = $this->db->escape_str($lap_tahun);
+        $jenis_perkara = $this->db->escape_str($jenis_perkara);
+
         $join_clause = "";
         if ($table !== 'perkara') {
             $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
@@ -485,6 +524,11 @@ class M_data_perkara_gugatan extends CI_Model
 
     private function _build_custom_range_subquery($date_field, $table, $tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah)
     {
+        // Sanitize inputs
+        $tanggal_mulai = $this->db->escape_str($tanggal_mulai);
+        $tanggal_akhir = $this->db->escape_str($tanggal_akhir);
+        $jenis_perkara = $this->db->escape_str($jenis_perkara);
+
         $join_clause = "";
         if ($table !== 'perkara') {
             $join_clause = "LEFT JOIN perkara ON " . $table . ".perkara_id = perkara.perkara_id ";
