@@ -20,10 +20,10 @@ class Perkara_gaib extends CI_Controller
 
 	public function index()
 	{
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'semua';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
 		// Get data based on report type
 		switch ($jenis_laporan) {
@@ -32,8 +32,8 @@ class Perkara_gaib extends CI_Controller
 				$data['summary'] = $this->M_perkara_gaib->get_summary_gaib_tahunan($lap_tahun, $jenis_perkara);
 				break;
 			case 'custom':
-				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
-				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
+				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
 				$data['datafilter'] = $this->M_perkara_gaib->get_perkara_gaib_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara);
 				$data['summary'] = $this->M_perkara_gaib->get_summary_gaib_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara);
 				break;

@@ -14,14 +14,14 @@ class Data_Perkara_Gugatan extends CI_Controller
 
 	public function index()
 	{
-		// Get filter parameters
-		$wilayah = $this->input->post('wilayah') ?: 'HSU'; // Default HSU
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Cerai Gugat';
-		$report_type = $this->input->post('report_type') ?: 'summary';
-		$tanggal_mulai = $this->input->post('tanggal_mulai');
-		$tanggal_akhir = $this->input->post('tanggal_akhir');
+		// Get and validate filter parameters
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'HSU');
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'Cerai Gugat');
+		$report_type = validate_report_type($this->input->post('report_type'));
+		$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+		$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-d'));
 
 		$data = array();
 		$data['selected_wilayah'] = $wilayah;
@@ -47,7 +47,7 @@ class Data_Perkara_Gugatan extends CI_Controller
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah);
 				break;
 			case 'faktor':
-				$jenis_kelamin = $this->input->post('jenis_kelamin') ?: '';
+				$jenis_kelamin = validate_jenis_kelamin($this->input->post('jenis_kelamin'));
 				$data['selected_gender'] = $jenis_kelamin;
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin);
 				break;
@@ -77,13 +77,13 @@ class Data_Perkara_Gugatan extends CI_Controller
 	// Export functions
 	public function export_excel()
 	{
-		$wilayah = $this->input->post('wilayah') ?: 'HSU';
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Cerai Gugat';
-		$report_type = $this->input->post('report_type') ?: 'summary';
-		$tanggal_mulai = $this->input->post('tanggal_mulai');
-		$tanggal_akhir = $this->input->post('tanggal_akhir');
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'HSU');
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'Cerai Gugat');
+		$report_type = validate_report_type($this->input->post('report_type'));
+		$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+		$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-d'));
 
 		// Get data for export
 		switch ($report_type) {

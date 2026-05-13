@@ -20,9 +20,9 @@ class Lipa1 extends CI_Controller
 
 	public function index()
 	{
-		$jenis_perkara = $this->input->post('jenis_perkara'); // Get the selected value
-		$lap_bulan = $this->input->post('lap_bulan');
-		$lap_tahun = $this->input->post('lap_tahun');
+		$jenis_perkara = validate_perkara_pattern($this->input->post('jenis_perkara'), 'Pdt.G');
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
 		$data['datafilter'] = $this->M_lipa1->getData($lap_tahun, $lap_bulan, $jenis_perkara);
 		$this->load->view('template/new_header');
 		$this->load->view('template/new_sidebar');
@@ -119,9 +119,9 @@ class Lipa1 extends CI_Controller
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 
-		$jenis_perkara = $this->input->post('jenis_perkara'); // Get the selected value
-		$lap_bulan = $this->input->post('lap_bulan');
-		$lap_tahun = $this->input->post('lap_tahun');
+		$jenis_perkara = validate_perkara_pattern($this->input->post('jenis_perkara'), 'Pdt.G');
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
 
 		$data = $this->M_lipa1->getData($lap_tahun, $lap_bulan, $jenis_perkara);
 

@@ -34,7 +34,7 @@ class Dashboard extends CI_Controller
 	public function get_monthly_data()
 	{
 		$this->load->model('Dashboard_model');
-		$year = $this->input->post('year') ? $this->input->post('year') : date('Y');
+		$year = validate_tahun($this->input->post('year'));
 
 		$data = [
 			'monthly_classification' => $this->Dashboard_model->get_monthly_case_classification(),

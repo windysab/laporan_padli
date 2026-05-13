@@ -23,12 +23,12 @@ class Laporan_putusan extends CI_Controller
 	public function index()
 	{
 		// Set default values if not posted
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
-		$status_putusan = $this->input->post('status_putusan') ?: 'semua';
-		$wilayah = $this->input->post('wilayah') ?: 'Semua';
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'semua';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
+		$status_putusan = validate_status_putusan($this->input->post('status_putusan'));
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
 		// Get data based on report type
 		switch ($jenis_laporan) {
@@ -37,8 +37,8 @@ class Laporan_putusan extends CI_Controller
 				$data['summary'] = $this->M_laporan_putusan->get_summary_putusan_tahunan($lap_tahun, $wilayah, $jenis_perkara);
 				break;
 			case 'custom':
-				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
-				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
+				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
 				$data['datafilter'] = $this->M_laporan_putusan->get_laporan_putusan_custom($tanggal_mulai, $tanggal_akhir, $status_putusan, $wilayah, $jenis_perkara);
 				$data['summary'] = $this->M_laporan_putusan->get_summary_putusan_custom($tanggal_mulai, $tanggal_akhir, $wilayah, $jenis_perkara);
 				break;

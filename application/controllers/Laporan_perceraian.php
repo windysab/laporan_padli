@@ -21,11 +21,11 @@ class Laporan_perceraian extends CI_Controller
 
 	public function index()
 	{
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
-		$wilayah = $this->input->post('wilayah') ?: 'Semua';
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'semua';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
 		// Get data based on report type
 		switch ($jenis_laporan) {
@@ -34,8 +34,8 @@ class Laporan_perceraian extends CI_Controller
 				$data['summary'] = $this->M_laporan_perceraian->get_summary_perceraian_tahunan($lap_tahun, $wilayah, $jenis_perkara);
 				break;
 			case 'custom':
-				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
-				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
+				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
 				$data['datafilter'] = $this->M_laporan_perceraian->get_laporan_perceraian_custom($tanggal_mulai, $tanggal_akhir, $wilayah, $jenis_perkara);
 				$data['summary'] = $this->M_laporan_perceraian->get_summary_perceraian_custom($tanggal_mulai, $tanggal_akhir, $wilayah, $jenis_perkara);
 				break;
@@ -63,11 +63,11 @@ class Laporan_perceraian extends CI_Controller
 
 	public function export_excel()
 	{
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
-		$wilayah = $this->input->post('wilayah') ?: 'Semua';
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'semua';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
 		require_once APPPATH . 'PHPExcel-1.8/Classes/PHPExcel.php';
 

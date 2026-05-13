@@ -20,12 +20,12 @@ class Data_Permohonan extends CI_Controller
 		// Get available jenis perkara for dropdown
 		$data['jenis_perkara_list'] = $this->M_data_permohonan->get_jenis_perkara_permohonan();
 
-		// Set default values
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Dispensasi Kawin';
-		$wilayah = $this->input->post('wilayah') ?: 'Semua';
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
+		// Validate input parameters
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'Dispensasi Kawin');
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
 
 		// Get data based on report type
 		switch ($jenis_laporan) {
@@ -33,8 +33,8 @@ class Data_Permohonan extends CI_Controller
 				$data['datafilter'] = $this->M_data_permohonan->data_permohonan_tahunan($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'custom':
-				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
-				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
+				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
 				$data['datafilter'] = $this->M_data_permohonan->data_permohonan_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
 				break;
 			default: // bulanan
@@ -60,11 +60,11 @@ class Data_Permohonan extends CI_Controller
 
 	public function export_excel()
 	{
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'Dispensasi Kawin';
-		$wilayah = $this->input->post('wilayah') ?: 'Semua';
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'Dispensasi Kawin');
+		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
 
 		// Set headers based on report type
 		$headers = array('No', 'Kecamatan');

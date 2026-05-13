@@ -17,9 +17,9 @@ class Penerbitan_akta_cerai extends CI_Controller
 	public function index()
 	{
 		// Set default values if not posted
-		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
-		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
-		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
 		
 		// Get data based on report type
 		switch ($jenis_laporan) {
@@ -27,8 +27,8 @@ class Penerbitan_akta_cerai extends CI_Controller
 				$data['datafilter'] = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai_tahunan($lap_tahun);
 				break;
 			case 'custom':
-				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
-				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
+				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
+				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
 				$data['datafilter'] = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir);
 				break;
 			default: // bulanan

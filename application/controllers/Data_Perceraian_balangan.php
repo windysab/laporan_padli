@@ -12,8 +12,8 @@ class Data_Perceraian_balangan extends CI_Controller {
 
 	public function index()
 	{
-		$lap_bulan = $this->input->post('lap_bulan');
-		$lap_tahun = $this->input->post('lap_tahun');
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
 		$data['datafilter'] = $this->M_data_perceraian_balangan->data_perceraian_balangan($lap_bulan, $lap_tahun);
 		$this->load->view('template/new_header');
 		$this->load->view('template/new_sidebar');

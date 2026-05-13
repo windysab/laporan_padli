@@ -16,10 +16,21 @@ class Monitoring_sipp extends CI_Controller
 
 	public function index()
 	{
-		$tab = $this->input->get('tab') ?: 'dashboard';
-		$wilayah = $this->input->post('wilayah') ?: $this->input->get('wilayah') ?: 'Semua';
-		$jenis_perkara = $this->input->post('jenis_perkara') ?: $this->input->get('jenis_perkara') ?: 'semua';
-		$tahun = $this->input->post('tahun') ?: $this->input->get('tahun') ?: date('Y');
+		$allowed_tabs = array('dashboard', 'aging', 'minutasi', 'kinerja');
+		$tab = $this->input->get('tab');
+		$tab = in_array($tab, $allowed_tabs) ? $tab : 'dashboard';
+
+		$wilayah = validate_wilayah(
+			$this->input->post('wilayah') ?: $this->input->get('wilayah'),
+			'Semua'
+		);
+		$jenis_perkara = validate_jenis_perkara(
+			$this->input->post('jenis_perkara') ?: $this->input->get('jenis_perkara'),
+			'semua'
+		);
+		$tahun = validate_tahun(
+			$this->input->post('tahun') ?: $this->input->get('tahun')
+		);
 
 		$data['active_tab'] = $tab;
 		$data['selected_wilayah'] = $wilayah;

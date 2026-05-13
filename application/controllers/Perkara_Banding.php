@@ -18,10 +18,9 @@ class Perkara_Banding extends CI_Controller
 	}
 	public function index()
 	{
-		$lap_tahun = $this->input->post('lap_tahun');
-		$lap_bulan = $this->input->post('lap_bulan');
+		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
+		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
 		
-		// $data['results'] = $this->M_P_Banding->getData($lap_bulan, $lap_tahun);
 		$data['results'] = $this->M_P_Banding->getData($lap_tahun, $lap_bulan);
 	
 		$this->load->view('template/new_header');
@@ -38,8 +37,8 @@ class Perkara_Banding extends CI_Controller
 		ini_set('display_startup_errors', 1);
 		error_reporting(E_ALL);
 
-		$lap_tahun = $this->input->post('tahun');
-		$lap_bulan = $this->input->post('bulan');
+		$lap_tahun = validate_tahun($this->input->post('tahun'));
+		$lap_bulan = validate_bulan($this->input->post('bulan'));
 		$data = $this->M_P_Banding->getData($lap_tahun, $lap_bulan);
 
 		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
