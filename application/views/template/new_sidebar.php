@@ -71,8 +71,8 @@
   								<p>Laporan Gugatan Detail</p>
   							</a>
   						</li>
-  						<li class="nav-item">
-  							<a href="<?php echo site_url('Faktor_Perceraian_Detail') ?>" class="nav-link">
+						<li class="nav-item">
+							<a href="<?php echo site_url('Faktor_perceraian_detail') ?>" class="nav-link">
   								<i class="fas fa-chart-pie nav-icon"></i>
   								<p>FAKTOR PERCERAIAN DETAIL</p>
   							</a>

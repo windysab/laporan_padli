@@ -53,3 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// Backward-compatible route aliases for Linux case-sensitive deployments
+$route['Faktor_Perceraian_Detail'] = 'Faktor_perceraian_detail';
+$route['Faktor_Perceraian_Detail/(:any)'] = 'Faktor_perceraian_detail/$1';
