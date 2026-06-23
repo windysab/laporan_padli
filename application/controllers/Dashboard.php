@@ -7,6 +7,7 @@ class Dashboard extends MY_Controller
 	public function index()
 	{
 		$this->load->model('Dashboard_model');
+		$this->load->model('M_notifikasi_perkara');
 		$currentYear = date('Y');
 		$currentMonth = date('m');
 
@@ -20,6 +21,12 @@ class Dashboard extends MY_Controller
 		$data['monthly_classification'] = $this->Dashboard_model->get_monthly_case_classification();
 		$data['kinerja_pn'] = $this->Dashboard_model->get_kinerja_pn();
 		$data['daily_trend'] = $this->Dashboard_model->get_daily_trend();
+
+		// Notifikasi perkara
+		$data['notifikasi'] = $this->M_notifikasi_perkara->get_notifikasi_summary();
+		$data['perkara_lewat_batas'] = $this->M_notifikasi_perkara->get_perkara_lewat_batas(10);
+		$data['perkara_mendekati_batas'] = $this->M_notifikasi_perkara->get_perkara_mendekati_batas(10);
+		$data['perkara_bht_belum_akta'] = $this->M_notifikasi_perkara->get_perkara_bht_belum_akta(10);
 
 		$data['currentYear'] = $currentYear;
 		$data['currentMonth'] = $currentMonth;

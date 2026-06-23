@@ -42,8 +42,22 @@
 
 			<!-- Right navbar links -->
 			<ul class="navbar-nav ml-auto">
-				<!-- User Info -->
 				<?php if ($this->session->userdata('logged_in')): ?>
+				<!-- Notification Bell -->
+				<?php
+					$CI =& get_instance();
+					$CI->load->model('M_notifikasi_perkara');
+					$notif_count = $CI->M_notifikasi_perkara->get_notifikasi_summary();
+				?>
+				<?php if ($notif_count->total > 0): ?>
+				<li class="nav-item">
+					<a class="nav-link" href="<?php echo site_url('dashboard'); ?>#notifTab" title="Notifikasi Perkara">
+						<i class="fas fa-bell"></i>
+						<span class="badge badge-danger navbar-badge"><?php echo $notif_count->total; ?></span>
+					</a>
+				</li>
+				<?php endif; ?>
+				<!-- User Info -->
 				<li class="nav-item d-none d-sm-inline-block">
 					<span class="nav-link text-muted">
 						<i class="fas fa-user-circle mr-1"></i>

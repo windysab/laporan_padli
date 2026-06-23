@@ -512,6 +512,9 @@ $currentDate = date('d F Y');
 			</div>
 
 			<!-- Simplified Statistics Cards -->
+			<?php $this->load->view('pages/notifikasi_alert'); ?>
+
+			<!-- Statistics Cards -->
 			<div class="row">
 				<div class="col-lg-4 col-md-6 col-sm-12 mb-4">
 					<div class="stat-card stat-card-primary loading">

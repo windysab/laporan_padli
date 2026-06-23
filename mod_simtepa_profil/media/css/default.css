@@ -1,0 +1,117 @@
+.simtepa-profil {
+    color: #172033;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+.simtepa-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.simtepa-card {
+    background: #fff;
+    border: 1px solid #dde5ee;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.simtepa-card-main {
+    display: flex;
+    gap: 14px;
+}
+
+.simtepa-photo {
+    aspect-ratio: 3 / 4;
+    background: #eef3f7;
+    border-radius: 6px;
+    flex: 0 0 92px;
+    height: 122px;
+    object-fit: cover;
+    width: 92px;
+}
+
+.simtepa-info h3 {
+    font-size: 18px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+}
+
+.simtepa-position {
+    color: #0b6f67;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.simtepa-info dl {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+}
+
+.simtepa-info dl div {
+    display: grid;
+    gap: 2px;
+}
+
+.simtepa-info dt {
+    color: #697386;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.simtepa-info dd {
+    margin: 0;
+}
+
+.simtepa-detail {
+    border-top: 1px solid #edf1f5;
+    margin-top: 12px;
+    padding-top: 10px;
+}
+
+.simtepa-detail summary {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.simtepa-detail ol,
+.simtepa-detail ul {
+    margin: 8px 0 0 18px;
+    padding: 0;
+}
+
+.simtepa-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.simtepa-links a {
+    background: #0b6f67;
+    border-radius: 6px;
+    color: #fff;
+    display: inline-block;
+    font-weight: 700;
+    padding: 7px 10px;
+    text-decoration: none;
+}
+
+.simtepa-empty,
+.simtepa-muted {
+    color: #697386;
+}
+
+@media (max-width: 520px) {
+    .simtepa-card-main {
+        display: block;
+    }
+
+    .simtepa-photo {
+        margin-bottom: 12px;
+    }
+}

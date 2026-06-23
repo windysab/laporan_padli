@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.9" client="site" method="upgrade">
+    <name>mod_simtepa_profil</name>
+    <author>Codex</author>
+    <creationDate>2026-05-18</creationDate>
+    <version>1.0.0</version>
+    <description>Menampilkan profil pelaksana dari JSON SIMTEPA.</description>
+
+    <files>
+        <filename module="mod_simtepa_profil">mod_simtepa_profil.php</filename>
+        <filename>helper.php</filename>
+        <folder>tmpl</folder>
+    </files>
+
+    <media destination="mod_simtepa_profil" folder="media">
+        <folder>css</folder>
+    </media>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                    name="json_url"
+                    type="url"
+                    label="URL JSON SIMTEPA"
+                    default="https://simtepa.mahkamahagung.go.id/share/profil_pelaksana/json/804d379b5aac4946eadbdcc6bc7149ef"
+                    required="true"
+                />
+                <field
+                    name="cache_ttl"
+                    type="number"
+                    label="Cache TTL (detik)"
+                    default="3600"
+                    min="300"
+                    step="300"
+                />
+            </fieldset>
+            <fieldset name="advanced">
+                <field
+                    name="layout"
+                    type="modulelayout"
+                    label="JFIELD_ALT_LAYOUT_LABEL"
+                    class="form-select"
+                    validate="moduleLayout"
+                />
+                <field
+                    name="moduleclass_sfx"
+                    type="textarea"
+                    label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                    rows="3"
+                />
+            </fieldset>
+        </fields>
+    </config>
+</extension>

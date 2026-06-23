@@ -220,6 +220,14 @@
   					</ul>
   				</li>
 
+				<!-- Laporan E-Court Menu -->
+				<li class="nav-item">
+					<a href="<?php echo site_url('Laporan_ecourt') ?>" class="nav-link">
+						<i class="nav-icon fas fa-laptop"></i>
+						<p>LAPORAN E-COURT</p>
+					</a>
+				</li>
+
 				<!-- Monitoring SIPP Menu -->
 				<li class="nav-item">
 					<a href="#" class="nav-link">
