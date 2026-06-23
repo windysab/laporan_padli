@@ -77,6 +77,9 @@
 												<button type="button" class="btn btn-info" onclick="printReport()">
 													<i class="fas fa-print"></i> Print
 												</button>
+												<a href="<?php echo site_url('Faktor_perceraian_detail/tabel_727?lap_tahun=' . $selected_tahun . '&wilayah=' . urlencode($selected_wilayah)); ?>" class="btn btn-dark">
+													<i class="fas fa-table"></i> Tabel 7.27
+												</a>
 											</div>
 										</div>
 									</div>

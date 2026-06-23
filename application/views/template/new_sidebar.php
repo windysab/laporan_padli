@@ -77,6 +77,12 @@
   								<p>FAKTOR PERCERAIAN DETAIL</p>
   							</a>
   						</li>
+						<li class="nav-item">
+							<a href="<?php echo site_url('Faktor_perceraian_usia') ?>" class="nav-link">
+								<i class="fas fa-chart-bar nav-icon"></i>
+								<p>FAKTOR PERCERAIAN BERDASARKAN USIA</p>
+							</a>
+						</li>
 
   					</ul>
   				</li>
