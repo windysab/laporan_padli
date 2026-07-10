@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
   <div class="content-wrapper">
     <section class="content-header">
       <div class="container-fluid">
@@ -57,6 +55,3 @@ defined('BASEPATH') or exit('No direct script access allowed');
       </div>
     </section>
   </div>
-</div>
-</body>
-</html>
