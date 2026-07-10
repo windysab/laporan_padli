@@ -1,8 +1,8 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Perkara_Banding extends CI_Controller
-{
+class Perkara_Banding extends MY_Controller {
+
     public function __construct()
     {
         parent::__construct();
@@ -14,11 +14,7 @@ class Perkara_Banding extends CI_Controller
         $lap_tahun = $this->input->post('lap_tahun');
         $lap_bulan = $this->input->post('lap_bulan');
         $data['results'] = $this->M_P_Banding->getData($lap_tahun, $lap_bulan);
-
-        $this->load->view('template/new_header');
-        $this->load->view('template/new_sidebar');
-        $this->load->view('v_p_banding', $data);
-        $this->load->view('template/new_footer');
+        $this->_render('v_p_banding', $data);
     }
 
     public function generateExcelDocument()
