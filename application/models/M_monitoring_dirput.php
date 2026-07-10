@@ -8,6 +8,11 @@ class M_monitoring_dirput extends CI_Model
 		$where_periode = $this->_get_periode_condition($bulan);
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
 
+		$params = $bulan ? array($tahun, $bulan) : array($tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
+
 		$sql = "SELECT
 				p.perkara_id,
 				p.nomor_perkara,
@@ -24,12 +29,11 @@ class M_monitoring_dirput extends CI_Model
 				AND dd.filename LIKE '%anonimisasi%'
 			WHERE pp.tanggal_putusan IS NOT NULL
 				AND YEAR(pp.tanggal_putusan) = ?
-				$where_periode
-				$where_jenis
+				{$where_periode}
+				{$where_jenis['sql']}
 				AND dd.perkara_id IS NULL
 			ORDER BY pp.tanggal_putusan ASC, p.nomor_perkara";
 
-		$params = $bulan ? array($tahun, $bulan) : array($tahun);
 		return $this->db->query($sql, $params)->result();
 	}
 
@@ -37,6 +41,11 @@ class M_monitoring_dirput extends CI_Model
 	{
 		$where_periode = $this->_get_periode_condition($bulan);
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
+
+		$params = $bulan ? array($tahun, $bulan) : array($tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				p.perkara_id,
@@ -55,11 +64,10 @@ class M_monitoring_dirput extends CI_Model
 				AND dd.filename LIKE '%anonimisasi%'
 			WHERE pp.tanggal_putusan IS NOT NULL
 				AND YEAR(pp.tanggal_putusan) = ?
-				$where_periode
-				$where_jenis
+				{$where_periode}
+				{$where_jenis['sql']}
 			ORDER BY pp.tanggal_putusan ASC, p.nomor_perkara";
 
-		$params = $bulan ? array($tahun, $bulan) : array($tahun);
 		return $this->db->query($sql, $params)->result();
 	}
 
@@ -67,6 +75,11 @@ class M_monitoring_dirput extends CI_Model
 	{
 		$where_periode = $this->_get_periode_condition($bulan);
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
+
+		$params = $bulan ? array($tahun, $bulan) : array($tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				p.perkara_id,
@@ -84,12 +97,11 @@ class M_monitoring_dirput extends CI_Model
 			LEFT JOIN dirput_dokumen dd ON dd.perkara_id = pp.perkara_id
 			WHERE pp.tanggal_putusan IS NOT NULL
 				AND YEAR(pp.tanggal_putusan) = ?
-				$where_periode
-				$where_jenis
+				{$where_periode}
+				{$where_jenis['sql']}
 				AND (dd.filename IS NULL OR dd.filename = '')
 			ORDER BY pp.tanggal_putusan DESC, p.nomor_perkara";
 
-		$params = $bulan ? array($tahun, $bulan) : array($tahun);
 		return $this->db->query($sql, $params)->result();
 	}
 
@@ -97,6 +109,11 @@ class M_monitoring_dirput extends CI_Model
 	{
 		$where_periode = $this->_get_periode_condition($bulan);
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
+
+		$params = $bulan ? array($tahun, $bulan) : array($tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				COUNT(DISTINCT p.perkara_id) AS total_putusan,
@@ -112,10 +129,9 @@ class M_monitoring_dirput extends CI_Model
 			LEFT JOIN dirput_dokumen semua_dd ON semua_dd.perkara_id = p.perkara_id
 			WHERE pp.tanggal_putusan IS NOT NULL
 				AND YEAR(pp.tanggal_putusan) = ?
-				$where_periode
-				$where_jenis";
+				{$where_periode}
+				{$where_jenis['sql']}";
 
-		$params = $bulan ? array($tahun, $bulan) : array($tahun);
 		return $this->db->query($sql, $params)->row();
 	}
 
@@ -136,16 +152,19 @@ class M_monitoring_dirput extends CI_Model
 		if (empty($bulan) || $bulan === 'semua') {
 			return '';
 		}
-
 		return ' AND MONTH(pp.tanggal_putusan) = ?';
 	}
 
+	// Fixed: returns array with 'sql' and 'params' for parameter binding
 	private function _get_jenis_condition($jenis_perkara)
 	{
 		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) {
-			return '';
+			return array('sql' => '', 'params' => array());
 		}
 
-		return " AND p.jenis_perkara_nama = '" . $this->db->escape_str($jenis_perkara) . "'";
+		return array(
+			'sql' => ' AND p.jenis_perkara_nama = ?',
+			'params' => array($jenis_perkara)
+		);
 	}
 }

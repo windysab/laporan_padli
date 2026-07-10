@@ -1,10 +1,8 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Data_Perkara_Gugatan extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -14,7 +12,6 @@ class Data_Perkara_Gugatan extends CI_Controller
 
 	public function index()
 	{
-		// Get and validate filter parameters
 		$wilayah = validate_wilayah($this->input->post('wilayah'), 'HSU');
 		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
 		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
@@ -23,16 +20,16 @@ class Data_Perkara_Gugatan extends CI_Controller
 		$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
 		$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-d'));
 
-		$data = array();
-		$data['selected_wilayah'] = $wilayah;
-		$data['selected_bulan'] = $lap_bulan;
-		$data['selected_tahun'] = $lap_tahun;
-		$data['selected_jenis'] = $jenis_perkara;
-		$data['selected_report'] = $report_type;
-		$data['selected_tanggal_mulai'] = $tanggal_mulai;
-		$data['selected_tanggal_akhir'] = $tanggal_akhir;
+		$data = [
+			'selected_wilayah' => $wilayah,
+			'selected_bulan' => $lap_bulan,
+			'selected_tahun' => $lap_tahun,
+			'selected_jenis' => $jenis_perkara,
+			'selected_report' => $report_type,
+			'selected_tanggal_mulai' => $tanggal_mulai,
+			'selected_tanggal_akhir' => $tanggal_akhir,
+		];
 
-		// Get data based on report type and region
 		switch ($report_type) {
 			case 'summary':
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
@@ -62,19 +59,13 @@ class Data_Perkara_Gugatan extends CI_Controller
 				break;
 			default:
 				$data['datafilter'] = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				break;
 		}
 
-		// Get dropdown data for view
 		$data['jenis_perkara_list'] = $this->M_data_perkara_gugatan->get_jenis_perkara_gugatan();
-
-		// Load views
-		$this->load->view('template/new_header');
-		$this->load->view('template/new_sidebar');
-		$this->load->view('v_data_perkara_gugatan', $data);
-		$this->load->view('template/new_footer');
+		view_load('v_data_perkara_gugatan', $data);
 	}
 
-	// Export functions
 	public function export_excel()
 	{
 		$wilayah = validate_wilayah($this->input->post('wilayah'), 'HSU');
@@ -85,7 +76,6 @@ class Data_Perkara_Gugatan extends CI_Controller
 		$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
 		$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-d'));
 
-		// Get data for export
 		switch ($report_type) {
 			case 'summary':
 				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
@@ -114,53 +104,40 @@ class Data_Perkara_Gugatan extends CI_Controller
 				break;
 			default:
 				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				break;
 		}
 
-		// Generate filename
 		$filename = 'Data_Perkara_Gugatan_' . $wilayah . '_' . $report_type . '_' . date('Y-m-d_H-i-s') . '.csv';
 
-		// Set CSV headers
 		header('Content-Type: text/csv; charset=UTF-8');
 		header('Content-Disposition: attachment; filename="' . $filename . '"');
 		header('Cache-Control: max-age=0');
 		header('Pragma: public');
 
-		// Open output stream
 		$output = fopen('php://output', 'w');
-
-		// Add BOM for proper UTF-8 encoding in Excel
 		fprintf($output, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
-		// Set headers based on report type
 		$headers = $this->_get_csv_headers($report_type);
 		fputcsv($output, $headers, ';');
-
-		// Add data
 		$this->_add_csv_data($output, $data, $report_type);
 
-		// Close output stream
 		fclose($output);
 		exit();
 	}
 
 	private function _get_csv_headers($report_type)
 	{
-		switch ($report_type) {
-			case 'summary':
-			case 'yearly':
-			case 'monthly':
-			case 'custom_range':
-				return array('Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai');
-			case 'comparison':
-				return array('Kecamatan', 'Cerai Gugat', 'Cerai Talak', 'Total');
-			case 'faktor':
-			case 'faktor_detail':
-				return array('Faktor Perceraian', 'Jumlah Kasus', 'Persentase');
-			case 'yearly_comparison':
-				return array('Tahun', 'Cerai Gugat', 'Cerai Talak', 'Total');
-			default:
-				return array('Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai');
-		}
+		$maps = [
+			'summary' => ['Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai'],
+			'yearly' => ['Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai'],
+			'monthly' => ['Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai'],
+			'custom_range' => ['Kecamatan', 'Perkara Masuk', 'Perkara Putus', 'Perkara Telah BHT', 'Jumlah Akta Cerai'],
+			'comparison' => ['Kecamatan', 'Cerai Gugat', 'Cerai Talak', 'Total'],
+			'faktor' => ['Faktor Perceraian', 'Jumlah Kasus', 'Persentase'],
+			'faktor_detail' => ['Faktor Perceraian', 'Jumlah Kasus', 'Persentase'],
+			'yearly_comparison' => ['Tahun', 'Cerai Gugat', 'Cerai Talak', 'Total'],
+		];
+		return $maps[$report_type] ?? $maps['summary'];
 	}
 
 	private function _add_csv_data($output, $data, $report_type)
@@ -171,46 +148,25 @@ class Data_Perkara_Gugatan extends CI_Controller
 				case 'yearly':
 				case 'monthly':
 				case 'custom_range':
-					$row_data = array(
-						$item->KECAMATAN,
-						$item->PERKARA_MASUK,
-						$item->PERKARA_PUTUS,
-						$item->PERKARA_TELAH_BHT,
-						$item->JUMLAH_AKTA_CERAI
-					);
+					$row_data = [$item->KECAMATAN, $item->PERKARA_MASUK, $item->PERKARA_PUTUS, $item->PERKARA_TELAH_BHT, $item->JUMLAH_AKTA_CERAI];
 					break;
 				case 'comparison':
-					$row_data = array(
-						$item->KECAMATAN,
-						$item->CERAI_GUGAT,
-						$item->CERAI_TALAK,
-						$item->TOTAL
-					);
+					$row_data = [$item->KECAMATAN, $item->CERAI_GUGAT, $item->CERAI_TALAK, $item->TOTAL];
 					break;
 				case 'faktor':
 				case 'faktor_detail':
-					$row_data = array(
-						isset($item->faktor_perceraian) ? $item->faktor_perceraian : $item->FAKTOR,
-						isset($item->jumlah) ? $item->jumlah : $item->JUMLAH,
-						(isset($item->persentase) ? $item->persentase : (isset($item->PERSENTASE) ? $item->PERSENTASE : '0')) . '%'
-					);
+					$row_data = [
+						$item->faktor_perceraian ?? $item->FAKTOR,
+						$item->jumlah ?? $item->JUMLAH,
+						(isset($item->persentase) ? $item->persentase : ($item->PERSENTASE ?? '0')) . '%'
+					];
 					break;
 				case 'yearly_comparison':
-					$row_data = array(
-						$item->TAHUN,
-						$item->CERAI_GUGAT,
-						$item->CERAI_TALAK,
-						$item->TOTAL
-					);
+					$row_data = [$item->TAHUN, $item->CERAI_GUGAT, $item->CERAI_TALAK, $item->TOTAL];
 					break;
 				default:
-					$row_data = array(
-						$item->KECAMATAN,
-						$item->PERKARA_MASUK,
-						$item->PERKARA_PUTUS,
-						$item->PERKARA_TELAH_BHT,
-						$item->JUMLAH_AKTA_CERAI
-					);
+					$row_data = [$item->KECAMATAN, $item->PERKARA_MASUK, $item->PERKARA_PUTUS, $item->PERKARA_TELAH_BHT, $item->JUMLAH_AKTA_CERAI];
+					break;
 			}
 			fputcsv($output, $row_data, ';');
 		}

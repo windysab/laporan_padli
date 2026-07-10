@@ -65,15 +65,15 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="<?php echo base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="<?php echo base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
-<script src="<?php echo base_url() ?>assets/plugins/chart.js/Chart.min.js"></script>
+<script src="<?= base_url() ?>assets/plugins/chart.js/Chart.min.js"></script>
 <!-- AdminLTE App -->
-<script src="<?php echo base_url() ?>assets/dist/js/adminlte.min.js"></script>
+<script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url() ?>assets/dist/js/demo.js"></script>
+<script src="<?= base_url() ?>assets/dist/js/demo.js"></script>
 <!-- Page specific script -->
 <?php
     //Inisialisasi nilai variabel awal
@@ -105,7 +105,7 @@
     //-------------
 
     var areaChartData = {
-      labels: [<?php echo $nama_bulan; ?>],
+      labels: [<?= $nama_bulan ?>],
       //labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
       datasets: [
         {
@@ -117,7 +117,7 @@
           pointStrokeColor    : 'rgba(60,141,188,1)',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
-          data: [<?php echo $jumlah; ?>]
+          data: [<?= $jumlah ?>]
         },
         {
           label               : 'Diterima',

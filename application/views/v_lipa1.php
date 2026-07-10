@@ -36,40 +36,40 @@
 										$result = $this->M_lipa1->getJumlah($lap_tahun, $lap_bulan, $jenis_perkara);
 									}
 									?>
-									<form action="<?php echo base_url() ?>index.php/Lipa1/generateExcelDocument" method="POST">
+									<form action="<?= base_url() ?>index.php/Lipa1/generateExcelDocument" method="POST">
 										<form onsubmit="showSelections(event)" style="display: none;">
 
 											<select name="jenis_perkara" style="display: none;" required>
-												<option value="Pdt.G" <?php echo (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.G') ? 'selected' : ''; ?>>Pdt.G</option>
-												<option value="Pdt.P" <?php echo (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.P') ? 'selected' : ''; ?>>Pdt.P</option>
+												<option value="Pdt.G" <?= (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.G') ? 'selected' : '' ?>>Pdt.G</option>
+												<option value="Pdt.P" <?= (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.P') ? 'selected' : '' ?>>Pdt.P</option>
 											</select>
 
 											<select name="lap_bulan" style="display: none;" required>
-												<option value="01" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '01') ? 'selected' : ''; ?>>Januari</option>
-												<option value="02" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '02') ? 'selected' : ''; ?>>Februari</option>
-												<option value="03" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '03') ? 'selected' : ''; ?>>Maret</option>
-												<option value="04" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '04') ? 'selected' : ''; ?>>April</option>
-												<option value="05" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '05') ? 'selected' : ''; ?>>Mei</option>
-												<option value="06" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '06') ? 'selected' : ''; ?>>Juni</option>
-												<option value="07" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '07') ? 'selected' : ''; ?>>Juli</option>
-												<option value="08" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '08') ? 'selected' : ''; ?>>Agustus</option>
-												<option value="09" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '09') ? 'selected' : ''; ?>>September</option>
-												<option value="10" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '10') ? 'selected' : ''; ?>>Oktober</option>
-												<option value="11" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '11') ? 'selected' : ''; ?>>Nopember</option>
-												<option value="12" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '12') ? 'selected' : ''; ?>>Desember</option>
+												<option value="01" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '01') ? 'selected' : '' ?>>Januari</option>
+												<option value="02" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '02') ? 'selected' : '' ?>>Februari</option>
+												<option value="03" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '03') ? 'selected' : '' ?>>Maret</option>
+												<option value="04" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '04') ? 'selected' : '' ?>>April</option>
+												<option value="05" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '05') ? 'selected' : '' ?>>Mei</option>
+												<option value="06" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '06') ? 'selected' : '' ?>>Juni</option>
+												<option value="07" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '07') ? 'selected' : '' ?>>Juli</option>
+												<option value="08" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '08') ? 'selected' : '' ?>>Agustus</option>
+												<option value="09" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '09') ? 'selected' : '' ?>>September</option>
+												<option value="10" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '10') ? 'selected' : '' ?>>Oktober</option>
+												<option value="11" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '11') ? 'selected' : '' ?>>Nopember</option>
+												<option value="12" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '12') ? 'selected' : '' ?>>Desember</option>
 											</select>
 
 											<select name="lap_tahun" style="display: none;" required>
-												<option value="2016" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2016') ? 'selected' : ''; ?>>2016</option>
-												<option value="2017" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2017') ? 'selected' : ''; ?>>2017</option>
-												<option value="2018" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2018') ? 'selected' : ''; ?>>2018</option>
-												<option value="2019" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2019') ? 'selected' : ''; ?>>2019</option>
-												<option value="2020" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2020') ? 'selected' : ''; ?>>2020</option>
-												<option value="2021" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2021') ? 'selected' : ''; ?>>2021</option>
-												<option value="2022" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2022') ? 'selected' : ''; ?>>2022</option>
-												<option value="2023" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2023') ? 'selected' : ''; ?>>2023</option>
-												<option value="2024" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2024') ? 'selected' : ''; ?>>2024</option>
-												<option value="2025" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2025') ? 'selected' : ''; ?>>2025</option>
+												<option value="2016" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2016') ? 'selected' : '' ?>>2016</option>
+												<option value="2017" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2017') ? 'selected' : '' ?>>2017</option>
+												<option value="2018" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2018') ? 'selected' : '' ?>>2018</option>
+												<option value="2019" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2019') ? 'selected' : '' ?>>2019</option>
+												<option value="2020" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2020') ? 'selected' : '' ?>>2020</option>
+												<option value="2021" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2021') ? 'selected' : '' ?>>2021</option>
+												<option value="2022" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2022') ? 'selected' : '' ?>>2022</option>
+												<option value="2023" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2023') ? 'selected' : '' ?>>2023</option>
+												<option value="2024" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2024') ? 'selected' : '' ?>>2024</option>
+												<option value="2025" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2025') ? 'selected' : '' ?>>2025</option>
 											</select>
 											<input class="btn btn-success" type="submit" name="btn" value="export to excel" />
 											<br>
@@ -88,39 +88,39 @@
 											}
 										</script>
 									</form>
-									<form action="<?php echo base_url() ?>index.php/Lipa1" method="POST">
+									<form action="<?= base_url() ?>index.php/Lipa1" method="POST">
 										Jenis Perkara :
 										<select name="jenis_perkara" id="jenis_perkara" required>
-											<option value="Pdt.G" <?php echo (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.G') ? 'selected' : ''; ?>>Pdt.G</option>
-											<option value="Pdt.P" <?php echo (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.P') ? 'selected' : ''; ?>>Pdt.P</option>
+											<option value="Pdt.G" <?= (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.G') ? 'selected' : '' ?>>Pdt.G</option>
+											<option value="Pdt.P" <?= (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.P') ? 'selected' : '' ?>>Pdt.P</option>
 										</select>
 										Laporan Bulan :
 										<select name="lap_bulan" id="lap_bulan" required>
-											<option value="01" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '01') ? 'selected' : ''; ?>>Januari</option>
-											<option value="02" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '02') ? 'selected' : ''; ?>>Februari</option>
-											<option value="03" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '03') ? 'selected' : ''; ?>>Maret</option>
-											<option value="04" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '04') ? 'selected' : ''; ?>>April</option>
-											<option value="05" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '05') ? 'selected' : ''; ?>>Mei</option>
-											<option value="06" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '06') ? 'selected' : ''; ?>>Juni</option>
-											<option value="07" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '07') ? 'selected' : ''; ?>>Juli</option>
-											<option value="08" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '08') ? 'selected' : ''; ?>>Agustus</option>
-											<option value="09" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '09') ? 'selected' : ''; ?>>September</option>
-											<option value="10" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '10') ? 'selected' : ''; ?>>Oktober</option>
-											<option value="11" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '11') ? 'selected' : ''; ?>>Nopember</option>
-											<option value="12" <?php echo (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '12') ? 'selected' : ''; ?>>Desember</option>
+											<option value="01" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '01') ? 'selected' : '' ?>>Januari</option>
+											<option value="02" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '02') ? 'selected' : '' ?>>Februari</option>
+											<option value="03" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '03') ? 'selected' : '' ?>>Maret</option>
+											<option value="04" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '04') ? 'selected' : '' ?>>April</option>
+											<option value="05" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '05') ? 'selected' : '' ?>>Mei</option>
+											<option value="06" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '06') ? 'selected' : '' ?>>Juni</option>
+											<option value="07" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '07') ? 'selected' : '' ?>>Juli</option>
+											<option value="08" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '08') ? 'selected' : '' ?>>Agustus</option>
+											<option value="09" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '09') ? 'selected' : '' ?>>September</option>
+											<option value="10" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '10') ? 'selected' : '' ?>>Oktober</option>
+											<option value="11" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '11') ? 'selected' : '' ?>>Nopember</option>
+											<option value="12" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '12') ? 'selected' : '' ?>>Desember</option>
 										</select>
 										Tahun :
 										<select name="lap_tahun" id='lap_tahun' required>
-											<option value="2016" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2016') ? 'selected' : ''; ?>>2016</option>
-											<option value="2017" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2017') ? 'selected' : ''; ?>>2017</option>
-											<option value="2018" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2018') ? 'selected' : ''; ?>>2018</option>
-											<option value="2019" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2019') ? 'selected' : ''; ?>>2019</option>
-											<option value="2020" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2020') ? 'selected' : ''; ?>>2020</option>
-											<option value="2021" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2021') ? 'selected' : ''; ?>>2021</option>
-											<option value="2022" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2022') ? 'selected' : ''; ?>>2022</option>
-											<option value="2023" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2023') ? 'selected' : ''; ?>>2023</option>
-											<option value="2024" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2024') ? 'selected' : ''; ?>>2024</option>
-											<option value="2025" <?php echo (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2025') ? 'selected' : ''; ?>>2025</option>
+											<option value="2016" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2016') ? 'selected' : '' ?>>2016</option>
+											<option value="2017" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2017') ? 'selected' : '' ?>>2017</option>
+											<option value="2018" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2018') ? 'selected' : '' ?>>2018</option>
+											<option value="2019" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2019') ? 'selected' : '' ?>>2019</option>
+											<option value="2020" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2020') ? 'selected' : '' ?>>2020</option>
+											<option value="2021" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2021') ? 'selected' : '' ?>>2021</option>
+											<option value="2022" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2022') ? 'selected' : '' ?>>2022</option>
+											<option value="2023" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2023') ? 'selected' : '' ?>>2023</option>
+											<option value="2024" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2024') ? 'selected' : '' ?>>2024</option>
+											<option value="2025" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2025') ? 'selected' : '' ?>>2025</option>
 										</select>
 
 										<input class="btn btn-primary" type="submit" name="btn" value="Tampilkan" />
@@ -153,18 +153,18 @@
 													$no = 1;
 													foreach ($datafilter as $item) : ?>
 														<tr>
-															<td><?php echo $no++ ?></td>
-															<td><?php echo $item->nomor_perkara; ?></td>
-															<td><?php echo $item->jenis_perkara_nama; ?></td>
-															<td><?php echo str_replace('</br>', ', ', $item->majelis_hakim_nama); ?></td>
-															<td><?php echo $item->panitera_pengganti_text; ?></td>
-															<td><?php echo $item->tanggal_pendaftaran; ?></td>
-															<td><?php echo $item->penetapan_majelis_hakim; ?></td>
-															<td><?php echo $item->penetapan_hari_sidang; ?></td>
-															<td><?php echo $item->sidang_pertama; ?></td>
-															<td><?php echo $item->tanggal_putusan; ?></td>
-															<td><?php echo $item->amar; ?></td>
-															<td><?php echo $item->pekerjaan; ?></td>
+															<td><?= $no++ ?></td>
+															<td><?= $item->nomor_perkara ?></td>
+															<td><?= $item->jenis_perkara_nama ?></td>
+															<td><?= str_replace('</br>', ', ', $item->majelis_hakim_nama) ?></td>
+															<td><?= $item->panitera_pengganti_text ?></td>
+															<td><?= $item->tanggal_pendaftaran ?></td>
+															<td><?= $item->penetapan_majelis_hakim ?></td>
+															<td><?= $item->penetapan_hari_sidang ?></td>
+															<td><?= $item->sidang_pertama ?></td>
+															<td><?= $item->tanggal_putusan ?></td>
+															<td><?= $item->amar ?></td>
+															<td><?= $item->pekerjaan ?></td>
 															<td>
 																<?php
 																if (strpos($item->pekerjaan, 'PNS') !== false || strpos($item->pekerjaan, 'Pegawai Negeri Sipil') !== false) {
@@ -176,17 +176,17 @@
 																}
 																?>
 															</td>
-															<td><?php echo $item->alamat_pihak2; ?></td>
-															<td><?php echo ($item->prodeo == 1) ? '#' : ''; ?></td>
-															<td><?php echo $item->email_pihak1; ?></td>
+															<td><?= $item->alamat_pihak2 ?></td>
+															<td><?= ($item->prodeo == 1) ? '#' : '' ?></td>
+															<td><?= $item->email_pihak1 ?></td>
 														</tr>
-													<?php endforeach; ?>
+													<?php endforeach ?>
 
 													<?php if (empty($result)) : ?>
 														<tr>
 															<td colspan="5" class="text-center">Tidak ada data yang tersedia</td>
 														</tr>
-													<?php endif; ?>
+													<?php endif ?>
 												</tbody>
 											</table>
 										</div>

@@ -144,22 +144,22 @@ class Dashboard_model extends CI_Model
 			// Get real monthly data
 			$monthly_query = $this->db->query("
 				SELECT 
-					(SELECT COUNT(*) FROM perkara WHERE DATE_FORMAT(tanggal_pendaftaran, '%Y-%m') = '$currentMonth') as perkara_masuk_bulan_ini,
-					(SELECT COUNT(*) FROM perkara p LEFT JOIN perkara_efiling_id pe ON p.perkara_id = pe.perkara_id WHERE DATE_FORMAT(p.tanggal_pendaftaran, '%Y-%m') = '$currentMonth' AND pe.perkara_id IS NOT NULL) as ecourt_bulan_ini
-			");
+					(SELECT COUNT(*) FROM perkara WHERE DATE_FORMAT(tanggal_pendaftaran, '%Y-%m') = ?) as perkara_masuk_bulan_ini,
+					(SELECT COUNT(*) FROM perkara p LEFT JOIN perkara_efiling_id pe ON p.perkara_id = pe.perkara_id WHERE DATE_FORMAT(p.tanggal_pendaftaran, '%Y-%m') = ? AND pe.perkara_id IS NOT NULL) as ecourt_bulan_ini
+			", array($currentMonth, $currentMonth));
 
 			$monthly_result = $monthly_query->row();
 
 			// Get monthly putusan and minutasi using same logic as kinerja_pn
 			$monthly_data_query = $this->db->query("
 				SELECT 
-					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') = '$currentMonth' THEN 1 ELSE 0 END) as perkara_masuk_bulan_ini,
-					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') <= '$currentMonth' AND DATE_FORMAT(B.tanggal_minutasi, '%Y-%m') = '$currentMonth' THEN 1 ELSE 0 END) AS perkara_minutasi_bulan_ini,
-					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') <= '$currentMonth' AND DATE_FORMAT(B.tanggal_putusan, '%Y-%m') = '$currentMonth' THEN 1 ELSE 0 END) AS perkara_putus_bulan_ini
+					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') = ? THEN 1 ELSE 0 END) as perkara_masuk_bulan_ini,
+					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') <= ? AND DATE_FORMAT(B.tanggal_minutasi, '%Y-%m') = ? THEN 1 ELSE 0 END) AS perkara_minutasi_bulan_ini,
+					SUM(CASE WHEN DATE_FORMAT(A.tanggal_pendaftaran, '%Y-%m') <= ? AND DATE_FORMAT(B.tanggal_putusan, '%Y-%m') = ? THEN 1 ELSE 0 END) AS perkara_putus_bulan_ini
 				FROM perkara AS A
 				LEFT JOIN perkara_putusan AS B ON A.perkara_id = B.perkara_id
 				WHERE A.alur_perkara_id <> 114
-			");
+			", array($currentMonth, $currentMonth, $currentMonth, $currentMonth, $currentMonth));
 			$monthly_data_result = $monthly_data_query->row();
 
 			// Get ecourt data for current month
@@ -167,9 +167,9 @@ class Dashboard_model extends CI_Model
 				SELECT COUNT(*) as count
 				FROM perkara p 
 				LEFT JOIN perkara_efiling_id pe ON p.perkara_id = pe.perkara_id 
-				WHERE DATE_FORMAT(p.tanggal_pendaftaran, '%Y-%m') = '$currentMonth' 
+				WHERE DATE_FORMAT(p.tanggal_pendaftaran, '%Y-%m') = ? 
 				AND pe.perkara_id IS NOT NULL
-			");
+			", array($currentMonth));
 			$ecourt_bulan_ini = $ecourt_query->row() ? $ecourt_query->row()->count : 0;
 
 			return (object) [
@@ -198,13 +198,13 @@ class Dashboard_model extends CI_Model
 			// Get real yearly data using same logic as kinerja_pn
 			$yearly_data_query = $this->db->query("
 				SELECT 
-					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) = $currentYear THEN 1 ELSE 0 END) as perkara_masuk_tahun_ini,
-					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) <= $currentYear AND YEAR(B.tanggal_minutasi) = $currentYear THEN 1 ELSE 0 END) AS perkara_minutasi_tahun_ini,
-					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) <= $currentYear AND YEAR(B.tanggal_putusan) = $currentYear THEN 1 ELSE 0 END) AS perkara_putus_tahun_ini
+					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) = ? THEN 1 ELSE 0 END) as perkara_masuk_tahun_ini,
+					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) <= ? AND YEAR(B.tanggal_minutasi) = ? THEN 1 ELSE 0 END) AS perkara_minutasi_tahun_ini,
+					SUM(CASE WHEN YEAR(A.tanggal_pendaftaran) <= ? AND YEAR(B.tanggal_putusan) = ? THEN 1 ELSE 0 END) AS perkara_putus_tahun_ini
 				FROM perkara AS A
 				LEFT JOIN perkara_putusan AS B ON A.perkara_id = B.perkara_id
 				WHERE A.alur_perkara_id <> 114
-			");
+			", array($currentYear, $currentYear, $currentYear, $currentYear, $currentYear));
 			$yearly_data_result = $yearly_data_query->row();
 
 			// Get ecourt data for current year
@@ -212,9 +212,9 @@ class Dashboard_model extends CI_Model
 				SELECT COUNT(*) as count
 				FROM perkara p 
 				LEFT JOIN perkara_efiling_id pe ON p.perkara_id = pe.perkara_id 
-				WHERE YEAR(p.tanggal_pendaftaran) = $currentYear 
+				WHERE YEAR(p.tanggal_pendaftaran) = ? 
 				AND pe.perkara_id IS NOT NULL
-			");
+			", array($currentYear));
 			$ecourt_tahun_ini = $ecourt_query->row() ? $ecourt_query->row()->count : 0;
 
 			return (object) [
@@ -244,13 +244,13 @@ class Dashboard_model extends CI_Model
 			// Get real daily data using same logic as kinerja_pn
 			$daily_data_query = $this->db->query("
 				SELECT 
-					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) = '$today' THEN 1 ELSE 0 END) as perkara_masuk_hari_ini,
-					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) <= '$today' AND DATE(B.tanggal_minutasi) = '$today' THEN 1 ELSE 0 END) AS perkara_minutasi_hari_ini,
-					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) <= '$today' AND DATE(B.tanggal_putusan) = '$today' THEN 1 ELSE 0 END) AS perkara_putus_hari_ini
+					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) = ? THEN 1 ELSE 0 END) as perkara_masuk_hari_ini,
+					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) <= ? AND DATE(B.tanggal_minutasi) = ? THEN 1 ELSE 0 END) AS perkara_minutasi_hari_ini,
+					SUM(CASE WHEN DATE(A.tanggal_pendaftaran) <= ? AND DATE(B.tanggal_putusan) = ? THEN 1 ELSE 0 END) AS perkara_putus_hari_ini
 				FROM perkara AS A
 				LEFT JOIN perkara_putusan AS B ON A.perkara_id = B.perkara_id
 				WHERE A.alur_perkara_id <> 114
-			");
+			", array($today, $today, $today, $today, $today));
 			$daily_data_result = $daily_data_query->row();
 
 			// Get ecourt data for today
@@ -258,9 +258,9 @@ class Dashboard_model extends CI_Model
 				SELECT COUNT(*) as count
 				FROM perkara p 
 				LEFT JOIN perkara_efiling_id pe ON p.perkara_id = pe.perkara_id 
-				WHERE DATE(p.tanggal_pendaftaran) = '$today' 
+				WHERE DATE(p.tanggal_pendaftaran) = ? 
 				AND pe.perkara_id IS NOT NULL
-			");
+			", array($today));
 			$ecourt_hari_ini = $ecourt_query->row() ? $ecourt_query->row()->count : 0;
 
 			// Calculate daily sisa (estimate based on yearly data)

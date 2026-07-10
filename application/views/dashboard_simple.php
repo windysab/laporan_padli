@@ -3,8 +3,7 @@
 date_default_timezone_set('Asia/Jakarta');
 $currentMonthName = date('F');
 $currentYear = date('Y');
-$currentDate = date('d F Y');
-?>
+$currentDate = date('d F Y') ?>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -35,8 +34,8 @@ $currentDate = date('d F Y');
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3><?php echo isset($statistics->total_perkara) ? number_format($statistics->total_perkara) : '0'; ?></h3>
-                            <p>Total Perkara <?php echo $currentYear; ?></p>
+                            <h3><?= isset($statistics->total_perkara) ? number_format($statistics->total_perkara) : '0' ?></h3>
+                            <p>Total Perkara <?= $currentYear ?></p>
                         </div>
                         <div class="icon">
                             <i class="fas fa-file-alt"></i>
@@ -50,7 +49,7 @@ $currentDate = date('d F Y');
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3><?php echo isset($statistics->total_perkara_ecourt) ? number_format($statistics->total_perkara_ecourt) : '0'; ?></h3>
+                            <h3><?= isset($statistics->total_perkara_ecourt) ? number_format($statistics->total_perkara_ecourt) : '0' ?></h3>
                             <p>Perkara E-Court</p>
                         </div>
                         <div class="icon">
@@ -65,7 +64,7 @@ $currentDate = date('d F Y');
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3><?php echo isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : '0'; ?></h3>
+                            <h3><?= isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : '0' ?></h3>
                             <p>Putusan Hari Ini</p>
                         </div>
                         <div class="icon">
@@ -80,7 +79,7 @@ $currentDate = date('d F Y');
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3><?php echo isset($kinerja_pn->kinerjaPN) ? number_format($kinerja_pn->kinerjaPN, 1) . '%' : '0%'; ?></h3>
+                            <h3><?= isset($kinerja_pn->kinerjaPN) ? number_format($kinerja_pn->kinerjaPN, 1) . '%' : '0%' ?></h3>
                             <p>Kinerja PN</p>
                         </div>
                         <div class="icon">
@@ -100,7 +99,7 @@ $currentDate = date('d F Y');
                         <span class="info-box-icon bg-info"><i class="fas fa-calendar-day"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Perkara Masuk Hari Ini</span>
-                            <span class="info-box-number"><?php echo isset($daily_statistics->perkara_masuk_hari_ini) ? $daily_statistics->perkara_masuk_hari_ini : '0'; ?></span>
+                            <span class="info-box-number"><?= isset($daily_statistics->perkara_masuk_hari_ini) ? $daily_statistics->perkara_masuk_hari_ini : '0' ?></span>
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,7 @@ $currentDate = date('d F Y');
                         <span class="info-box-icon bg-success"><i class="fas fa-edit"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Minutasi Hari Ini</span>
-                            <span class="info-box-number"><?php echo isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : '0'; ?></span>
+                            <span class="info-box-number"><?= isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : '0' ?></span>
                         </div>
                     </div>
                 </div>
@@ -120,7 +119,7 @@ $currentDate = date('d F Y');
                         <span class="info-box-icon bg-warning"><i class="fas fa-clock"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Sisa Perkara</span>
-                            <span class="info-box-number"><?php echo isset($kinerja_pn->sisa) ? $kinerja_pn->sisa : '0'; ?></span>
+                            <span class="info-box-number"><?= isset($kinerja_pn->sisa) ? $kinerja_pn->sisa : '0' ?></span>
                         </div>
                     </div>
                 </div>
@@ -130,7 +129,7 @@ $currentDate = date('d F Y');
                         <span class="info-box-icon bg-danger"><i class="fas fa-laptop-code"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">E-Court Hari Ini</span>
-                            <span class="info-box-number"><?php echo isset($daily_statistics->ecourt_hari_ini) ? $daily_statistics->ecourt_hari_ini : '0'; ?></span>
+                            <span class="info-box-number"><?= isset($daily_statistics->ecourt_hari_ini) ? $daily_statistics->ecourt_hari_ini : '0' ?></span>
                         </div>
                     </div>
                 </div>
@@ -177,7 +176,7 @@ $currentDate = date('d F Y');
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-chart-bar mr-1"></i>
-                                Klasifikasi Perkara Bulanan <?php echo $currentYear; ?>
+                                Klasifikasi Perkara Bulanan <?= $currentYear ?>
                             </h3>
                         </div>
                         <div class="card-body">
@@ -198,16 +197,15 @@ $currentDate = date('d F Y');
                         <div class="card-body">
                             <div class="mb-3">
                                 <span class="float-left">Perkara Putus</span>
-                                <span class="float-right"><?php echo isset($kinerja_pn->putusan) ? $kinerja_pn->putusan : '0'; ?>/<?php echo isset($statistics->total_perkara) ? $statistics->total_perkara : '0'; ?></span>
+                                <span class="float-right"><?= isset($kinerja_pn->putusan) ? $kinerja_pn->putusan : '0' ?>/<?= isset($statistics->total_perkara) ? $statistics->total_perkara : '0' ?></span>
                                 <div class="progress mb-3">
                                     <div class="progress-bar bg-primary" role="progressbar" 
                                          style="width: <?php 
                                          $putus_persen = isset($kinerja_pn->putusan) && isset($statistics->total_perkara) && $statistics->total_perkara > 0 
                                              ? ($kinerja_pn->putusan / $statistics->total_perkara) * 100 
                                              : 0; 
-                                         echo number_format($putus_persen, 1); 
-                                         ?>%" 
-                                         aria-valuenow="<?php echo number_format($putus_persen, 1); ?>" 
+                                         echo number_format($putus_persen, 1) ?>%" 
+                                         aria-valuenow="<?= number_format($putus_persen, 1) ?>" 
                                          aria-valuemin="0" aria-valuemax="100">
                                     </div>
                                 </div>
@@ -215,16 +213,15 @@ $currentDate = date('d F Y');
                             
                             <div class="mb-3">
                                 <span class="float-left">Minutasi</span>
-                                <span class="float-right"><?php echo isset($kinerja_pn->minutasi) ? $kinerja_pn->minutasi : '0'; ?>/<?php echo isset($statistics->total_perkara) ? $statistics->total_perkara : '0'; ?></span>
+                                <span class="float-right"><?= isset($kinerja_pn->minutasi) ? $kinerja_pn->minutasi : '0' ?>/<?= isset($statistics->total_perkara) ? $statistics->total_perkara : '0' ?></span>
                                 <div class="progress mb-3">
                                     <div class="progress-bar bg-success" role="progressbar" 
                                          style="width: <?php 
                                          $minutasi_persen = isset($kinerja_pn->minutasi) && isset($statistics->total_perkara) && $statistics->total_perkara > 0 
                                              ? ($kinerja_pn->minutasi / $statistics->total_perkara) * 100 
                                              : 0; 
-                                         echo number_format($minutasi_persen, 1); 
-                                         ?>%" 
-                                         aria-valuenow="<?php echo number_format($minutasi_persen, 1); ?>" 
+                                         echo number_format($minutasi_persen, 1) ?>%" 
+                                         aria-valuenow="<?= number_format($minutasi_persen, 1) ?>" 
                                          aria-valuemin="0" aria-valuemax="100">
                                     </div>
                                 </div>
@@ -232,11 +229,11 @@ $currentDate = date('d F Y');
 
                             <div class="mb-3">
                                 <span class="float-left">E-Court</span>
-                                <span class="float-right"><?php echo isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) . '%' : '0%'; ?></span>
+                                <span class="float-right"><?= isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) . '%' : '0%' ?></span>
                                 <div class="progress mb-3">
                                     <div class="progress-bar bg-warning" role="progressbar" 
-                                         style="width: <?php echo isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) : '0'; ?>%" 
-                                         aria-valuenow="<?php echo isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) : '0'; ?>" 
+                                         style="width: <?= isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) : '0' ?>%" 
+                                         aria-valuenow="<?= isset($statistics->persen_perkara_ecourt) ? number_format($statistics->persen_perkara_ecourt, 1) : '0' ?>" 
                                          aria-valuemin="0" aria-valuemax="100">
                                     </div>
                                 </div>
@@ -259,18 +256,18 @@ $currentDate = date('d F Y');
                                 <div class="col-6">
                                     <div class="description-block border-right">
                                         <span class="description-percentage text-success">
-                                            <i class="fas fa-caret-up"></i> <?php echo isset($kinerja_pn->kinerjaPN) ? number_format($kinerja_pn->kinerjaPN, 1) . '%' : '0%'; ?>
+                                            <i class="fas fa-caret-up"></i> <?= isset($kinerja_pn->kinerjaPN) ? number_format($kinerja_pn->kinerjaPN, 1) . '%' : '0%' ?>
                                         </span>
-                                        <h5 class="description-header"><?php echo isset($kinerja_pn->masuk) ? number_format($kinerja_pn->masuk) : '0'; ?></h5>
+                                        <h5 class="description-header"><?= isset($kinerja_pn->masuk) ? number_format($kinerja_pn->masuk) : '0' ?></h5>
                                         <span class="description-text">MASUK</span>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="description-block">
                                         <span class="description-percentage text-info">
-                                            <i class="fas fa-caret-up"></i> <?php echo isset($kinerja_pn->minutasi) ? number_format($kinerja_pn->minutasi) : '0'; ?>
+                                            <i class="fas fa-caret-up"></i> <?= isset($kinerja_pn->minutasi) ? number_format($kinerja_pn->minutasi) : '0' ?>
                                         </span>
-                                        <h5 class="description-header"><?php echo isset($kinerja_pn->putusan) ? number_format($kinerja_pn->putusan) : '0'; ?></h5>
+                                        <h5 class="description-header"><?= isset($kinerja_pn->putusan) ? number_format($kinerja_pn->putusan) : '0' ?></h5>
                                         <span class="description-text">SELESAI</span>
                                     </div>
                                 </div>
@@ -302,17 +299,17 @@ $(document).ready(function() {
         }
     ?>];
     const caseTypeData = {
-        gugatan: <?php echo isset($case_types->gugatan) ? $case_types->gugatan : 0; ?>,
-        permohonan: <?php echo isset($case_types->permohonan) ? $case_types->permohonan : 0; ?>
+        gugatan: <?= isset($case_types->gugatan) ? $case_types->gugatan : 0 ?>,
+        permohonan: <?= isset($case_types->permohonan) ? $case_types->permohonan : 0 ?>
     };
-    const monthlyClassificationData = <?php echo isset($monthly_classification) ? json_encode($monthly_classification) : 'null'; ?>;
-    const kinerjaPN = <?php echo isset($kinerja_pn->kinerjaPN) ? $kinerja_pn->kinerjaPN : 72.5; ?>;
+    const monthlyClassificationData = <?= isset($monthly_classification) ? json_encode($monthly_classification) : 'null' ?>;
+    const kinerjaPN = <?= isset($kinerja_pn->kinerjaPN) ? $kinerja_pn->kinerjaPN : 72.5 ?>;
     
     // Debug data
-    console.log('Statistics:', <?php echo json_encode(isset($statistics) ? $statistics : null); ?>);
-    console.log('Daily Statistics:', <?php echo json_encode(isset($daily_statistics) ? $daily_statistics : null); ?>);
-    console.log('Kinerja PN:', <?php echo json_encode(isset($kinerja_pn) ? $kinerja_pn : null); ?>);
-    console.log('Case Types:', <?php echo json_encode(isset($case_types) ? $case_types : null); ?>);
+    console.log('Statistics:', <?= json_encode(isset($statistics) ? $statistics : null) ?>);
+    console.log('Daily Statistics:', <?= json_encode(isset($daily_statistics) ? $daily_statistics : null) ?>);
+    console.log('Kinerja PN:', <?= json_encode(isset($kinerja_pn) ? $kinerja_pn : null) ?>);
+    console.log('Case Types:', <?= json_encode(isset($case_types) ? $case_types : null) ?>);
     
     // Yearly Trend Chart
     const yearlyTrendCtx = document.getElementById('yearlyTrendChart').getContext('2d');

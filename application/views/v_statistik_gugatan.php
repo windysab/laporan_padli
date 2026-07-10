@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="<?php echo site_url('Dashboard') ?>">Dashboard</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('Dashboard') ?>">Dashboard</a></li>
 						<li class="breadcrumb-item active">Statistik Gugatan</li>
 					</ol>
 				</div>
@@ -32,14 +32,14 @@
 					</div>
 				</div>
 				<div class="card-body">
-					<form method="POST" action="<?php echo site_url('Statistik_Gugatan') ?>" id="filterForm">
+					<form method="POST" action="<?= site_url('Statistik_Gugatan') ?>" id="filterForm">
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
 									<label for="lap_tahun">Tahun</label>
 									<select class="form-control" name="lap_tahun" id="lap_tahun">
 										<?php for ($i = date('Y'); $i >= 2020; $i--) { ?>
-											<option value="<?php echo $i; ?>" <?php echo ($selected_tahun == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
+											<option value="<?= $i ?>" <?= ($selected_tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
 										<?php } ?>
 									</select>
 								</div>
@@ -48,12 +48,12 @@
 								<div class="form-group">
 									<label for="analisis_type">Jenis Analisis</label>
 									<select class="form-control" name="analisis_type" id="analisis_type">
-										<option value="tren_bulanan" <?php echo ($selected_analisis == 'tren_bulanan') ? 'selected' : ''; ?>>Tren Bulanan</option>
-										<option value="perbandingan_wilayah" <?php echo ($selected_analisis == 'perbandingan_wilayah') ? 'selected' : ''; ?>>Perbandingan Wilayah</option>
-										<option value="tingkat_keberhasilan" <?php echo ($selected_analisis == 'tingkat_keberhasilan') ? 'selected' : ''; ?>>Tingkat Keberhasilan</option>
-										<option value="waktu_penyelesaian" <?php echo ($selected_analisis == 'waktu_penyelesaian') ? 'selected' : ''; ?>>Waktu Penyelesaian</option>
-										<option value="demografis_penggugat" <?php echo ($selected_analisis == 'demografis_penggugat') ? 'selected' : ''; ?>>Demografis Penggugat</option>
-										<option value="analisis_tahunan" <?php echo ($selected_analisis == 'analisis_tahunan') ? 'selected' : ''; ?>>Analisis 5 Tahun</option>
+										<option value="tren_bulanan" <?= ($selected_analisis == 'tren_bulanan') ? 'selected' : '' ?>>Tren Bulanan</option>
+										<option value="perbandingan_wilayah" <?= ($selected_analisis == 'perbandingan_wilayah') ? 'selected' : '' ?>>Perbandingan Wilayah</option>
+										<option value="tingkat_keberhasilan" <?= ($selected_analisis == 'tingkat_keberhasilan') ? 'selected' : '' ?>>Tingkat Keberhasilan</option>
+										<option value="waktu_penyelesaian" <?= ($selected_analisis == 'waktu_penyelesaian') ? 'selected' : '' ?>>Waktu Penyelesaian</option>
+										<option value="demografis_penggugat" <?= ($selected_analisis == 'demografis_penggugat') ? 'selected' : '' ?>>Demografis Penggugat</option>
+										<option value="analisis_tahunan" <?= ($selected_analisis == 'analisis_tahunan') ? 'selected' : '' ?>>Analisis 5 Tahun</option>
 									</select>
 								</div>
 							</div>
@@ -78,8 +78,8 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-info">
 						<div class="inner">
-							<h3><?php echo number_format($total_gugatan); ?></h3>
-							<p>Total Gugatan <?php echo $selected_tahun; ?></p>
+							<h3><?= number_format($total_gugatan) ?></h3>
+							<p>Total Gugatan <?= $selected_tahun ?></p>
 						</div>
 						<div class="icon">
 							<i class="fas fa-file-alt"></i>
@@ -89,7 +89,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-success">
 						<div class="inner">
-							<h3><?php echo number_format($total_dikabulkan); ?></h3>
+							<h3><?= number_format($total_dikabulkan) ?></h3>
 							<p>Gugatan Dikabulkan</p>
 						</div>
 						<div class="icon">
@@ -100,7 +100,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3><?php echo number_format($total_ditolak); ?></h3>
+							<h3><?= number_format($total_ditolak) ?></h3>
 							<p>Gugatan Ditolak</p>
 						</div>
 						<div class="icon">
@@ -111,7 +111,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<h3><?php echo number_format($rata_waktu); ?></h3>
+							<h3><?= number_format($rata_waktu) ?></h3>
 							<p>Rata-rata Hari Proses</p>
 						</div>
 						<div class="icon">
@@ -196,7 +196,7 @@
 								<span class="info-box-icon bg-primary"><i class="fas fa-calendar"></i></span>
 								<div class="info-box-content">
 									<span class="info-box-text">Periode</span>
-									<span class="info-box-number"><?php echo $selected_tahun; ?></span>
+									<span class="info-box-number"><?= $selected_tahun ?></span>
 								</div>
 							</div>
 
@@ -214,11 +214,11 @@
 									<div class="info-box-content">
 										<span class="info-box-text">Tingkat Keberhasilan</span>
 										<span class="info-box-number">
-											<?php echo $total_gugatan > 0 ? round(($total_dikabulkan / $total_gugatan) * 100, 1) : 0; ?>%
+											<?= $total_gugatan > 0 ? round(($total_dikabulkan / $total_gugatan) * 100, 1) : 0 ?>%
 										</span>
 									</div>
 								</div>
-							<?php endif; ?>
+							<?php endif ?>
 
 							<hr>
 							<h5>Keterangan:</h5>
@@ -277,7 +277,7 @@
 										<th>Ditolak</th>
 										<th>Rata-rata Hari</th>
 										<th>% Keberhasilan</th>
-									<?php endif; ?>
+									<?php endif ?>
 								</tr>
 							</thead>
 							<tbody>
@@ -285,43 +285,43 @@
 									<?php foreach ($chart_data as $row): ?>
 										<tr>
 											<?php if ($selected_analisis == 'tren_bulanan'): ?>
-												<td><?php echo isset($row->nama_bulan) ? $row->nama_bulan : 'Bulan ' . $row->bulan; ?></td>
-												<td><?php echo number_format($row->total_gugatan); ?></td>
-												<td><?php echo number_format($row->dikabulkan); ?></td>
-												<td><?php echo number_format($row->ditolak); ?></td>
-												<td><?php echo number_format($row->dicabut); ?></td>
-												<td><?php echo $row->total_gugatan > 0 ? round(($row->dikabulkan / $row->total_gugatan) * 100, 1) : 0; ?>%</td>
+												<td><?= isset($row->nama_bulan) ? $row->nama_bulan : 'Bulan ' . $row->bulan ?></td>
+												<td><?= number_format($row->total_gugatan) ?></td>
+												<td><?= number_format($row->dikabulkan) ?></td>
+												<td><?= number_format($row->ditolak) ?></td>
+												<td><?= number_format($row->dicabut) ?></td>
+												<td><?= $row->total_gugatan > 0 ? round(($row->dikabulkan / $row->total_gugatan) * 100, 1) : 0 ?>%</td>
 											<?php elseif ($selected_analisis == 'perbandingan_wilayah'): ?>
-												<td><?php echo $row->wilayah; ?></td>
-												<td><?php echo number_format($row->total_gugatan); ?></td>
-												<td><?php echo number_format($row->dikabulkan); ?></td>
-												<td><?php echo number_format($row->ditolak); ?></td>
-												<td><?php echo number_format($row->dicabut); ?></td>
-												<td><?php echo $row->persentase_berhasil; ?>%</td>
+												<td><?= $row->wilayah ?></td>
+												<td><?= number_format($row->total_gugatan) ?></td>
+												<td><?= number_format($row->dikabulkan) ?></td>
+												<td><?= number_format($row->ditolak) ?></td>
+												<td><?= number_format($row->dicabut) ?></td>
+												<td><?= $row->persentase_berhasil ?>%</td>
 											<?php elseif ($selected_analisis == 'tingkat_keberhasilan'): ?>
-												<td><?php echo $row->status_putusan; ?></td>
-												<td><?php echo number_format($row->jumlah); ?></td>
-												<td><?php echo $row->persentase; ?>%</td>
+												<td><?= $row->status_putusan ?></td>
+												<td><?= number_format($row->jumlah) ?></td>
+												<td><?= $row->persentase ?>%</td>
 											<?php elseif ($selected_analisis == 'waktu_penyelesaian'): ?>
-												<td><?php echo $row->kategori_waktu; ?></td>
-												<td><?php echo number_format($row->jumlah); ?></td>
-												<td><?php echo $row->rata_hari; ?> hari</td>
-												<td><?php echo $row->persentase; ?>%</td>
+												<td><?= $row->kategori_waktu ?></td>
+												<td><?= number_format($row->jumlah) ?></td>
+												<td><?= $row->rata_hari ?> hari</td>
+												<td><?= $row->persentase ?>%</td>
 											<?php elseif ($selected_analisis == 'analisis_tahunan'): ?>
-												<td><?php echo $row->tahun; ?></td>
-												<td><?php echo number_format($row->total_gugatan); ?></td>
-												<td><?php echo number_format($row->dikabulkan); ?></td>
-												<td><?php echo number_format($row->ditolak); ?></td>
-												<td><?php echo $row->rata_waktu_hari; ?> hari</td>
-												<td><?php echo $row->tingkat_keberhasilan; ?>%</td>
-											<?php endif; ?>
+												<td><?= $row->tahun ?></td>
+												<td><?= number_format($row->total_gugatan) ?></td>
+												<td><?= number_format($row->dikabulkan) ?></td>
+												<td><?= number_format($row->ditolak) ?></td>
+												<td><?= $row->rata_waktu_hari ?> hari</td>
+												<td><?= $row->tingkat_keberhasilan ?>%</td>
+											<?php endif ?>
 										</tr>
-									<?php endforeach; ?>
+									<?php endforeach ?>
 								<?php else: ?>
 									<tr>
 										<td colspan="6" class="text-center">Tidak ada data untuk periode yang dipilih</td>
 									</tr>
-								<?php endif; ?>
+								<?php endif ?>
 							</tbody>
 						</table>
 					</div>
@@ -381,7 +381,7 @@
 	function createChart() {
 		try {
 			const ctx = document.getElementById('mainChart').getContext('2d');
-			const analisisType = '<?php echo $selected_analisis; ?>';
+			const analisisType = '<?= $selected_analisis ?>';
 
 			let chartConfig = {};
 
@@ -558,24 +558,24 @@
 				<?php if (!empty($chart_data)): ?>
 					<?php foreach ($chart_data as $row): ?>
 						// Group by gender
-						if (!genderData['<?php echo $row->jenis_kelamin; ?>']) {
-							genderData['<?php echo $row->jenis_kelamin; ?>'] = 0;
+						if (!genderData['<?= $row->jenis_kelamin ?>']) {
+							genderData['<?= $row->jenis_kelamin ?>'] = 0;
 						}
-						genderData['<?php echo $row->jenis_kelamin; ?>'] += <?php echo $row->jumlah; ?>;
+						genderData['<?= $row->jenis_kelamin ?>'] += <?= $row->jumlah ?>;
 
 						// Group by age
-						if (!ageData['<?php echo $row->usia_kategori; ?>']) {
-							ageData['<?php echo $row->usia_kategori; ?>'] = 0;
+						if (!ageData['<?= $row->usia_kategori ?>']) {
+							ageData['<?= $row->usia_kategori ?>'] = 0;
 						}
-						ageData['<?php echo $row->usia_kategori; ?>'] += <?php echo $row->jumlah; ?>;
+						ageData['<?= $row->usia_kategori ?>'] += <?= $row->jumlah ?>;
 
 						// Group by profession
-						if (!professionData['<?php echo addslashes($row->pekerjaan); ?>']) {
-							professionData['<?php echo addslashes($row->pekerjaan); ?>'] = 0;
+						if (!professionData['<?= addslashes($row->pekerjaan) ?>']) {
+							professionData['<?= addslashes($row->pekerjaan) ?>'] = 0;
 						}
-						professionData['<?php echo addslashes($row->pekerjaan); ?>'] += <?php echo $row->jumlah; ?>;
-					<?php endforeach; ?>
-				<?php endif; ?>
+						professionData['<?= addslashes($row->pekerjaan) ?>'] += <?= $row->jumlah ?>;
+					<?php endforeach ?>
+				<?php endif ?>
 
 				// Convert objects to arrays
 				const genderLabels = Object.keys(genderData);
@@ -808,7 +808,7 @@
 												'Persentase: ' + percentages[rowIndex] + '%',
 												'Rata-rata: ' + avgDays[rowIndex] + ' hari'
 											];
-										<?php endif; ?>
+										<?php endif ?>
 									}
 								}
 							}
@@ -832,7 +832,7 @@
 						maintainAspectRatio: false
 					}
 				};
-			<?php endif; ?>
+			<?php endif ?>
 
 			// Initialize chart
 			<?php if ($selected_analisis == 'demografis_penggugat'): ?>
@@ -849,7 +849,7 @@
 			<?php else: ?>
 				// For other charts, use standard initialization
 				new Chart(ctx, chartConfig);
-			<?php endif; ?>
+			<?php endif ?>
 		} catch (e) {
 			console.log('Chart rendering failed:', e);
 		}
@@ -859,7 +859,7 @@
 	function exportExcel() {
 		const form = document.createElement('form');
 		form.method = 'POST';
-		form.action = '<?php echo site_url('Statistik_Gugatan/export_excel'); ?>';
+		form.action = '<?= site_url('Statistik_Gugatan/export_excel') ?>';
 
 		// Add form data
 		const formData = new FormData(document.getElementById('filterForm'));

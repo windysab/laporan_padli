@@ -10,14 +10,14 @@
                             <h1><i class="fas fa-heart-broken"></i> Laporan Perceraian
                                 <?php if (isset($selected_wilayah) && $selected_wilayah !== 'Semua'): ?>
                                     <span class="badge badge-info">
-                                        <?php echo ($selected_wilayah === 'HSU') ? 'Hulu Sungai Utara' : $selected_wilayah; ?>
+                                        <?= ($selected_wilayah === 'HSU') ? 'Hulu Sungai Utara' : $selected_wilayah ?>
                                     </span>
-                                <?php endif; ?>
+                                <?php endif ?>
                                 <?php if (isset($selected_jenis_perkara) && $selected_jenis_perkara !== 'semua'): ?>
                                     <span class="badge badge-primary">
-                                        <?php echo $selected_jenis_perkara; ?>
+                                        <?= $selected_jenis_perkara ?>
                                     </span>
-                                <?php endif; ?>
+                                <?php endif ?>
                             </h1>
                         </div>
                         <div class="col-sm-6">
@@ -38,7 +38,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3><?php echo isset($summary->total_perceraian) ? number_format($summary->total_perceraian) : 0; ?></h3>
+                                        <h3><?= isset($summary->total_perceraian) ? number_format($summary->total_perceraian) : 0 ?></h3>
                                         <p>Total Perceraian</p>
                                     </div>
                                     <div class="icon">
@@ -49,7 +49,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-danger">
                                     <div class="inner">
-                                        <h3><?php echo isset($summary->cerai_gugat) ? number_format($summary->cerai_gugat) : 0; ?></h3>
+                                        <h3><?= isset($summary->cerai_gugat) ? number_format($summary->cerai_gugat) : 0 ?></h3>
                                         <p>Cerai Gugat</p>
                                     </div>
                                     <div class="icon">
@@ -60,7 +60,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-warning">
                                     <div class="inner">
-                                        <h3><?php echo isset($summary->cerai_talak) ? number_format($summary->cerai_talak) : 0; ?></h3>
+                                        <h3><?= isset($summary->cerai_talak) ? number_format($summary->cerai_talak) : 0 ?></h3>
                                         <p>Cerai Talak</p>
                                     </div>
                                     <div class="icon">
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                 </section>
-            <?php endif; ?>
+            <?php endif ?>
 
             <!-- Main content -->
             <section class="content">
@@ -83,15 +83,15 @@
                                     <h3 class="card-title"><i class="fas fa-filter"></i> Filter Laporan</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form action="<?php echo base_url() ?>index.php/Laporan_perceraian" method="POST" id="filterForm">
+                                    <form action="<?= base_url() ?>index.php/Laporan_perceraian" method="POST" id="filterForm">
                                         <div class="row">
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>Wilayah:</label>
                                                     <select name="wilayah" class="form-control">
-                                                        <option value="Semua" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'Semua') ? 'selected' : ''; ?>>Semua Wilayah</option>
-                                                        <option value="HSU" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'HSU') ? 'selected' : ''; ?>>Hulu Sungai Utara</option>
-                                                        <option value="Balangan" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
+                                                        <option value="Semua" <?= (isset($selected_wilayah) && $selected_wilayah === 'Semua') ? 'selected' : '' ?>>Semua Wilayah</option>
+                                                        <option value="HSU" <?= (isset($selected_wilayah) && $selected_wilayah === 'HSU') ? 'selected' : '' ?>>Hulu Sungai Utara</option>
+                                                        <option value="Balangan" <?= (isset($selected_wilayah) && $selected_wilayah === 'Balangan') ? 'selected' : '' ?>>Balangan</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -99,14 +99,14 @@
                                                 <div class="form-group">
                                                     <label>Jenis Perkara:</label>
                                                     <select name="jenis_perkara" class="form-control">
-                                                        <option value="semua" <?php echo (isset($selected_jenis_perkara) && $selected_jenis_perkara === 'semua') ? 'selected' : ''; ?>>Semua Jenis</option>
+                                                        <option value="semua" <?= (isset($selected_jenis_perkara) && $selected_jenis_perkara === 'semua') ? 'selected' : '' ?>>Semua Jenis</option>
                                                         <?php if (isset($jenis_perkara_list) && count($jenis_perkara_list) > 0): ?>
                                                             <?php foreach ($jenis_perkara_list as $item): ?>
-                                                                <option value="<?php echo $item->jenis_perkara_nama; ?>" <?php echo (isset($selected_jenis_perkara) && $selected_jenis_perkara === $item->jenis_perkara_nama) ? 'selected' : ''; ?>>
-                                                                    <?php echo $item->jenis_perkara_nama; ?>
+                                                                <option value="<?= $item->jenis_perkara_nama ?>" <?= (isset($selected_jenis_perkara) && $selected_jenis_perkara === $item->jenis_perkara_nama) ? 'selected' : '' ?>>
+                                                                    <?= $item->jenis_perkara_nama ?>
                                                                 </option>
-                                                            <?php endforeach; ?>
-                                                        <?php endif; ?>
+                                                            <?php endforeach ?>
+                                                        <?php endif ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -114,9 +114,9 @@
                                                 <div class="form-group">
                                                     <label>Jenis Laporan:</label>
                                                     <select name="jenis_laporan" class="form-control" id="jenisLaporan" onchange="toggleFilter()">
-                                                        <option value="bulanan" <?php echo (isset($selected_jenis) && $selected_jenis === 'bulanan') ? 'selected' : ''; ?>>Bulanan</option>
-                                                        <option value="tahunan" <?php echo (isset($selected_jenis) && $selected_jenis === 'tahunan') ? 'selected' : ''; ?>>Tahunan</option>
-                                                        <option value="custom" <?php echo (isset($selected_jenis) && $selected_jenis === 'custom') ? 'selected' : ''; ?>>Custom Range</option>
+                                                        <option value="bulanan" <?= (isset($selected_jenis) && $selected_jenis === 'bulanan') ? 'selected' : '' ?>>Bulanan</option>
+                                                        <option value="tahunan" <?= (isset($selected_jenis) && $selected_jenis === 'tahunan') ? 'selected' : '' ?>>Tahunan</option>
+                                                        <option value="custom" <?= (isset($selected_jenis) && $selected_jenis === 'custom') ? 'selected' : '' ?>>Custom Range</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -124,18 +124,18 @@
                                                 <div class="form-group">
                                                     <label>Bulan:</label>
                                                     <select name="lap_bulan" class="form-control">
-                                                        <option value="01" <?php echo (isset($selected_bulan) && $selected_bulan === '01') ? 'selected' : ''; ?>>Januari</option>
-                                                        <option value="02" <?php echo (isset($selected_bulan) && $selected_bulan === '02') ? 'selected' : ''; ?>>Februari</option>
-                                                        <option value="03" <?php echo (isset($selected_bulan) && $selected_bulan === '03') ? 'selected' : ''; ?>>Maret</option>
-                                                        <option value="04" <?php echo (isset($selected_bulan) && $selected_bulan === '04') ? 'selected' : ''; ?>>April</option>
-                                                        <option value="05" <?php echo (isset($selected_bulan) && $selected_bulan === '05') ? 'selected' : ''; ?>>Mei</option>
-                                                        <option value="06" <?php echo (isset($selected_bulan) && $selected_bulan === '06') ? 'selected' : ''; ?>>Juni</option>
-                                                        <option value="07" <?php echo (isset($selected_bulan) && $selected_bulan === '07') ? 'selected' : ''; ?>>Juli</option>
-                                                        <option value="08" <?php echo (isset($selected_bulan) && $selected_bulan === '08') ? 'selected' : ''; ?>>Agustus</option>
-                                                        <option value="09" <?php echo (isset($selected_bulan) && $selected_bulan === '09') ? 'selected' : ''; ?>>September</option>
-                                                        <option value="10" <?php echo (isset($selected_bulan) && $selected_bulan === '10') ? 'selected' : ''; ?>>Oktober</option>
-                                                        <option value="11" <?php echo (isset($selected_bulan) && $selected_bulan === '11') ? 'selected' : ''; ?>>November</option>
-                                                        <option value="12" <?php echo (isset($selected_bulan) && $selected_bulan === '12') ? 'selected' : ''; ?>>Desember</option>
+                                                        <option value="01" <?= (isset($selected_bulan) && $selected_bulan === '01') ? 'selected' : '' ?>>Januari</option>
+                                                        <option value="02" <?= (isset($selected_bulan) && $selected_bulan === '02') ? 'selected' : '' ?>>Februari</option>
+                                                        <option value="03" <?= (isset($selected_bulan) && $selected_bulan === '03') ? 'selected' : '' ?>>Maret</option>
+                                                        <option value="04" <?= (isset($selected_bulan) && $selected_bulan === '04') ? 'selected' : '' ?>>April</option>
+                                                        <option value="05" <?= (isset($selected_bulan) && $selected_bulan === '05') ? 'selected' : '' ?>>Mei</option>
+                                                        <option value="06" <?= (isset($selected_bulan) && $selected_bulan === '06') ? 'selected' : '' ?>>Juni</option>
+                                                        <option value="07" <?= (isset($selected_bulan) && $selected_bulan === '07') ? 'selected' : '' ?>>Juli</option>
+                                                        <option value="08" <?= (isset($selected_bulan) && $selected_bulan === '08') ? 'selected' : '' ?>>Agustus</option>
+                                                        <option value="09" <?= (isset($selected_bulan) && $selected_bulan === '09') ? 'selected' : '' ?>>September</option>
+                                                        <option value="10" <?= (isset($selected_bulan) && $selected_bulan === '10') ? 'selected' : '' ?>>Oktober</option>
+                                                        <option value="11" <?= (isset($selected_bulan) && $selected_bulan === '11') ? 'selected' : '' ?>>November</option>
+                                                        <option value="12" <?= (isset($selected_bulan) && $selected_bulan === '12') ? 'selected' : '' ?>>Desember</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -144,23 +144,23 @@
                                                     <label>Tahun:</label>
                                                     <select name="lap_tahun" class="form-control">
                                                         <?php for ($year = 2016; $year <= date('Y') + 1; $year++): ?>
-                                                            <option value="<?php echo $year; ?>" <?php echo (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : ''; ?>>
-                                                                <?php echo $year; ?>
+                                                            <option value="<?= $year ?>" <?= (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : '' ?>>
+                                                                <?= $year ?>
                                                             </option>
-                                                        <?php endfor; ?>
+                                                        <?php endfor ?>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-2" id="filterTanggalMulai" style="display:none;">
                                                 <div class="form-group">
                                                     <label>Tanggal Mulai:</label>
-                                                    <input type="date" name="tanggal_mulai" class="form-control" value="<?php echo $this->input->post('tanggal_mulai') ?: date('Y-m-01'); ?>">
+                                                    <input type="date" name="tanggal_mulai" class="form-control" value="<?= $this->input->post('tanggal_mulai') ?: date('Y-m-01') ?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-2" id="filterTanggalAkhir" style="display:none;">
                                                 <div class="form-group">
                                                     <label>Tanggal Akhir:</label>
-                                                    <input type="date" name="tanggal_akhir" class="form-control" value="<?php echo $this->input->post('tanggal_akhir') ?: date('Y-m-t'); ?>">
+                                                    <input type="date" name="tanggal_akhir" class="form-control" value="<?= $this->input->post('tanggal_akhir') ?: date('Y-m-t') ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -215,33 +215,33 @@
                                                     <?php $no = 1;
                                                     foreach ($datafilter as $row) : ?>
                                                         <tr>
-                                                            <td><?php echo $no++; ?></td>
-                                                            <td><strong><?php echo $row->nomor_perkara; ?></strong></td>
+                                                            <td><?= $no++ ?></td>
+                                                            <td><strong><?= $row->nomor_perkara ?></strong></td>
                                                             <td>
                                                                 <?php if (strpos($row->jenis_perkara_nama, 'Cerai Gugat') !== false): ?>
-                                                                    <span class="badge badge-danger"><?php echo $row->jenis_perkara_nama; ?></span>
+                                                                    <span class="badge badge-danger"><?= $row->jenis_perkara_nama ?></span>
                                                                 <?php elseif (strpos($row->jenis_perkara_nama, 'Cerai Talak') !== false): ?>
-                                                                    <span class="badge badge-warning"><?php echo $row->jenis_perkara_nama; ?></span>
+                                                                    <span class="badge badge-warning"><?= $row->jenis_perkara_nama ?></span>
                                                                 <?php else: ?>
-                                                                    <span class="badge badge-primary"><?php echo $row->jenis_perkara_nama; ?></span>
-                                                                <?php endif; ?>
+                                                                    <span class="badge badge-primary"><?= $row->jenis_perkara_nama ?></span>
+                                                                <?php endif ?>
                                                             </td>
-                                                            <td><?php echo $row->nama_pihak_1; ?></td>
-                                                            <td><?php echo $row->nik_pihak_1; ?></td>
-                                                            <td><?php echo $row->pekerjaan_pihak_1; ?></td>
-                                                            <td><?php echo $row->nama_pihak_2; ?></td>
-                                                            <td><?php echo $row->nik_pihak_2; ?></td>
-                                                            <td><?php echo $row->pekerjaan_pihak_2; ?></td>
-                                                            <td><?php echo $row->tanggal_putusan; ?></td>
-                                                            <td><?php echo $row->tanggal_bht; ?></td>
+                                                            <td><?= $row->nama_pihak_1 ?></td>
+                                                            <td><?= $row->nik_pihak_1 ?></td>
+                                                            <td><?= $row->pekerjaan_pihak_1 ?></td>
+                                                            <td><?= $row->nama_pihak_2 ?></td>
+                                                            <td><?= $row->nik_pihak_2 ?></td>
+                                                            <td><?= $row->pekerjaan_pihak_2 ?></td>
+                                                            <td><?= $row->tanggal_putusan ?></td>
+                                                            <td><?= $row->tanggal_bht ?></td>
                                                             <td>
-                                                                <span class="badge badge-success"><?php echo $row->status_putusan; ?></span>
+                                                                <span class="badge badge-success"><?= $row->status_putusan ?></span>
                                                             </td>
-                                                            <td><strong><?php echo $row->nomor_akta_cerai; ?></strong></td>
-                                                            <td><?php echo $row->no_seri_akta_cerai; ?></td>
-                                                            <td><?php echo $row->tgl_akta_cerai; ?></td>
+                                                            <td><strong><?= $row->nomor_akta_cerai ?></strong></td>
+                                                            <td><?= $row->no_seri_akta_cerai ?></td>
+                                                            <td><?= $row->tgl_akta_cerai ?></td>
                                                         </tr>
-                                                    <?php endforeach; ?>
+                                                    <?php endforeach ?>
                                                 <?php else: ?>
                                                     <tr>
                                                         <td colspan="15" class="text-center">
@@ -250,7 +250,7 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                <?php endif; ?>
+                                                <?php endif ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -299,7 +299,7 @@
         function exportExcel() {
             const form = document.getElementById('filterForm');
             const originalAction = form.action;
-            form.action = '<?php echo base_url(); ?>index.php/Laporan_perceraian/export_excel';
+            form.action = '<?= base_url() ?>index.php/Laporan_perceraian/export_excel';
             form.submit();
             form.action = originalAction;
         }

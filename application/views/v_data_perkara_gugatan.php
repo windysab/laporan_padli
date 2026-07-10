@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="<?php echo site_url('Dashboard') ?>">Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('Dashboard') ?>">Home</a></li>
 						<li class="breadcrumb-item active">Data Perkara Gugatan</li>
 					</ol>
 				</div>
@@ -31,7 +31,7 @@
 								Filter Laporan
 							</h3>
 						</div>
-						<form method="post" action="<?php echo site_url('Data_Perkara_Gugatan') ?>" id="filterForm">
+						<form method="post" action="<?= site_url('Data_Perkara_Gugatan') ?>" id="filterForm">
 							<div class="card-body">
 								<div class="row">
 									<!-- Wilayah -->
@@ -39,9 +39,9 @@
 										<div class="form-group">
 											<label>Wilayah</label>
 											<select name="wilayah" class="form-control" id="wilayah">
-												<option value="HSU" <?php echo ($selected_wilayah == 'HSU') ? 'selected' : ''; ?>>Hulu Sungai Utara</option>
-												<option value="Balangan" <?php echo ($selected_wilayah == 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
-												<option value="Semua" <?php echo ($selected_wilayah == 'Semua') ? 'selected' : ''; ?>>Semua</option>
+												<option value="HSU" <?= ($selected_wilayah == 'HSU') ? 'selected' : '' ?>>Hulu Sungai Utara</option>
+												<option value="Balangan" <?= ($selected_wilayah == 'Balangan') ? 'selected' : '' ?>>Balangan</option>
+												<option value="Semua" <?= ($selected_wilayah == 'Semua') ? 'selected' : '' ?>>Semua</option>
 											</select>
 										</div>
 									</div>
@@ -51,18 +51,18 @@
 										<div class="form-group">
 											<label>Bulan</label>
 											<select name="lap_bulan" class="form-control" id="lap_bulan">
-												<option value="01" <?php echo ($selected_bulan == '01') ? 'selected' : ''; ?>>Januari</option>
-												<option value="02" <?php echo ($selected_bulan == '02') ? 'selected' : ''; ?>>Februari</option>
-												<option value="03" <?php echo ($selected_bulan == '03') ? 'selected' : ''; ?>>Maret</option>
-												<option value="04" <?php echo ($selected_bulan == '04') ? 'selected' : ''; ?>>April</option>
-												<option value="05" <?php echo ($selected_bulan == '05') ? 'selected' : ''; ?>>Mei</option>
-												<option value="06" <?php echo ($selected_bulan == '06') ? 'selected' : ''; ?>>Juni</option>
-												<option value="07" <?php echo ($selected_bulan == '07') ? 'selected' : ''; ?>>Juli</option>
-												<option value="08" <?php echo ($selected_bulan == '08') ? 'selected' : ''; ?>>Agustus</option>
-												<option value="09" <?php echo ($selected_bulan == '09') ? 'selected' : ''; ?>>September</option>
-												<option value="10" <?php echo ($selected_bulan == '10') ? 'selected' : ''; ?>>Oktober</option>
-												<option value="11" <?php echo ($selected_bulan == '11') ? 'selected' : ''; ?>>November</option>
-												<option value="12" <?php echo ($selected_bulan == '12') ? 'selected' : ''; ?>>Desember</option>
+												<option value="01" <?= ($selected_bulan == '01') ? 'selected' : '' ?>>Januari</option>
+												<option value="02" <?= ($selected_bulan == '02') ? 'selected' : '' ?>>Februari</option>
+												<option value="03" <?= ($selected_bulan == '03') ? 'selected' : '' ?>>Maret</option>
+												<option value="04" <?= ($selected_bulan == '04') ? 'selected' : '' ?>>April</option>
+												<option value="05" <?= ($selected_bulan == '05') ? 'selected' : '' ?>>Mei</option>
+												<option value="06" <?= ($selected_bulan == '06') ? 'selected' : '' ?>>Juni</option>
+												<option value="07" <?= ($selected_bulan == '07') ? 'selected' : '' ?>>Juli</option>
+												<option value="08" <?= ($selected_bulan == '08') ? 'selected' : '' ?>>Agustus</option>
+												<option value="09" <?= ($selected_bulan == '09') ? 'selected' : '' ?>>September</option>
+												<option value="10" <?= ($selected_bulan == '10') ? 'selected' : '' ?>>Oktober</option>
+												<option value="11" <?= ($selected_bulan == '11') ? 'selected' : '' ?>>November</option>
+												<option value="12" <?= ($selected_bulan == '12') ? 'selected' : '' ?>>Desember</option>
 											</select>
 										</div>
 									</div>
@@ -73,8 +73,8 @@
 											<label>Tahun</label>
 											<select name="lap_tahun" class="form-control" id="lap_tahun">
 												<?php for ($i = date('Y'); $i >= 2020; $i--): ?>
-													<option value="<?php echo $i; ?>" <?php echo ($selected_tahun == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
-												<?php endfor; ?>
+													<option value="<?= $i ?>" <?= ($selected_tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
+												<?php endfor ?>
 											</select>
 										</div>
 									</div>
@@ -84,19 +84,19 @@
 										<div class="form-group">
 											<label>Jenis Perkara</label>
 											<select name="jenis_perkara" class="form-control" id="jenis_perkara">
-												<option value="Cerai Gugat" <?php echo ($selected_jenis == 'Cerai Gugat') ? 'selected' : ''; ?>>Cerai Gugat</option>
+												<option value="Cerai Gugat" <?= ($selected_jenis == 'Cerai Gugat') ? 'selected' : '' ?>>Cerai Gugat</option>
 												<?php if (isset($jenis_perkara_list) && count($jenis_perkara_list) > 0): ?>
 													<?php foreach ($jenis_perkara_list as $item): ?>
 														<?php if ($item->jenis_perkara_nama !== 'Cerai Gugat'): // Hindari duplikasi 
 														?>
-															<option value="<?php echo $item->jenis_perkara_nama; ?>" <?php echo ($selected_jenis == $item->jenis_perkara_nama) ? 'selected' : ''; ?>>
-																<?php echo $item->jenis_perkara_nama; ?>
+															<option value="<?= $item->jenis_perkara_nama ?>" <?= ($selected_jenis == $item->jenis_perkara_nama) ? 'selected' : '' ?>>
+																<?= $item->jenis_perkara_nama ?>
 															</option>
-														<?php endif; ?>
-													<?php endforeach; ?>
+														<?php endif ?>
+													<?php endforeach ?>
 												<?php else: ?>
-													<option value="Cerai Talak" <?php echo ($selected_jenis == 'Cerai Talak') ? 'selected' : ''; ?>>Cerai Talak</option>
-												<?php endif; ?>
+													<option value="Cerai Talak" <?= ($selected_jenis == 'Cerai Talak') ? 'selected' : '' ?>>Cerai Talak</option>
+												<?php endif ?>
 											</select>
 										</div>
 									</div> -->
@@ -104,11 +104,11 @@
 										<div class="form-group">
 											<label>Jenis Perkara</label>
 											<select name="jenis_perkara" class="form-control" id="jenis_perkara">
-												<option value="Cerai Gugat" <?php echo ($selected_jenis == 'Cerai Gugat') ? 'selected' : ''; ?>>Cerai Gugat</option>
-												<option value="Cerai Talak" <?php echo ($selected_jenis == 'Cerai Talak') ? 'selected' : ''; ?>>Cerai Talak</option>
-												<option value="Harta Bersama" <?php echo ($selected_jenis == 'Harta Bersama') ? 'selected' : ''; ?>>Harta Bersama</option>
-												<option value="Isbat Nikah (Kontensius)" <?php echo ($selected_jenis == 'Isbat Nikah (Kontensius)') ? 'selected' : ''; ?>>Isbat Nikah (Kontensius)</option>
-												<option value="Kewarisan" <?php echo ($selected_jenis == 'Kewarisan') ? 'selected' : ''; ?>>Kewarisan</option>
+												<option value="Cerai Gugat" <?= ($selected_jenis == 'Cerai Gugat') ? 'selected' : '' ?>>Cerai Gugat</option>
+												<option value="Cerai Talak" <?= ($selected_jenis == 'Cerai Talak') ? 'selected' : '' ?>>Cerai Talak</option>
+												<option value="Harta Bersama" <?= ($selected_jenis == 'Harta Bersama') ? 'selected' : '' ?>>Harta Bersama</option>
+												<option value="Isbat Nikah (Kontensius)" <?= ($selected_jenis == 'Isbat Nikah (Kontensius)') ? 'selected' : '' ?>>Isbat Nikah (Kontensius)</option>
+												<option value="Kewarisan" <?= ($selected_jenis == 'Kewarisan') ? 'selected' : '' ?>>Kewarisan</option>
 											</select>
 										</div>
 									</div>
@@ -118,41 +118,41 @@
 										<div class="form-group">
 											<label>Tipe Laporan</label>
 											<select name="report_type" class="form-control" id="report_type">
-												<option value="summary" <?php echo ($selected_report == 'summary') ? 'selected' : ''; ?>>Ringkasan Bulanan</option>
-												<option value="yearly" <?php echo ($selected_report == 'yearly') ? 'selected' : ''; ?>>Laporan Tahunan</option>
-												<!-- <option value="monthly" <?php echo ($selected_report == 'monthly') ? 'selected' : ''; ?>>Breakdown Bulanan</option> -->
-												<option value="comparison" <?php echo ($selected_report == 'comparison') ? 'selected' : ''; ?>>Perbandingan Gugat dan Talak</option>
-												<option value="custom_range" <?php echo ($selected_report == 'custom_range') ? 'selected' : ''; ?>>Custom Range</option>
-												<option value="yearly_comparison" <?php echo ($selected_report == 'yearly_comparison') ? 'selected' : ''; ?>>Perbandingan Tahunan Gugat dan Talak</option>
+												<option value="summary" <?= ($selected_report == 'summary') ? 'selected' : '' ?>>Ringkasan Bulanan</option>
+												<option value="yearly" <?= ($selected_report == 'yearly') ? 'selected' : '' ?>>Laporan Tahunan</option>
+												<!-- <option value="monthly" <?= ($selected_report == 'monthly') ? 'selected' : '' ?>>Breakdown Bulanan</option> -->
+												<option value="comparison" <?= ($selected_report == 'comparison') ? 'selected' : '' ?>>Perbandingan Gugat dan Talak</option>
+												<option value="custom_range" <?= ($selected_report == 'custom_range') ? 'selected' : '' ?>>Custom Range</option>
+												<option value="yearly_comparison" <?= ($selected_report == 'yearly_comparison') ? 'selected' : '' ?>>Perbandingan Tahunan Gugat dan Talak</option>
 											</select>
 										</div>
 									</div>
 								</div>
 
 								<!-- Filter Custom Range -->
-								<div class="row" id="custom_range_filter" style="<?php echo ($selected_report == 'custom_range') ? 'display:block;' : 'display:none;'; ?>">
+								<div class="row" id="custom_range_filter" style="<?= ($selected_report == 'custom_range') ? 'display:block;' : 'display:none;' ?>">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Tanggal Mulai</label>
-											<input type="date" name="tanggal_mulai" class="form-control" value="<?php echo isset($selected_tanggal_mulai) ? $selected_tanggal_mulai : date('Y-m-01'); ?>">
+											<input type="date" name="tanggal_mulai" class="form-control" value="<?= isset($selected_tanggal_mulai) ? $selected_tanggal_mulai : date('Y-m-01') ?>">
 										</div>
 									</div>
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Tanggal Akhir</label>
-											<input type="date" name="tanggal_akhir" class="form-control" value="<?php echo isset($selected_tanggal_akhir) ? $selected_tanggal_akhir : date('Y-m-d'); ?>">
+											<input type="date" name="tanggal_akhir" class="form-control" value="<?= isset($selected_tanggal_akhir) ? $selected_tanggal_akhir : date('Y-m-d') ?>">
 										</div>
 									</div>
 								</div>
 
 								<!-- Filter tambahan untuk faktor perceraian -->
-								<div class="row" id="gender_filter" style="<?php echo ($selected_report == 'faktor') ? 'display:block;' : 'display:none;'; ?>">
+								<div class="row" id="gender_filter" style="<?= ($selected_report == 'faktor') ? 'display:block;' : 'display:none;' ?>">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Jenis Kelamin</label>
 											<select name="jenis_kelamin" class="form-control">
-												<option value="L" <?php echo (isset($selected_gender) && $selected_gender == 'L') ? 'selected' : ''; ?>>Laki-laki</option>
-												<option value="P" <?php echo (isset($selected_gender) && $selected_gender == 'P') ? 'selected' : ''; ?>>Perempuan</option>
+												<option value="L" <?= (isset($selected_gender) && $selected_gender == 'L') ? 'selected' : '' ?>>Laki-laki</option>
+												<option value="P" <?= (isset($selected_gender) && $selected_gender == 'P') ? 'selected' : '' ?>>Perempuan</option>
 											</select>
 										</div>
 									</div>
@@ -211,7 +211,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_masuk); ?></h3>
+								<h3><?= number_format($card_total_masuk) ?></h3>
 								<p>Perkara Masuk</p>
 							</div>
 							<div class="icon">
@@ -223,7 +223,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-warning">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_putus); ?></h3>
+								<h3><?= number_format($card_total_putus) ?></h3>
 								<p>Perkara Putus</p>
 							</div>
 							<div class="icon">
@@ -235,7 +235,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_bht); ?></h3>
+								<h3><?= number_format($card_total_bht) ?></h3>
 								<p>Perkara Telah BHT</p>
 							</div>
 							<div class="icon">
@@ -247,7 +247,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-danger">
 							<div class="inner">
-								<h3><?php echo $persentase_bht; ?>%</h3>
+								<h3><?= $persentase_bht ?>%</h3>
 								<p>Persentase BHT</p>
 							</div>
 							<div class="icon">
@@ -275,13 +275,12 @@
 
 					// Calculate percentages
 					$persentase_gugat = $card_grand_total > 0 ? round(($card_total_gugat / $card_grand_total) * 100, 1) : 0;
-					$persentase_talak = $card_grand_total > 0 ? round(($card_total_talak / $card_grand_total) * 100, 1) : 0;
-					?>
+					$persentase_talak = $card_grand_total > 0 ? round(($card_total_talak / $card_grand_total) * 100, 1) : 0 ?>
 
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_gugat); ?></h3>
+								<h3><?= number_format($card_total_gugat) ?></h3>
 								<p>Total Cerai Gugat</p>
 							</div>
 							<div class="icon">
@@ -293,7 +292,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-warning">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_talak); ?></h3>
+								<h3><?= number_format($card_total_talak) ?></h3>
 								<p>Total Cerai Talak</p>
 							</div>
 							<div class="icon">
@@ -305,7 +304,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3><?php echo number_format($card_grand_total); ?></h3>
+								<h3><?= number_format($card_grand_total) ?></h3>
 								<p>Total Keseluruhan</p>
 							</div>
 							<div class="icon">
@@ -317,7 +316,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-danger">
 							<div class="inner">
-								<h3><?php echo $persentase_gugat; ?>%</h3>
+								<h3><?= $persentase_gugat ?>%</h3>
 								<p>Persentase Gugat</p>
 							</div>
 							<div class="icon">
@@ -326,7 +325,7 @@
 						</div>
 					</div>
 				</div>
-			<?php endif; ?>
+			<?php endif ?>
 
 			<?php if ($selected_report == 'monthly'): ?>
 				<!-- Monthly Summary Cards -->
@@ -352,13 +351,12 @@
 						if ($min_monthly == PHP_INT_MAX) $min_monthly = 0;
 					}
 
-					$rata_rata = count($datafilter) > 0 ? round($card_total_monthly / count($datafilter), 0) : 0;
-					?>
+					$rata_rata = count($datafilter) > 0 ? round($card_total_monthly / count($datafilter), 0) : 0 ?>
 
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_monthly); ?></h3>
+								<h3><?= number_format($card_total_monthly) ?></h3>
 								<p>Total Perkara</p>
 							</div>
 							<div class="icon">
@@ -370,8 +368,8 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-warning">
 							<div class="inner">
-								<h3><?php echo number_format($max_monthly); ?></h3>
-								<p>Tertinggi (<?php echo $bulan_tertinggi; ?>)</p>
+								<h3><?= number_format($max_monthly) ?></h3>
+								<p>Tertinggi (<?= $bulan_tertinggi ?>)</p>
 							</div>
 							<div class="icon">
 								<i class="fas fa-arrow-up"></i>
@@ -382,7 +380,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3><?php echo number_format($rata_rata); ?></h3>
+								<h3><?= number_format($rata_rata) ?></h3>
 								<p>Rata-rata per Bulan</p>
 							</div>
 							<div class="icon">
@@ -394,7 +392,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-danger">
 							<div class="inner">
-								<h3><?php echo number_format($min_monthly); ?></h3>
+								<h3><?= number_format($min_monthly) ?></h3>
 								<p>Terendah</p>
 							</div>
 							<div class="icon">
@@ -420,14 +418,13 @@
 					}
 				}
 
-				$persentase_bht = $card_total_putus > 0 ? min(100, ($card_total_bht / $card_total_putus) * 100) : 0;
-				?>
+				$persentase_bht = $card_total_putus > 0 ? min(100, ($card_total_bht / $card_total_putus) * 100) : 0 ?>
 
 				<div class="row">
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_masuk); ?></h3>
+								<h3><?= number_format($card_total_masuk) ?></h3>
 								<p>Total Perkara Masuk</p>
 							</div>
 							<div class="icon">
@@ -439,7 +436,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-warning">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_putus); ?></h3>
+								<h3><?= number_format($card_total_putus) ?></h3>
 								<p>Total Perkara Putus</p>
 							</div>
 							<div class="icon">
@@ -451,7 +448,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3><?php echo number_format($persentase_bht, 1) . '%'; ?></h3>
+								<h3><?= number_format($persentase_bht, 1) . '%' ?></h3>
 								<p>Persentase BHT</p>
 							</div>
 							<div class="icon">
@@ -463,7 +460,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-danger">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_akta); ?></h3>
+								<h3><?= number_format($card_total_akta) ?></h3>
 								<p>Total Akta Cerai</p>
 							</div>
 							<div class="icon">
@@ -495,14 +492,13 @@
 				}
 
 				$persentase_gugat = $card_grand_total > 0 ? ($card_total_gugat / $card_grand_total) * 100 : 0;
-				$persentase_talak = $card_grand_total > 0 ? ($card_total_talak / $card_grand_total) * 100 : 0;
-				?>
+				$persentase_talak = $card_grand_total > 0 ? ($card_total_talak / $card_grand_total) * 100 : 0 ?>
 
 				<div class="row">
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-primary">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_gugat); ?></h3>
+								<h3><?= number_format($card_total_gugat) ?></h3>
 								<p>Total Cerai Gugat</p>
 							</div>
 							<div class="icon">
@@ -514,7 +510,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-secondary">
 							<div class="inner">
-								<h3><?php echo number_format($card_total_talak); ?></h3>
+								<h3><?= number_format($card_total_talak) ?></h3>
 								<p>Total Cerai Talak</p>
 							</div>
 							<div class="icon">
@@ -526,8 +522,8 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-info">
 							<div class="inner">
-								<h3><?php echo number_format($max_total); ?></h3>
-								<p>Tertinggi (<?php echo $tahun_tertinggi; ?>)</p>
+								<h3><?= number_format($max_total) ?></h3>
+								<p>Tertinggi (<?= $tahun_tertinggi ?>)</p>
 							</div>
 							<div class="icon">
 								<i class="fas fa-chart-line"></i>
@@ -538,7 +534,7 @@
 					<div class="col-lg-3 col-6">
 						<div class="small-box bg-success">
 							<div class="inner">
-								<h3><?php echo number_format($persentase_gugat, 1) . '% : ' . number_format($persentase_talak, 1) . '%'; ?></h3>
+								<h3><?= number_format($persentase_gugat, 1) . '% : ' . number_format($persentase_talak, 1) . '%' ?></h3>
 								<p>Ratio Gugat : Talak</p>
 							</div>
 							<div class="icon">
@@ -547,7 +543,7 @@
 						</div>
 					</div>
 				</div>
-			<?php endif; ?>
+			<?php endif ?>
 
 			<!-- Data Table -->
 			<div class="row">
@@ -613,14 +609,13 @@
 													$total_masuk += $row->PERKARA_MASUK;
 													$total_putus += $row->PERKARA_PUTUS;
 													$total_bht += $row->PERKARA_TELAH_BHT;
-													$total_akta += $row->JUMLAH_AKTA_CERAI;
-											?>
+													$total_akta += $row->JUMLAH_AKTA_CERAI ?>
 													<tr>
-														<td><?php echo $row->KECAMATAN; ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_MASUK); ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_PUTUS); ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_TELAH_BHT); ?></td>
-														<td class="text-center"><?php echo number_format($row->JUMLAH_AKTA_CERAI); ?></td>
+														<td><?= $row->KECAMATAN ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_MASUK) ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_PUTUS) ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_TELAH_BHT) ?></td>
+														<td class="text-center"><?= number_format($row->JUMLAH_AKTA_CERAI) ?></td>
 													</tr>
 												<?php
 												endforeach;
@@ -629,15 +624,15 @@
 												<tr>
 													<td colspan="5" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_masuk); ?></th>
-												<th class="text-center"><?php echo number_format($total_putus); ?></th>
-												<th class="text-center"><?php echo number_format($total_bht); ?></th>
-												<th class="text-center"><?php echo number_format($total_akta); ?></th>
+												<th class="text-center"><?= number_format($total_masuk) ?></th>
+												<th class="text-center"><?= number_format($total_putus) ?></th>
+												<th class="text-center"><?= number_format($total_bht) ?></th>
+												<th class="text-center"><?= number_format($total_akta) ?></th>
 											</tr>
 										</tfoot>
 									</table>
@@ -665,12 +660,11 @@
 
 											if (!empty($datafilter)):
 												foreach ($datafilter as $row):
-													$persentase = $total_monthly > 0 ? round(($row->JUMLAH / $total_monthly) * 100, 2) : 0;
-											?>
+													$persentase = $total_monthly > 0 ? round(($row->JUMLAH / $total_monthly) * 100, 2) : 0 ?>
 													<tr>
-														<td><?php echo $row->NAMA_BULAN; ?></td>
-														<td class="text-center"><?php echo number_format($row->JUMLAH); ?></td>
-														<td class="text-center"><?php echo $persentase; ?>%</td>
+														<td><?= $row->NAMA_BULAN ?></td>
+														<td class="text-center"><?= number_format($row->JUMLAH) ?></td>
+														<td class="text-center"><?= $persentase ?>%</td>
 													</tr>
 												<?php
 												endforeach;
@@ -679,12 +673,12 @@
 												<tr>
 													<td colspan="3" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_monthly); ?></th>
+												<th class="text-center"><?= number_format($total_monthly) ?></th>
 												<th class="text-center">100%</th>
 											</tr>
 										</tfoot>
@@ -713,13 +707,12 @@
 												foreach ($datafilter as $row):
 													$total_gugat += $row->CERAI_GUGAT;
 													$total_talak += $row->CERAI_TALAK;
-													$grand_total += $row->TOTAL;
-											?>
+													$grand_total += $row->TOTAL ?>
 													<tr>
-														<td><?php echo $row->KECAMATAN; ?></td>
-														<td class="text-center"><?php echo number_format($row->CERAI_GUGAT); ?></td>
-														<td class="text-center"><?php echo number_format($row->CERAI_TALAK); ?></td>
-														<td class="text-center font-weight-bold"><?php echo number_format($row->TOTAL); ?></td>
+														<td><?= $row->KECAMATAN ?></td>
+														<td class="text-center"><?= number_format($row->CERAI_GUGAT) ?></td>
+														<td class="text-center"><?= number_format($row->CERAI_TALAK) ?></td>
+														<td class="text-center font-weight-bold"><?= number_format($row->TOTAL) ?></td>
 													</tr>
 												<?php
 												endforeach;
@@ -728,14 +721,14 @@
 												<tr>
 													<td colspan="4" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_gugat); ?></th>
-												<th class="text-center"><?php echo number_format($total_talak); ?></th>
-												<th class="text-center"><?php echo number_format($grand_total); ?></th>
+												<th class="text-center"><?= number_format($total_gugat) ?></th>
+												<th class="text-center"><?= number_format($total_talak) ?></th>
+												<th class="text-center"><?= number_format($grand_total) ?></th>
 											</tr>
 										</tfoot>
 									</table>
@@ -765,9 +758,9 @@
 												foreach ($datafilter as $row):
 											?>
 													<tr>
-														<td><?php echo $row->FAKTOR; ?></td>
-														<td class="text-center"><?php echo number_format($row->JUMLAH); ?></td>
-														<td class="text-center"><?php echo $row->PERSENTASE; ?>%</td>
+														<td><?= $row->FAKTOR ?></td>
+														<td class="text-center"><?= number_format($row->JUMLAH) ?></td>
+														<td class="text-center"><?= $row->PERSENTASE ?>%</td>
 													</tr>
 												<?php
 												endforeach;
@@ -776,12 +769,12 @@
 												<tr>
 													<td colspan="3" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_faktor); ?></th>
+												<th class="text-center"><?= number_format($total_faktor) ?></th>
 												<th class="text-center">100%</th>
 											</tr>
 										</tfoot>
@@ -829,13 +822,13 @@
 												foreach ($datafilter as $row):
 											?>
 													<tr>
-														<td><?php echo $row->FaktorPerceraian; ?></td>
-														<td class="text-center"><?php echo isset($row->{"Usia 16-19 $gender_suffix"}) ? number_format($row->{"Usia 16-19 $gender_suffix"}) : '0'; ?></td>
-														<td class="text-center"><?php echo isset($row->{"Usia 20-25 $gender_suffix"}) ? number_format($row->{"Usia 20-25 $gender_suffix"}) : '0'; ?></td>
-														<td class="text-center"><?php echo isset($row->{"Usia 26-30 $gender_suffix"}) ? number_format($row->{"Usia 26-30 $gender_suffix"}) : '0'; ?></td>
-														<td class="text-center"><?php echo isset($row->{"Usia 31-35 $gender_suffix"}) ? number_format($row->{"Usia 31-35 $gender_suffix"}) : '0'; ?></td>
-														<td class="text-center"><?php echo isset($row->{"Usia 36+ $gender_suffix"}) ? number_format($row->{"Usia 36+ $gender_suffix"}) : '0'; ?></td>
-														<td class="text-center font-weight-bold"><?php echo isset($row->{"Total $gender_suffix"}) ? number_format($row->{"Total $gender_suffix"}) : '0'; ?></td>
+														<td><?= $row->FaktorPerceraian ?></td>
+														<td class="text-center"><?= isset($row->{"Usia 16-19 $gender_suffix"}) ? number_format($row->{"Usia 16-19 $gender_suffix"}) : '0' ?></td>
+														<td class="text-center"><?= isset($row->{"Usia 20-25 $gender_suffix"}) ? number_format($row->{"Usia 20-25 $gender_suffix"}) : '0' ?></td>
+														<td class="text-center"><?= isset($row->{"Usia 26-30 $gender_suffix"}) ? number_format($row->{"Usia 26-30 $gender_suffix"}) : '0' ?></td>
+														<td class="text-center"><?= isset($row->{"Usia 31-35 $gender_suffix"}) ? number_format($row->{"Usia 31-35 $gender_suffix"}) : '0' ?></td>
+														<td class="text-center"><?= isset($row->{"Usia 36+ $gender_suffix"}) ? number_format($row->{"Usia 36+ $gender_suffix"}) : '0' ?></td>
+														<td class="text-center font-weight-bold"><?= isset($row->{"Total $gender_suffix"}) ? number_format($row->{"Total $gender_suffix"}) : '0' ?></td>
 													</tr>
 												<?php
 												endforeach;
@@ -844,17 +837,17 @@
 												<tr>
 													<td colspan="7" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_usia_16_19); ?></th>
-												<th class="text-center"><?php echo number_format($total_usia_20_25); ?></th>
-												<th class="text-center"><?php echo number_format($total_usia_26_30); ?></th>
-												<th class="text-center"><?php echo number_format($total_usia_31_35); ?></th>
-												<th class="text-center"><?php echo number_format($total_usia_36_plus); ?></th>
-												<th class="text-center"><?php echo number_format($grand_total_faktor); ?></th>
+												<th class="text-center"><?= number_format($total_usia_16_19) ?></th>
+												<th class="text-center"><?= number_format($total_usia_20_25) ?></th>
+												<th class="text-center"><?= number_format($total_usia_26_30) ?></th>
+												<th class="text-center"><?= number_format($total_usia_31_35) ?></th>
+												<th class="text-center"><?= number_format($total_usia_36_plus) ?></th>
+												<th class="text-center"><?= number_format($grand_total_faktor) ?></th>
 											</tr>
 										</tfoot>
 									</table>
@@ -885,14 +878,13 @@
 													$total_masuk += $row->PERKARA_MASUK;
 													$total_putus += $row->PERKARA_PUTUS;
 													$total_bht += $row->PERKARA_TELAH_BHT;
-													$total_akta += $row->JUMLAH_AKTA_CERAI;
-											?>
+													$total_akta += $row->JUMLAH_AKTA_CERAI ?>
 													<tr>
-														<td><?php echo $row->KECAMATAN; ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_MASUK); ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_PUTUS); ?></td>
-														<td class="text-center"><?php echo number_format($row->PERKARA_TELAH_BHT); ?></td>
-														<td class="text-center"><?php echo number_format($row->JUMLAH_AKTA_CERAI); ?></td>
+														<td><?= $row->KECAMATAN ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_MASUK) ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_PUTUS) ?></td>
+														<td class="text-center"><?= number_format($row->PERKARA_TELAH_BHT) ?></td>
+														<td class="text-center"><?= number_format($row->JUMLAH_AKTA_CERAI) ?></td>
 													</tr>
 												<?php
 												endforeach;
@@ -901,15 +893,15 @@
 												<tr>
 													<td colspan="5" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_masuk); ?></th>
-												<th class="text-center"><?php echo number_format($total_putus); ?></th>
-												<th class="text-center"><?php echo number_format($total_bht); ?></th>
-												<th class="text-center"><?php echo number_format($total_akta); ?></th>
+												<th class="text-center"><?= number_format($total_masuk) ?></th>
+												<th class="text-center"><?= number_format($total_putus) ?></th>
+												<th class="text-center"><?= number_format($total_bht) ?></th>
+												<th class="text-center"><?= number_format($total_akta) ?></th>
 											</tr>
 										</tfoot>
 									</table>
@@ -942,15 +934,14 @@
 													$grand_total_all += $row->TOTAL;
 
 													$pct_gugat = $row->TOTAL > 0 ? ($row->CERAI_GUGAT / $row->TOTAL * 100) : 0;
-													$pct_talak = $row->TOTAL > 0 ? ($row->CERAI_TALAK / $row->TOTAL * 100) : 0;
-											?>
+													$pct_talak = $row->TOTAL > 0 ? ($row->CERAI_TALAK / $row->TOTAL * 100) : 0 ?>
 													<tr>
-														<td class="font-weight-bold"><?php echo $row->TAHUN; ?></td>
-														<td class="text-center"><?php echo number_format($row->CERAI_GUGAT); ?></td>
-														<td class="text-center"><?php echo number_format($row->CERAI_TALAK); ?></td>
-														<td class="text-center font-weight-bold"><?php echo number_format($row->TOTAL); ?></td>
-														<td class="text-center"><?php echo number_format($pct_gugat, 1) . '%'; ?></td>
-														<td class="text-center"><?php echo number_format($pct_talak, 1) . '%'; ?></td>
+														<td class="font-weight-bold"><?= $row->TAHUN ?></td>
+														<td class="text-center"><?= number_format($row->CERAI_GUGAT) ?></td>
+														<td class="text-center"><?= number_format($row->CERAI_TALAK) ?></td>
+														<td class="text-center font-weight-bold"><?= number_format($row->TOTAL) ?></td>
+														<td class="text-center"><?= number_format($pct_gugat, 1) . '%' ?></td>
+														<td class="text-center"><?= number_format($pct_talak, 1) . '%' ?></td>
 													</tr>
 												<?php
 												endforeach;
@@ -959,21 +950,21 @@
 												<tr>
 													<td colspan="6" class="text-center">Tidak ada data</td>
 												</tr>
-											<?php endif; ?>
+											<?php endif ?>
 										</tbody>
 										<tfoot>
 											<tr class="bg-light font-weight-bold">
 												<th>TOTAL</th>
-												<th class="text-center"><?php echo number_format($total_gugat_all); ?></th>
-												<th class="text-center"><?php echo number_format($total_talak_all); ?></th>
-												<th class="text-center"><?php echo number_format($grand_total_all); ?></th>
-												<th class="text-center"><?php echo $grand_total_all > 0 ? number_format($total_gugat_all / $grand_total_all * 100, 1) . '%' : '0%'; ?></th>
-												<th class="text-center"><?php echo $grand_total_all > 0 ? number_format($total_talak_all / $grand_total_all * 100, 1) . '%' : '0%'; ?></th>
+												<th class="text-center"><?= number_format($total_gugat_all) ?></th>
+												<th class="text-center"><?= number_format($total_talak_all) ?></th>
+												<th class="text-center"><?= number_format($grand_total_all) ?></th>
+												<th class="text-center"><?= $grand_total_all > 0 ? number_format($total_gugat_all / $grand_total_all * 100, 1) . '%' : '0%' ?></th>
+												<th class="text-center"><?= $grand_total_all > 0 ? number_format($total_talak_all / $grand_total_all * 100, 1) . '%' : '0%' ?></th>
 											</tr>
 										</tfoot>
 									</table>
 								</div>
-							<?php endif; ?>
+							<?php endif ?>
 						</div>
 					</div>
 				</div>
@@ -1038,7 +1029,7 @@
 	// Export Excel function
 	function exportExcel() {
 		var formData = $('#filterForm').serialize();
-		var form = $('<form method="post" action="<?php echo site_url('Data_Perkara_Gugatan/export_excel') ?>">');
+		var form = $('<form method="post" action="<?= site_url('Data_Perkara_Gugatan/export_excel') ?>">');
 
 		// Add all form fields to export form
 		$('#filterForm').serializeArray().forEach(function(item) {

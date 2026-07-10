@@ -3,8 +3,7 @@
 date_default_timezone_set('Asia/Jakarta');
 $currentMonthName = date('F');
 $currentYear = date('Y');
-$currentDate = date('d F Y');
-?>
+$currentDate = date('d F Y') ?>
 <div class="content-wrapper modern-dashboard">
 
 	<style>
@@ -496,11 +495,11 @@ $currentDate = date('d F Y');
 							<div class="welcome-text">
 								<h2 class="welcome-title">
 									<i class="fas fa-calendar-alt mr-2"></i>
-									Dashboard PA Amuntai - <?php echo $currentYear; ?>
+									Dashboard PA Amuntai - <?= $currentYear ?>
 								</h2>
 								<p class="welcome-subtitle">
 									<i class="fas fa-clock mr-2"></i>
-									Update terakhir: <?php echo date('d F Y H:i'); ?> WITA
+									Update terakhir: <?= date('d F Y H:i') ?> WITA
 								</p>
 							</div>
 							<div class="welcome-icon">
@@ -520,24 +519,24 @@ $currentDate = date('d F Y');
 								<i class="fas fa-gavel"></i>
 							</div>
 							<div class="stat-card-content">
-								<h3 class="stat-card-number" data-target="<?php echo $statistics->total_perkara; ?>">0</h3>
+								<h3 class="stat-card-number" data-target="<?= $statistics->total_perkara ?>">0</h3>
 								<p class="stat-card-label">Total Perkara</p>
 								<div class="stat-card-breakdown">
 									<div class="breakdown-item">
 										<span class="breakdown-label">e-Court:</span>
 										<span class="breakdown-value">
-											<?php echo $statistics->total_perkara_ecourt; ?>
+											<?= $statistics->total_perkara_ecourt ?>
 											<span class="text-success font-weight-bold ml-1">
-												(<?php echo number_format($statistics->persen_perkara_ecourt, 1); ?>%)
+												(<?= number_format($statistics->persen_perkara_ecourt, 1) ?>%)
 											</span>
 										</span>
 									</div>
 									<div class="breakdown-item">
 										<span class="breakdown-label">Non e-Court:</span>
 										<span class="breakdown-value">
-											<?php echo $statistics->total_perkara_non_ecourt; ?>
+											<?= $statistics->total_perkara_non_ecourt ?>
 											<span class="text-info font-weight-bold ml-1">
-												(<?php echo number_format(100 - $statistics->persen_perkara_ecourt, 1); ?>%)
+												(<?= number_format(100 - $statistics->persen_perkara_ecourt, 1) ?>%)
 											</span>
 										</span>
 									</div>
@@ -559,20 +558,20 @@ $currentDate = date('d F Y');
 								<i class="fas fa-stamp"></i>
 							</div>
 							<div class="stat-card-content">
-								<h3 class="stat-card-number" data-target="<?php echo isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : 0; ?>">0</h3>
+								<h3 class="stat-card-number" data-target="<?= isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : 0 ?>">0</h3>
 								<p class="stat-card-label">Perkara Putus</p>
 								<div class="stat-card-breakdown">
 									<div class="breakdown-item">
 										<span class="breakdown-label">Hari Ini:</span>
-										<span class="breakdown-value"><?php echo isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($daily_statistics->perkara_putus_hari_ini) ? $daily_statistics->perkara_putus_hari_ini : 0 ?></span>
 									</div>
 									<div class="breakdown-item">
 										<span class="breakdown-label">Bulan Ini:</span>
-										<span class="breakdown-value"><?php echo isset($monthly_statistics->perkara_putus_bulan_ini) ? $monthly_statistics->perkara_putus_bulan_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($monthly_statistics->perkara_putus_bulan_ini) ? $monthly_statistics->perkara_putus_bulan_ini : 0 ?></span>
 									</div>
 									<div class="breakdown-item">
 										<span class="breakdown-label">Tahun Ini:</span>
-										<span class="breakdown-value"><?php echo isset($yearly_statistics->perkara_putus_tahun_ini) ? $yearly_statistics->perkara_putus_tahun_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($yearly_statistics->perkara_putus_tahun_ini) ? $yearly_statistics->perkara_putus_tahun_ini : 0 ?></span>
 									</div>
 								</div>
 								<div class="stat-card-progress">
@@ -580,7 +579,7 @@ $currentDate = date('d F Y');
 										<div class="progress-bar" data-width="75"></div>
 									</div>
 								</div>
-								<small class="text-muted mt-2"><?php echo date('d F Y'); ?></small>
+								<small class="text-muted mt-2"><?= date('d F Y') ?></small>
 							</div>
 						</div>
 					</div>
@@ -593,20 +592,20 @@ $currentDate = date('d F Y');
 								<i class="fas fa-file-signature"></i>
 							</div>
 							<div class="stat-card-content">
-								<h3 class="stat-card-number" data-target="<?php echo isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : 0; ?>">0</h3>
+								<h3 class="stat-card-number" data-target="<?= isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : 0 ?>">0</h3>
 								<p class="stat-card-label">Minutasi</p>
 								<div class="stat-card-breakdown">
 									<div class="breakdown-item">
 										<span class="breakdown-label">Hari Ini:</span>
-										<span class="breakdown-value"><?php echo isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($daily_statistics->perkara_minutasi_hari_ini) ? $daily_statistics->perkara_minutasi_hari_ini : 0 ?></span>
 									</div>
 									<div class="breakdown-item">
 										<span class="breakdown-label">Bulan Ini:</span>
-										<span class="breakdown-value"><?php echo isset($monthly_statistics->perkara_minutasi_bulan_ini) ? $monthly_statistics->perkara_minutasi_bulan_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($monthly_statistics->perkara_minutasi_bulan_ini) ? $monthly_statistics->perkara_minutasi_bulan_ini : 0 ?></span>
 									</div>
 									<div class="breakdown-item">
 										<span class="breakdown-label">Tahun Ini:</span>
-										<span class="breakdown-value"><?php echo isset($yearly_statistics->perkara_minutasi_tahun_ini) ? $yearly_statistics->perkara_minutasi_tahun_ini : 0; ?></span>
+										<span class="breakdown-value"><?= isset($yearly_statistics->perkara_minutasi_tahun_ini) ? $yearly_statistics->perkara_minutasi_tahun_ini : 0 ?></span>
 									</div>
 								</div>
 								<div class="stat-card-progress">
@@ -614,7 +613,7 @@ $currentDate = date('d F Y');
 										<div class="progress-bar" data-width="60"></div>
 									</div>
 								</div>
-								<small class="text-muted mt-2"><?php echo date('d F Y'); ?></small>
+								<small class="text-muted mt-2"><?= date('d F Y') ?></small>
 							</div>
 						</div>
 					</div>
@@ -674,7 +673,7 @@ $currentDate = date('d F Y');
 								<i class="fas fa-tachometer-alt mr-2"></i>
 								Kinerja PA Amuntai
 							</h3>
-							<p class="performance-subtitle">Tahun <?php echo $currentYear; ?></p>
+							<p class="performance-subtitle">Tahun <?= $currentYear ?></p>
 						</div>
 						<div class="performance-body">
 							<div class="performance-circle">
@@ -682,19 +681,19 @@ $currentDate = date('d F Y');
 							</div>
 							<div class="performance-stats">
 								<div class="performance-stat">
-									<div class="performance-stat-number"><?php echo isset($kinerja_pn->masuk) ? number_format($kinerja_pn->masuk) : '0'; ?></div>
+									<div class="performance-stat-number"><?= isset($kinerja_pn->masuk) ? number_format($kinerja_pn->masuk) : '0' ?></div>
 									<div class="performance-stat-label">Masuk</div>
 								</div>
 								<div class="performance-stat">
-									<div class="performance-stat-number"><?php echo isset($kinerja_pn->minutasi) ? number_format($kinerja_pn->minutasi) : '0'; ?></div>
+									<div class="performance-stat-number"><?= isset($kinerja_pn->minutasi) ? number_format($kinerja_pn->minutasi) : '0' ?></div>
 									<div class="performance-stat-label">Minutasi</div>
 								</div>
 								<div class="performance-stat">
-									<div class="performance-stat-number"><?php echo isset($kinerja_pn->sisa) ? number_format($kinerja_pn->sisa) : '0'; ?></div>
+									<div class="performance-stat-number"><?= isset($kinerja_pn->sisa) ? number_format($kinerja_pn->sisa) : '0' ?></div>
 									<div class="performance-stat-label">Sisa Perkara Tahun Lalu</div>
 								</div>
 								<div class="performance-stat">
-									<div class="performance-stat-number"><?php echo isset($kinerja_pn->putusan) ? number_format($kinerja_pn->putusan) : '0'; ?></div>
+									<div class="performance-stat-number"><?= isset($kinerja_pn->putusan) ? number_format($kinerja_pn->putusan) : '0' ?></div>
 									<div class="performance-stat-label">Putusan</div>
 								</div>
 							</div>
@@ -782,25 +781,25 @@ $currentDate = date('d F Y');
 	};
 
 	// Initialize Charts Data
-	const kinerjaPN = <?php echo isset($kinerja_pn->kinerjaPN) ? $kinerja_pn->kinerjaPN : 0; ?>;
-	const warnaPN = '<?php echo isset($kinerja_pn->warnaPN) ? $kinerja_pn->warnaPN : '#def30c'; ?>';
+	const kinerjaPN = <?= isset($kinerja_pn->kinerjaPN) ? $kinerja_pn->kinerjaPN : 0 ?>;
+	const warnaPN = '<?= isset($kinerja_pn->warnaPN) ? $kinerja_pn->warnaPN : '#def30c' ?>';
 
 	// Sample data for yearly growth (replace with actual data from backend)
 	const yearlyGrowthData = {
 		labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
-		data: [<?php echo isset($yearly_growth) ? implode(',', $yearly_growth) : '850,920,1150,1280,1420,1350'; ?>]
+		data: [<?= isset($yearly_growth) ? implode(',', $yearly_growth) : '850,920,1150,1280,1420,1350' ?>]
 	};
 
 	// Sample data for case types (replace with actual data from backend)
 	const caseTypeData = {
 		labels: ['Gugatan', 'Permohonan'],
-		data: [<?php echo isset($case_types->gugatan) ? $case_types->gugatan : 420; ?>, <?php echo isset($case_types->permohonan) ? $case_types->permohonan : 930; ?>]
+		data: [<?= isset($case_types->gugatan) ? $case_types->gugatan : 420 ?>, <?= isset($case_types->permohonan) ? $case_types->permohonan : 930 ?>]
 	};
 
 	// Sample data for monthly classification (replace with actual data from backend)
 	const monthlyClassificationData = {
-		labels: <?php echo json_encode($monthly_classification->labels); ?>,
-		datasets: <?php echo json_encode($monthly_classification->datasets); ?>
+		labels: <?= json_encode($monthly_classification->labels) ?>,
+		datasets: <?= json_encode($monthly_classification->datasets) ?>
 	};
 
 	// Yearly Growth Chart

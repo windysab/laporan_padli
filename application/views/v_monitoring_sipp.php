@@ -1,6 +1,5 @@
 <?php
-$nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-?>
+$nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'] ?>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 <div class="content-wrapper">
@@ -14,7 +13,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			</div>
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="<?php echo site_url('Dashboard'); ?>">Home</a></li>
+					<li class="breadcrumb-item"><a href="<?= site_url('Dashboard') ?>">Home</a></li>
 					<li class="breadcrumb-item active">Monitoring SIPP</li>
 				</ol>
 			</div>
@@ -27,19 +26,19 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 <div class="container-fluid">
 	<div class="card card-outline card-primary mb-3">
 		<div class="card-body py-2">
-			<form method="GET" action="<?php echo site_url('Monitoring_sipp'); ?>" class="form-inline" id="filterForm">
-				<input type="hidden" name="tab" value="<?php echo $active_tab; ?>" id="hiddenTab">
+			<form method="GET" action="<?= site_url('Monitoring_sipp') ?>" class="form-inline" id="filterForm">
+				<input type="hidden" name="tab" value="<?= $active_tab ?>" id="hiddenTab">
 				<label class="mr-2">Wilayah:</label>
 				<select name="wilayah" class="form-control form-control-sm mr-3">
-					<option value="Semua" <?php echo ($selected_wilayah === 'Semua') ? 'selected' : ''; ?>>Semua</option>
-					<option value="HSU" <?php echo ($selected_wilayah === 'HSU') ? 'selected' : ''; ?>>HSU</option>
-					<option value="Balangan" <?php echo ($selected_wilayah === 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
+					<option value="Semua" <?= ($selected_wilayah === 'Semua') ? 'selected' : '' ?>>Semua</option>
+					<option value="HSU" <?= ($selected_wilayah === 'HSU') ? 'selected' : '' ?>>HSU</option>
+					<option value="Balangan" <?= ($selected_wilayah === 'Balangan') ? 'selected' : '' ?>>Balangan</option>
 				</select>
 				<label class="mr-2">Tahun:</label>
 				<select name="tahun" class="form-control form-control-sm mr-3">
 					<?php for ($y = 2016; $y <= date('Y') + 1; $y++): ?>
-						<option value="<?php echo $y; ?>" <?php echo ($selected_tahun == $y) ? 'selected' : ''; ?>><?php echo $y; ?></option>
-					<?php endfor; ?>
+						<option value="<?= $y ?>" <?= ($selected_tahun == $y) ? 'selected' : '' ?>><?= $y ?></option>
+					<?php endfor ?>
 				</select>
 				<button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-sync"></i> Refresh</button>
 			</form>
@@ -49,22 +48,22 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 	<!-- Tabs Navigation -->
 	<ul class="nav nav-tabs" id="monitoringTabs">
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($active_tab === 'dashboard') ? 'active' : ''; ?>" href="#" onclick="switchTab('dashboard')">
+			<a class="nav-link <?= ($active_tab === 'dashboard') ? 'active' : '' ?>" href="#" onclick="switchTab('dashboard')">
 				<i class="fas fa-tachometer-alt"></i> Dashboard Harian
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($active_tab === 'aging') ? 'active' : ''; ?>" href="#" onclick="switchTab('aging')">
+			<a class="nav-link <?= ($active_tab === 'aging') ? 'active' : '' ?>" href="#" onclick="switchTab('aging')">
 				<i class="fas fa-hourglass-half"></i> Aging Report
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($active_tab === 'minutasi') ? 'active' : ''; ?>" href="#" onclick="switchTab('minutasi')">
+			<a class="nav-link <?= ($active_tab === 'minutasi') ? 'active' : '' ?>" href="#" onclick="switchTab('minutasi')">
 				<i class="fas fa-tasks"></i> Monitoring Minutasi
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($active_tab === 'kinerja') ? 'active' : ''; ?>" href="#" onclick="switchTab('kinerja')">
+			<a class="nav-link <?= ($active_tab === 'kinerja') ? 'active' : '' ?>" href="#" onclick="switchTab('kinerja')">
 				<i class="fas fa-chart-line"></i> Kinerja
 			</a>
 		</li>
@@ -74,14 +73,14 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 	<!-- TAB 1: DASHBOARD HARIAN -->
 	<!-- ============================================================ -->
 	<div class="tab-content mt-3" id="tabContent">
-	<div class="tab-pane <?php echo ($active_tab === 'dashboard') ? 'show active' : ''; ?>" id="tab-dashboard">
+	<div class="tab-pane <?= ($active_tab === 'dashboard') ? 'show active' : '' ?>" id="tab-dashboard">
 
 		<!-- Summary Hari Ini -->
 		<div class="row">
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-info">
 					<div class="inner">
-						<h3><?php echo number_format($dashboard_hari_ini->masuk_hari_ini); ?></h3>
+						<h3><?= number_format($dashboard_hari_ini->masuk_hari_ini) ?></h3>
 						<p>Perkara Masuk Hari Ini</p>
 					</div>
 					<div class="icon"><i class="fas fa-inbox"></i></div>
@@ -90,7 +89,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-success">
 					<div class="inner">
-						<h3><?php echo number_format($dashboard_hari_ini->putus_hari_ini); ?></h3>
+						<h3><?= number_format($dashboard_hari_ini->putus_hari_ini) ?></h3>
 						<p>Putusan Hari Ini</p>
 					</div>
 					<div class="icon"><i class="fas fa-gavel"></i></div>
@@ -99,7 +98,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-warning">
 					<div class="inner">
-						<h3><?php echo number_format($dashboard_hari_ini->akta_cerai_hari_ini); ?></h3>
+						<h3><?= number_format($dashboard_hari_ini->akta_cerai_hari_ini) ?></h3>
 						<p>Akta Cerai Hari Ini</p>
 					</div>
 					<div class="icon"><i class="fas fa-certificate"></i></div>
@@ -108,7 +107,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-danger">
 					<div class="inner">
-						<h3><?php echo number_format($dashboard_hari_ini->backlog); ?></h3>
+						<h3><?= number_format($dashboard_hari_ini->backlog) ?></h3>
 						<p>Backlog (Belum Putus)</p>
 					</div>
 					<div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -123,7 +122,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 					<span class="info-box-icon bg-info"><i class="fas fa-calendar-alt"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">Masuk Bulan Ini</span>
-						<span class="info-box-number"><?php echo number_format($dashboard_bulan_ini->masuk_bulan_ini); ?></span>
+						<span class="info-box-number"><?= number_format($dashboard_bulan_ini->masuk_bulan_ini) ?></span>
 					</div>
 				</div>
 			</div>
@@ -132,7 +131,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 					<span class="info-box-icon bg-success"><i class="fas fa-check-circle"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">Putus Bulan Ini</span>
-						<span class="info-box-number"><?php echo number_format($dashboard_bulan_ini->putus_bulan_ini); ?></span>
+						<span class="info-box-number"><?= number_format($dashboard_bulan_ini->putus_bulan_ini) ?></span>
 					</div>
 				</div>
 			</div>
@@ -141,7 +140,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 					<span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">Akta Cerai Bulan Ini</span>
-						<span class="info-box-number"><?php echo number_format($dashboard_bulan_ini->akta_cerai_bulan_ini); ?></span>
+						<span class="info-box-number"><?= number_format($dashboard_bulan_ini->akta_cerai_bulan_ini) ?></span>
 					</div>
 				</div>
 			</div>
@@ -150,7 +149,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 					<span class="info-box-icon bg-secondary"><i class="fas fa-calculator"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">Rata-rata Masuk/Hari</span>
-						<span class="info-box-number"><?php echo $dashboard_bulan_ini->rata_rata_masuk_harian; ?></span>
+						<span class="info-box-number"><?= $dashboard_bulan_ini->rata_rata_masuk_harian ?></span>
 					</div>
 				</div>
 			</div>
@@ -159,7 +158,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 		<!-- Chart Trend Bulanan -->
 		<div class="card">
 			<div class="card-header bg-gradient-primary">
-				<h3 class="card-title"><i class="fas fa-chart-area"></i> Trend Bulanan <?php echo date('Y'); ?></h3>
+				<h3 class="card-title"><i class="fas fa-chart-area"></i> Trend Bulanan <?= date('Y') ?></h3>
 			</div>
 			<div class="card-body">
 				<canvas id="trendChart" height="80"></canvas>
@@ -170,14 +169,14 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 	<!-- ============================================================ -->
 	<!-- TAB 2: AGING REPORT -->
 	<!-- ============================================================ -->
-	<div class="tab-pane <?php echo ($active_tab === 'aging') ? 'show active' : ''; ?>" id="tab-aging">
+	<div class="tab-pane <?= ($active_tab === 'aging') ? 'show active' : '' ?>" id="tab-aging">
 
 		<!-- Aging Summary -->
 		<div class="row">
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-secondary">
 					<div class="inner">
-						<h3><?php echo number_format($aging_summary->total_belum_putus); ?></h3>
+						<h3><?= number_format($aging_summary->total_belum_putus) ?></h3>
 						<p>Total Belum Putus</p>
 					</div>
 					<div class="icon"><i class="fas fa-folder-open"></i></div>
@@ -186,7 +185,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box" style="background-color: #28a745; color: white;">
 					<div class="inner">
-						<h3><?php echo number_format($aging_summary->hijau); ?></h3>
+						<h3><?= number_format($aging_summary->hijau) ?></h3>
 						<p><i class="fas fa-check-circle"></i> Normal (&le; 3 Bulan)</p>
 					</div>
 					<div class="icon"><i class="fas fa-smile"></i></div>
@@ -195,7 +194,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box" style="background-color: #ffc107; color: #333;">
 					<div class="inner">
-						<h3><?php echo number_format($aging_summary->kuning); ?></h3>
+						<h3><?= number_format($aging_summary->kuning) ?></h3>
 						<p><i class="fas fa-exclamation-circle"></i> Warning (3-5 Bulan)</p>
 					</div>
 					<div class="icon"><i class="fas fa-meh"></i></div>
@@ -204,7 +203,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-3 col-6">
 				<div class="small-box bg-danger">
 					<div class="inner">
-						<h3><?php echo number_format($aging_summary->merah); ?></h3>
+						<h3><?= number_format($aging_summary->merah) ?></h3>
 						<p><i class="fas fa-times-circle"></i> Melebihi SEMA (&gt; 5 Bulan)</p>
 					</div>
 					<div class="icon"><i class="fas fa-frown"></i></div>
@@ -218,7 +217,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 					<span class="info-box-icon"><i class="fas fa-clock"></i></span>
 					<div class="info-box-content">
 						<span class="info-box-text">Rata-rata Umur Perkara</span>
-						<span class="info-box-number"><?php echo round($aging_summary->rata_rata_umur); ?> Hari</span>
+						<span class="info-box-number"><?= round($aging_summary->rata_rata_umur) ?> Hari</span>
 					</div>
 				</div>
 			</div>
@@ -248,13 +247,13 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 						<?php if (!empty($aging_data)): ?>
 							<?php $no = 1; foreach ($aging_data as $row): ?>
 							<tr>
-								<td><?php echo $no++; ?></td>
-								<td><strong><?php echo $row->nomor_perkara; ?></strong></td>
-								<td><?php echo $row->jenis_perkara_nama; ?></td>
-								<td><?php echo $row->nama_pihak_1; ?></td>
-								<td><?php echo $row->nama_pihak_2; ?></td>
-								<td><?php echo date('d-m-Y', strtotime($row->tanggal_pendaftaran)); ?></td>
-								<td class="text-center"><strong><?php echo $row->umur_perkara_hari; ?></strong></td>
+								<td><?= $no++ ?></td>
+								<td><strong><?= $row->nomor_perkara ?></strong></td>
+								<td><?= $row->jenis_perkara_nama ?></td>
+								<td><?= $row->nama_pihak_1 ?></td>
+								<td><?= $row->nama_pihak_2 ?></td>
+								<td><?= date('d-m-Y', strtotime($row->tanggal_pendaftaran)) ?></td>
+								<td class="text-center"><strong><?= $row->umur_perkara_hari ?></strong></td>
 								<td class="text-center">
 									<?php if ($row->status_warna === 'hijau'): ?>
 										<span class="badge badge-success"><i class="fas fa-check"></i> Normal</span>
@@ -262,13 +261,13 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 										<span class="badge badge-warning"><i class="fas fa-exclamation"></i> Warning</span>
 									<?php else: ?>
 										<span class="badge badge-danger"><i class="fas fa-times"></i> Melebihi SEMA</span>
-									<?php endif; ?>
+									<?php endif ?>
 								</td>
 							</tr>
-							<?php endforeach; ?>
+							<?php endforeach ?>
 						<?php else: ?>
 							<tr><td colspan="8" class="text-center"><div class="alert alert-success mb-0"><i class="fas fa-check-circle"></i> Tidak ada perkara yang belum putus</div></td></tr>
-						<?php endif; ?>
+						<?php endif ?>
 						</tbody>
 					</table>
 				</div>
@@ -279,14 +278,14 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 	<!-- ============================================================ -->
 	<!-- TAB 3: MONITORING MINUTASI -->
 	<!-- ============================================================ -->
-	<div class="tab-pane <?php echo ($active_tab === 'minutasi') ? 'show active' : ''; ?>" id="tab-minutasi">
+	<div class="tab-pane <?= ($active_tab === 'minutasi') ? 'show active' : '' ?>" id="tab-minutasi">
 
 		<!-- Minutasi Summary -->
 		<div class="row">
 			<div class="col-lg-4 col-6">
 				<div class="small-box bg-warning">
 					<div class="inner">
-						<h3><?php echo number_format($minutasi_summary->belum_bht); ?></h3>
+						<h3><?= number_format($minutasi_summary->belum_bht) ?></h3>
 						<p>Sudah Putus, Belum BHT</p>
 					</div>
 					<div class="icon"><i class="fas fa-hourglass-start"></i></div>
@@ -295,7 +294,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-4 col-6">
 				<div class="small-box bg-danger">
 					<div class="inner">
-						<h3><?php echo number_format($minutasi_summary->belum_akta); ?></h3>
+						<h3><?= number_format($minutasi_summary->belum_akta) ?></h3>
 						<p>Sudah BHT, Belum Akta Cerai</p>
 					</div>
 					<div class="icon"><i class="fas fa-hourglass-end"></i></div>
@@ -304,7 +303,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-4 col-6">
 				<div class="small-box bg-info">
 					<div class="inner">
-						<h3><?php echo number_format($minutasi_summary->belum_bht + $minutasi_summary->belum_akta); ?></h3>
+						<h3><?= number_format($minutasi_summary->belum_bht + $minutasi_summary->belum_akta) ?></h3>
 						<p>Total Perlu Tindakan</p>
 					</div>
 					<div class="icon"><i class="fas fa-clipboard-check"></i></div>
@@ -315,7 +314,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 		<!-- Table: Belum BHT -->
 		<div class="card">
 			<div class="card-header bg-gradient-warning">
-				<h3 class="card-title"><i class="fas fa-hourglass-start"></i> Perkara Sudah Putus - Belum BHT (<?php echo count($minutasi_belum_bht); ?>)</h3>
+				<h3 class="card-title"><i class="fas fa-hourglass-start"></i> Perkara Sudah Putus - Belum BHT (<?= count($minutasi_belum_bht) ?>)</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -334,19 +333,19 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 						<tbody>
 						<?php if (!empty($minutasi_belum_bht)): ?>
 							<?php $no = 1; foreach ($minutasi_belum_bht as $row): ?>
-							<tr class="<?php echo ($row->hari_sejak_putusan > 30) ? 'table-danger' : (($row->hari_sejak_putusan > 14) ? 'table-warning' : ''); ?>">
-								<td><?php echo $no++; ?></td>
-								<td><strong><?php echo $row->nomor_perkara; ?></strong></td>
-								<td><?php echo $row->jenis_perkara_nama; ?></td>
-								<td><?php echo $row->nama_pihak_1; ?></td>
-								<td><?php echo $row->nama_pihak_2; ?></td>
-								<td><?php echo $row->tanggal_putusan; ?></td>
-								<td class="text-center"><strong><?php echo $row->hari_sejak_putusan; ?></strong></td>
+							<tr class="<?= ($row->hari_sejak_putusan > 30) ? 'table-danger' : (($row->hari_sejak_putusan > 14) ? 'table-warning' : '') ?>">
+								<td><?= $no++ ?></td>
+								<td><strong><?= $row->nomor_perkara ?></strong></td>
+								<td><?= $row->jenis_perkara_nama ?></td>
+								<td><?= $row->nama_pihak_1 ?></td>
+								<td><?= $row->nama_pihak_2 ?></td>
+								<td><?= $row->tanggal_putusan ?></td>
+								<td class="text-center"><strong><?= $row->hari_sejak_putusan ?></strong></td>
 							</tr>
-							<?php endforeach; ?>
+							<?php endforeach ?>
 						<?php else: ?>
 							<tr><td colspan="7" class="text-center"><div class="alert alert-success mb-0"><i class="fas fa-check-circle"></i> Semua perkara sudah BHT</div></td></tr>
-						<?php endif; ?>
+						<?php endif ?>
 						</tbody>
 					</table>
 				</div>
@@ -356,7 +355,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 		<!-- Table: Belum Akta Cerai -->
 		<div class="card">
 			<div class="card-header bg-gradient-danger">
-				<h3 class="card-title"><i class="fas fa-hourglass-end"></i> Perkara Sudah BHT - Belum Akta Cerai (<?php echo count($minutasi_belum_akta); ?>)</h3>
+				<h3 class="card-title"><i class="fas fa-hourglass-end"></i> Perkara Sudah BHT - Belum Akta Cerai (<?= count($minutasi_belum_akta) ?>)</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -376,20 +375,20 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 						<tbody>
 						<?php if (!empty($minutasi_belum_akta)): ?>
 							<?php $no = 1; foreach ($minutasi_belum_akta as $row): ?>
-							<tr class="<?php echo ($row->hari_sejak_bht > 30) ? 'table-danger' : (($row->hari_sejak_bht > 14) ? 'table-warning' : ''); ?>">
-								<td><?php echo $no++; ?></td>
-								<td><strong><?php echo $row->nomor_perkara; ?></strong></td>
-								<td><?php echo $row->jenis_perkara_nama; ?></td>
-								<td><?php echo $row->nama_pihak_1; ?></td>
-								<td><?php echo $row->nama_pihak_2; ?></td>
-								<td><?php echo $row->tanggal_putusan; ?></td>
-								<td><?php echo $row->tanggal_bht; ?></td>
-								<td class="text-center"><strong><?php echo $row->hari_sejak_bht; ?></strong></td>
+							<tr class="<?= ($row->hari_sejak_bht > 30) ? 'table-danger' : (($row->hari_sejak_bht > 14) ? 'table-warning' : '') ?>">
+								<td><?= $no++ ?></td>
+								<td><strong><?= $row->nomor_perkara ?></strong></td>
+								<td><?= $row->jenis_perkara_nama ?></td>
+								<td><?= $row->nama_pihak_1 ?></td>
+								<td><?= $row->nama_pihak_2 ?></td>
+								<td><?= $row->tanggal_putusan ?></td>
+								<td><?= $row->tanggal_bht ?></td>
+								<td class="text-center"><strong><?= $row->hari_sejak_bht ?></strong></td>
 							</tr>
-							<?php endforeach; ?>
+							<?php endforeach ?>
 						<?php else: ?>
 							<tr><td colspan="8" class="text-center"><div class="alert alert-success mb-0"><i class="fas fa-check-circle"></i> Semua perkara cerai sudah terbit akta</div></td></tr>
-						<?php endif; ?>
+						<?php endif ?>
 						</tbody>
 					</table>
 				</div>
@@ -400,14 +399,14 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 	<!-- ============================================================ -->
 	<!-- TAB 4: MONITORING KINERJA -->
 	<!-- ============================================================ -->
-	<div class="tab-pane <?php echo ($active_tab === 'kinerja') ? 'show active' : ''; ?>" id="tab-kinerja">
+	<div class="tab-pane <?= ($active_tab === 'kinerja') ? 'show active' : '' ?>" id="tab-kinerja">
 
 		<!-- Kinerja Summary Cards -->
 		<div class="row">
 			<div class="col-lg-2 col-6">
 				<div class="small-box bg-info">
 					<div class="inner">
-						<h3><?php echo number_format($kinerja->perkara_masuk); ?></h3>
+						<h3><?= number_format($kinerja->perkara_masuk) ?></h3>
 						<p>Perkara Masuk</p>
 					</div>
 					<div class="icon"><i class="fas fa-inbox"></i></div>
@@ -416,16 +415,16 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-2 col-6">
 				<div class="small-box bg-success">
 					<div class="inner">
-						<h3><?php echo number_format($kinerja->perkara_putus); ?></h3>
+						<h3><?= number_format($kinerja->perkara_putus) ?></h3>
 						<p>Perkara Putus</p>
 					</div>
 					<div class="icon"><i class="fas fa-gavel"></i></div>
 				</div>
 			</div>
 			<div class="col-lg-2 col-6">
-				<div class="small-box <?php echo ($kinerja->clearance_rate >= 100) ? 'bg-success' : (($kinerja->clearance_rate >= 80) ? 'bg-warning' : 'bg-danger'); ?>">
+				<div class="small-box <?= ($kinerja->clearance_rate >= 100) ? 'bg-success' : (($kinerja->clearance_rate >= 80) ? 'bg-warning' : 'bg-danger') ?>">
 					<div class="inner">
-						<h3><?php echo $kinerja->clearance_rate; ?>%</h3>
+						<h3><?= $kinerja->clearance_rate ?>%</h3>
 						<p>Clearance Rate</p>
 					</div>
 					<div class="icon"><i class="fas fa-percentage"></i></div>
@@ -434,7 +433,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-2 col-6">
 				<div class="small-box bg-secondary">
 					<div class="inner">
-						<h3><?php echo number_format($kinerja->disposition_time); ?></h3>
+						<h3><?= number_format($kinerja->disposition_time) ?></h3>
 						<p>Avg Hari Putus</p>
 					</div>
 					<div class="icon"><i class="fas fa-clock"></i></div>
@@ -443,16 +442,16 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-lg-2 col-6">
 				<div class="small-box bg-danger">
 					<div class="inner">
-						<h3><?php echo number_format($kinerja->backlog); ?></h3>
+						<h3><?= number_format($kinerja->backlog) ?></h3>
 						<p>Backlog</p>
 					</div>
 					<div class="icon"><i class="fas fa-layer-group"></i></div>
 				</div>
 			</div>
 			<div class="col-lg-2 col-6">
-				<div class="small-box <?php echo ($kinerja->persen_tepat_waktu >= 90) ? 'bg-success' : (($kinerja->persen_tepat_waktu >= 70) ? 'bg-warning' : 'bg-danger'); ?>">
+				<div class="small-box <?= ($kinerja->persen_tepat_waktu >= 90) ? 'bg-success' : (($kinerja->persen_tepat_waktu >= 70) ? 'bg-warning' : 'bg-danger') ?>">
 					<div class="inner">
-						<h3><?php echo $kinerja->persen_tepat_waktu; ?>%</h3>
+						<h3><?= $kinerja->persen_tepat_waktu ?>%</h3>
 						<p>Tepat Waktu</p>
 					</div>
 					<div class="icon"><i class="fas fa-stopwatch"></i></div>
@@ -465,7 +464,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-md-6">
 				<div class="card">
 					<div class="card-header bg-gradient-success">
-						<h3 class="card-title"><i class="fas fa-chart-pie"></i> Ketepatan Waktu Tahun <?php echo $selected_tahun; ?></h3>
+						<h3 class="card-title"><i class="fas fa-chart-pie"></i> Ketepatan Waktu Tahun <?= $selected_tahun ?></h3>
 					</div>
 					<div class="card-body">
 						<canvas id="tepatWaktuChart" height="200"></canvas>
@@ -475,7 +474,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 			<div class="col-md-6">
 				<div class="card">
 					<div class="card-header bg-gradient-info">
-						<h3 class="card-title"><i class="fas fa-chart-bar"></i> Clearance Rate per Bulan <?php echo $selected_tahun; ?></h3>
+						<h3 class="card-title"><i class="fas fa-chart-bar"></i> Clearance Rate per Bulan <?= $selected_tahun ?></h3>
 					</div>
 					<div class="card-body">
 						<canvas id="clearanceChart" height="200"></canvas>
@@ -487,7 +486,7 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 		<!-- Table Kinerja per Bulan -->
 		<div class="card">
 			<div class="card-header bg-gradient-primary">
-				<h3 class="card-title"><i class="fas fa-table"></i> Detail Kinerja per Bulan <?php echo $selected_tahun; ?></h3>
+				<h3 class="card-title"><i class="fas fa-table"></i> Detail Kinerja per Bulan <?= $selected_tahun ?></h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -507,13 +506,12 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 						$total_masuk = 0; $total_putus = 0;
 						foreach ($kinerja_bulanan as $row): 
 							$total_masuk += $row->perkara_masuk;
-							$total_putus += $row->perkara_putus;
-						?>
+							$total_putus += $row->perkara_putus ?>
 							<tr>
-								<td><?php echo $nama_bulan[$row->bulan]; ?></td>
-								<td class="text-center"><?php echo number_format($row->perkara_masuk); ?></td>
-								<td class="text-center"><?php echo number_format($row->perkara_putus); ?></td>
-								<td class="text-center"><?php echo $row->clearance_rate; ?>%</td>
+								<td><?= $nama_bulan[$row->bulan] ?></td>
+								<td class="text-center"><?= number_format($row->perkara_masuk) ?></td>
+								<td class="text-center"><?= number_format($row->perkara_putus) ?></td>
+								<td class="text-center"><?= $row->clearance_rate ?>%</td>
 								<td class="text-center">
 									<?php if ($row->clearance_rate >= 100): ?>
 										<span class="badge badge-success">Excellent</span>
@@ -523,17 +521,17 @@ $nama_bulan = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli
 										<span class="badge badge-secondary">-</span>
 									<?php else: ?>
 										<span class="badge badge-danger">Needs Improvement</span>
-									<?php endif; ?>
+									<?php endif ?>
 								</td>
 							</tr>
-						<?php endforeach; ?>
+						<?php endforeach ?>
 						</tbody>
 						<tfoot>
 							<tr class="table-primary font-weight-bold">
 								<td>TOTAL</td>
-								<td class="text-center"><?php echo number_format($total_masuk); ?></td>
-								<td class="text-center"><?php echo number_format($total_putus); ?></td>
-								<td class="text-center"><?php echo ($total_masuk > 0) ? round(($total_putus / $total_masuk) * 100, 1) : 0; ?>%</td>
+								<td class="text-center"><?= number_format($total_masuk) ?></td>
+								<td class="text-center"><?= number_format($total_putus) ?></td>
+								<td class="text-center"><?= ($total_masuk > 0) ? round(($total_putus / $total_masuk) * 100, 1) : 0 ?>%</td>
 								<td></td>
 							</tr>
 						</tfoot>
@@ -593,7 +591,7 @@ function initTrendChart() {
 			scales: { y: { beginAtZero: true } }
 		}
 	});
-	<?php endif; ?>
+	<?php endif ?>
 }
 
 function initKinerjaCharts() {
@@ -606,7 +604,7 @@ function initKinerjaCharts() {
 				data: {
 					labels: ['Tepat Waktu (<=5 bln)', 'Terlambat (>5 bln)'],
 					datasets: [{
-						data: [<?php echo $kinerja->tepat_waktu; ?>, <?php echo $kinerja->terlambat; ?>],
+						data: [<?= $kinerja->tepat_waktu ?>, <?= $kinerja->terlambat ?>],
 						backgroundColor: ['#28a745', '#dc3545']
 					}]
 				},
@@ -615,7 +613,7 @@ function initKinerjaCharts() {
 					maintainAspectRatio: true,
 					plugins: {
 						legend: { position: 'bottom' },
-						title: { display: true, text: 'Tepat Waktu: <?php echo $kinerja->persen_tepat_waktu; ?>%' }
+						title: { display: true, text: 'Tepat Waktu: <?= $kinerja->persen_tepat_waktu ?>%' }
 					}
 				}
 			});
@@ -687,7 +685,7 @@ $(document).ready(function() {
 	});
 
 	// Initialize charts for the active tab after DOM is ready
-	var activeTab = '<?php echo $active_tab; ?>';
+	var activeTab = '<?= $active_tab ?>';
 	setTimeout(function() {
 		if (activeTab === 'dashboard') initTrendChart();
 		if (activeTab === 'kinerja') initKinerjaCharts();

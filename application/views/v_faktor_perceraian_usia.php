@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="<?php echo site_url('Dashboard') ?>">Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('Dashboard') ?>">Home</a></li>
 						<li class="breadcrumb-item"><a href="#">Data Perceraian</a></li>
 						<li class="breadcrumb-item active">Faktor Perceraian Berdasarkan Usia</li>
 					</ol>
@@ -32,7 +32,7 @@
 								Filter Laporan
 							</h3>
 						</div>
-						<form method="post" action="<?php echo site_url('Faktor_perceraian_usia') ?>" id="filterForm">
+						<form method="post" action="<?= site_url('Faktor_perceraian_usia') ?>" id="filterForm">
 							<div class="card-body">
 								<div class="row">
 									<!-- Tahun -->
@@ -44,8 +44,8 @@
 												$selected_tahun = $this->input->post('lap_tahun') ?: date('Y');
 												for ($i = date('Y'); $i >= 2020; $i--):
 												?>
-													<option value="<?php echo $i; ?>" <?php echo ($selected_tahun == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
-												<?php endfor; ?>
+													<option value="<?= $i ?>" <?= ($selected_tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
+												<?php endfor ?>
 											</select>
 										</div>
 									</div>
@@ -55,11 +55,11 @@
 										<div class="form-group">
 											<label>Wilayah</label>
 											<select name="wilayah" class="form-control" id="wilayah">
-												<?php $selected_wilayah = $this->input->post('wilayah') ?: 'Amuntai'; ?>
+												<?php $selected_wilayah = $this->input->post('wilayah') ?: 'Amuntai' ?>
 												
-												<option value="Hulu Sungai Utara" <?php echo ($selected_wilayah == 'Hulu Sungai Utara') ? 'selected' : ''; ?>>Hulu Sungai Utara</option>
-												<option value="Balangan" <?php echo ($selected_wilayah == 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
-												<option value="Semua Wilayah" <?php echo ($selected_wilayah == 'Semua Wilayah') ? 'selected' : ''; ?>>Semua Wilayah</option>
+												<option value="Hulu Sungai Utara" <?= ($selected_wilayah == 'Hulu Sungai Utara') ? 'selected' : '' ?>>Hulu Sungai Utara</option>
+												<option value="Balangan" <?= ($selected_wilayah == 'Balangan') ? 'selected' : '' ?>>Balangan</option>
+												<option value="Semua Wilayah" <?= ($selected_wilayah == 'Semua Wilayah') ? 'selected' : '' ?>>Semua Wilayah</option>
 											</select>
 										</div>
 									</div>
@@ -108,14 +108,13 @@
 					endif;
 				endforeach;
 			endif;
-			$tot_all = $tot_16_19 + $tot_20_25 + $tot_26_30 + $tot_31_35 + $tot_36;
-			?>
+			$tot_all = $tot_16_19 + $tot_20_25 + $tot_26_30 + $tot_31_35 + $tot_36 ?>
 
 			<div class="row">
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-info">
 						<div class="inner">
-							<h3><?php echo number_format($tot_all); ?></h3>
+							<h3><?= number_format($tot_all) ?></h3>
 							<p>Total Kasus</p>
 						</div>
 						<div class="icon"><i class="fas fa-female"></i></div>
@@ -124,7 +123,7 @@
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3><?php echo number_format($tot_16_19); ?></h3>
+							<h3><?= number_format($tot_16_19) ?></h3>
 							<p>Usia 16-19</p>
 						</div>
 						<div class="icon"><i class="fas fa-child"></i></div>
@@ -133,7 +132,7 @@
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<h3><?php echo number_format($tot_20_25); ?></h3>
+							<h3><?= number_format($tot_20_25) ?></h3>
 							<p>Usia 20-25</p>
 						</div>
 						<div class="icon"><i class="fas fa-user"></i></div>
@@ -142,7 +141,7 @@
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-success">
 						<div class="inner">
-							<h3><?php echo number_format($tot_26_30); ?></h3>
+							<h3><?= number_format($tot_26_30) ?></h3>
 							<p>Usia 26-30</p>
 						</div>
 						<div class="icon"><i class="fas fa-user"></i></div>
@@ -151,7 +150,7 @@
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-primary">
 						<div class="inner">
-							<h3><?php echo number_format($tot_31_35); ?></h3>
+							<h3><?= number_format($tot_31_35) ?></h3>
 							<p>Usia 31-35</p>
 						</div>
 						<div class="icon"><i class="fas fa-user"></i></div>
@@ -160,7 +159,7 @@
 				<div class="col-lg-2 col-6">
 					<div class="small-box bg-secondary">
 						<div class="inner">
-							<h3><?php echo number_format($tot_36); ?></h3>
+							<h3><?= number_format($tot_36) ?></h3>
 							<p>Usia 36+</p>
 						</div>
 						<div class="icon"><i class="fas fa-user"></i></div>
@@ -176,7 +175,7 @@
 							<h3 class="card-title">
 								<i class="fas fa-table"></i>
 								Faktor Penyebab Terjadinya Perceraian (Perempuan)
-								- Tahun <?php echo $selected_tahun; ?> - <?php echo $selected_wilayah; ?>
+								- Tahun <?= $selected_tahun ?> - <?= $selected_wilayah ?>
 							</h3>
 							<div class="card-tools">
 								<small class="text-muted">Sumber data: Pengadilan Agama Amuntai</small>
@@ -203,35 +202,34 @@
 											$no = 1;
 											foreach ($datafilter as $row):
 												if ($row->faktor != 'Jumlah' && $row->faktor != 'TOTAL'):
-													$row_total = $row->usia_16_19 + $row->usia_20_25 + $row->usia_26_30 + $row->usia_31_35 + $row->usia_36;
-											?>
+													$row_total = $row->usia_16_19 + $row->usia_20_25 + $row->usia_26_30 + $row->usia_31_35 + $row->usia_36 ?>
 													<tr>
-														<td class="text-center"><?php echo $no++; ?></td>
-														<td><?php echo $row->faktor; ?></td>
-														<td class="text-center"><?php echo number_format($row->usia_16_19); ?></td>
-														<td class="text-center"><?php echo number_format($row->usia_20_25); ?></td>
-														<td class="text-center"><?php echo number_format($row->usia_26_30); ?></td>
-														<td class="text-center"><?php echo number_format($row->usia_31_35); ?></td>
-														<td class="text-center"><?php echo number_format($row->usia_36); ?></td>
-														<td class="text-center font-weight-bold"><?php echo number_format($row_total); ?></td>
+														<td class="text-center"><?= $no++ ?></td>
+														<td><?= $row->faktor ?></td>
+														<td class="text-center"><?= number_format($row->usia_16_19) ?></td>
+														<td class="text-center"><?= number_format($row->usia_20_25) ?></td>
+														<td class="text-center"><?= number_format($row->usia_26_30) ?></td>
+														<td class="text-center"><?= number_format($row->usia_31_35) ?></td>
+														<td class="text-center"><?= number_format($row->usia_36) ?></td>
+														<td class="text-center font-weight-bold"><?= number_format($row_total) ?></td>
 													</tr>
 											<?php endif;
-											endforeach; ?>
+											endforeach ?>
 										<?php else: ?>
 											<tr>
 												<td colspan="8" class="text-center">Tidak ada data</td>
 											</tr>
-										<?php endif; ?>
+										<?php endif ?>
 									</tbody>
 									<tfoot>
 										<tr class="bg-light font-weight-bold">
 											<th colspan="2" class="text-center">Jumlah</th>
-											<th class="text-center"><?php echo number_format($tot_16_19); ?></th>
-											<th class="text-center"><?php echo number_format($tot_20_25); ?></th>
-											<th class="text-center"><?php echo number_format($tot_26_30); ?></th>
-											<th class="text-center"><?php echo number_format($tot_31_35); ?></th>
-											<th class="text-center"><?php echo number_format($tot_36); ?></th>
-											<th class="text-center"><?php echo number_format($tot_all); ?></th>
+											<th class="text-center"><?= number_format($tot_16_19) ?></th>
+											<th class="text-center"><?= number_format($tot_20_25) ?></th>
+											<th class="text-center"><?= number_format($tot_26_30) ?></th>
+											<th class="text-center"><?= number_format($tot_31_35) ?></th>
+											<th class="text-center"><?= number_format($tot_36) ?></th>
+											<th class="text-center"><?= number_format($tot_all) ?></th>
 										</tr>
 									</tfoot>
 								</table>
@@ -334,7 +332,7 @@
 
 		// ========== Chart Data from PHP ==========
 		const ageLabels = ['16-19', '20-25', '26-30', '31-35', '36+'];
-		const ageData = [<?php echo $tot_16_19; ?>, <?php echo $tot_20_25; ?>, <?php echo $tot_26_30; ?>, <?php echo $tot_31_35; ?>, <?php echo $tot_36; ?>];
+		const ageData = [<?= $tot_16_19 ?>, <?= $tot_20_25 ?>, <?= $tot_26_30 ?>, <?= $tot_31_35 ?>, <?= $tot_36 ?>];
 
 		<?php
 		$faktor_labels = array();
@@ -347,11 +345,10 @@
 					$faktor_totals[] = $row_total;
 				endif;
 			endforeach;
-		endif;
-		?>
+		endif ?>
 
-		const faktorLabels = [<?php echo implode(',', $faktor_labels); ?>];
-		const faktorTotals = [<?php echo implode(',', $faktor_totals); ?>];
+		const faktorLabels = [<?= implode(',', $faktor_labels) ?>];
+		const faktorTotals = [<?= implode(',', $faktor_totals) ?>];
 
 		// ========== Chart 1: Bar Chart Distribusi Usia ==========
 		setTimeout(function() {
@@ -442,8 +439,7 @@
 							$stack_36[] = $row->usia_36;
 						endif;
 					endforeach;
-				endif;
-				?>
+				endif ?>
 
 				new Chart(ctx3, {
 					type: 'bar',
@@ -451,23 +447,23 @@
 						labels: faktorLabels,
 						datasets: [{
 							label: 'Usia 16-19',
-							data: [<?php echo implode(',', $stack_16_19); ?>],
+							data: [<?= implode(',', $stack_16_19) ?>],
 							backgroundColor: '#dc3545'
 						}, {
 							label: 'Usia 20-25',
-							data: [<?php echo implode(',', $stack_20_25); ?>],
+							data: [<?= implode(',', $stack_20_25) ?>],
 							backgroundColor: '#ffc107'
 						}, {
 							label: 'Usia 26-30',
-							data: [<?php echo implode(',', $stack_26_30); ?>],
+							data: [<?= implode(',', $stack_26_30) ?>],
 							backgroundColor: '#28a745'
 						}, {
 							label: 'Usia 31-35',
-							data: [<?php echo implode(',', $stack_31_35); ?>],
+							data: [<?= implode(',', $stack_31_35) ?>],
 							backgroundColor: '#007bff'
 						}, {
 							label: 'Usia 36+',
-							data: [<?php echo implode(',', $stack_36); ?>],
+							data: [<?= implode(',', $stack_36) ?>],
 							backgroundColor: '#6c757d'
 						}]
 					},

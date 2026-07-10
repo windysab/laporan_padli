@@ -3,12 +3,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_laporan_perceraian extends CI_Model
 {
-
 	// Get laporan perceraian bulanan
 	public function get_laporan_perceraian_bulanan($lap_tahun, $lap_bulan, $wilayah = 'Semua', $jenis_perkara = 'semua')
 	{
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($lap_tahun, $lap_bulan);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				P.nomor_perkara,
@@ -36,11 +40,11 @@ class M_laporan_perceraian extends CI_Model
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND YEAR(C.tgl_akta_cerai) = ?
 				AND MONTH(C.tgl_akta_cerai) = ?
-				$where_wilayah
-				$where_jenis
+				{$where_wilayah}
+				{$where_jenis['sql']}
 			ORDER BY C.tgl_akta_cerai DESC, A.tanggal_putusan DESC";
 
-		$query = $this->db->query($sql, array($lap_tahun, $lap_bulan));
+		$query = $this->db->query($sql, $params);
 		return $query->result();
 	}
 
@@ -50,6 +54,11 @@ class M_laporan_perceraian extends CI_Model
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
 
+		$params = array($lap_tahun);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
+
 		$sql = "SELECT
 				P.nomor_perkara,
 				P.jenis_perkara_nama,
@@ -75,11 +84,11 @@ class M_laporan_perceraian extends CI_Model
 			LEFT JOIN pihak AS PHK2 ON PHK2.id = PP2.pihak_id
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND YEAR(C.tgl_akta_cerai) = ?
-				$where_wilayah
-				$where_jenis
+				{$where_wilayah}
+				{$where_jenis['sql']}
 			ORDER BY C.tgl_akta_cerai DESC, A.tanggal_putusan DESC";
 
-		$query = $this->db->query($sql, array($lap_tahun));
+		$query = $this->db->query($sql, $params);
 		return $query->result();
 	}
 
@@ -88,6 +97,11 @@ class M_laporan_perceraian extends CI_Model
 	{
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($tanggal_mulai, $tanggal_akhir);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				P.nomor_perkara,
@@ -114,11 +128,11 @@ class M_laporan_perceraian extends CI_Model
 			LEFT JOIN pihak AS PHK2 ON PHK2.id = PP2.pihak_id
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND C.tgl_akta_cerai BETWEEN ? AND ?
-				$where_wilayah
-				$where_jenis
+				{$where_wilayah}
+				{$where_jenis['sql']}
 			ORDER BY C.tgl_akta_cerai DESC, A.tanggal_putusan DESC";
 
-		$query = $this->db->query($sql, array($tanggal_mulai, $tanggal_akhir));
+		$query = $this->db->query($sql, $params);
 		return $query->result();
 	}
 
@@ -127,6 +141,11 @@ class M_laporan_perceraian extends CI_Model
 	{
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($lap_tahun, $lap_bulan);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_perceraian,
@@ -139,10 +158,10 @@ class M_laporan_perceraian extends CI_Model
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND YEAR(C.tgl_akta_cerai) = ?
 				AND MONTH(C.tgl_akta_cerai) = ?
-				$where_wilayah
-				$where_jenis";
+				{$where_wilayah}
+				{$where_jenis['sql']}";
 
-		$query = $this->db->query($sql, array($lap_tahun, $lap_bulan));
+		$query = $this->db->query($sql, $params);
 		return $query->row();
 	}
 
@@ -151,6 +170,11 @@ class M_laporan_perceraian extends CI_Model
 	{
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($lap_tahun);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_perceraian,
@@ -162,10 +186,10 @@ class M_laporan_perceraian extends CI_Model
 			LEFT JOIN perkara_pihak1 AS PP1 ON PP1.perkara_id = P.perkara_id
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND YEAR(C.tgl_akta_cerai) = ?
-				$where_wilayah
-				$where_jenis";
+				{$where_wilayah}
+				{$where_jenis['sql']}";
 
-		$query = $this->db->query($sql, array($lap_tahun));
+		$query = $this->db->query($sql, $params);
 		return $query->row();
 	}
 
@@ -174,6 +198,11 @@ class M_laporan_perceraian extends CI_Model
 	{
 		$where_wilayah = $this->_get_wilayah_condition($wilayah);
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($tanggal_mulai, $tanggal_akhir);
+		if (!empty($where_jenis['sql'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_perceraian,
@@ -185,10 +214,10 @@ class M_laporan_perceraian extends CI_Model
 			LEFT JOIN perkara_pihak1 AS PP1 ON PP1.perkara_id = P.perkara_id
 			WHERE C.tgl_akta_cerai IS NOT NULL
 				AND C.tgl_akta_cerai BETWEEN ? AND ?
-				$where_wilayah
-				$where_jenis";
+				{$where_wilayah}
+				{$where_jenis['sql']}";
 
-		$query = $this->db->query($sql, array($tanggal_mulai, $tanggal_akhir));
+		$query = $this->db->query($sql, $params);
 		return $query->row();
 	}
 
@@ -203,8 +232,7 @@ class M_laporan_perceraian extends CI_Model
 				  AND C.tgl_akta_cerai IS NOT NULL
 				ORDER BY P.jenis_perkara_nama";
 
-		$query = $this->db->query($sql);
-		return $query->result();
+		return $this->db->query($sql)->result();
 	}
 
 	// Private helper methods
@@ -232,10 +260,16 @@ class M_laporan_perceraian extends CI_Model
 		return '';
 	}
 
+	// Fixed: returns array with 'sql' and 'params' for parameter binding
 	private function _get_jenis_perkara_condition($jenis_perkara)
 	{
-		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) return '';
+		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) {
+			return array('sql' => '', 'params' => array());
+		}
 
-		return " AND P.jenis_perkara_nama = '" . $this->db->escape_str($jenis_perkara) . "'";
+		return array(
+			'sql' => ' AND P.jenis_perkara_nama = ?',
+			'params' => array($jenis_perkara)
+		);
 	}
 }

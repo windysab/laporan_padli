@@ -1,10 +1,8 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Penyerahan_akta_cerai extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -16,13 +14,11 @@ class Penyerahan_akta_cerai extends CI_Controller
 
 	public function index()
 	{
-		// Set default values if not posted
 		$lap_bulan = $this->input->post('lap_bulan') ?: date('m');
 		$lap_tahun = $this->input->post('lap_tahun') ?: date('Y');
 		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
 		$wilayah = $this->input->post('wilayah') ?: 'Semua';
 
-		// Get data based on report type
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data['datafilter'] = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
@@ -40,16 +36,14 @@ class Penyerahan_akta_cerai extends CI_Controller
 				break;
 		}
 
-		// Pass selected values to view
-		$data['selected_bulan'] = $lap_bulan;
-		$data['selected_tahun'] = $lap_tahun;
-		$data['selected_jenis'] = $jenis_laporan;
-		$data['selected_wilayah'] = $wilayah;
+		$data += [
+			'selected_bulan' => $lap_bulan,
+			'selected_tahun' => $lap_tahun,
+			'selected_jenis' => $jenis_laporan,
+			'selected_wilayah' => $wilayah,
+		];
 
-		$this->load->view('template/new_header');
-		$this->load->view('template/new_sidebar');
-		$this->load->view('v_penyerahan_akta_cerai', $data);
-		$this->load->view('template/new_footer');
+		view_load('v_penyerahan_akta_cerai', $data);
 	}
 
 	public function export_excel()
@@ -59,7 +53,6 @@ class Penyerahan_akta_cerai extends CI_Controller
 		$jenis_laporan = $this->input->post('jenis_laporan') ?: 'bulanan';
 		$wilayah = $this->input->post('wilayah') ?: 'Semua';
 
-		// Load PHPExcel library
 		require_once APPPATH . 'PHPExcel-1.8/Classes/PHPExcel.php';
 
 		$excel = new PHPExcel();
@@ -72,21 +65,7 @@ class Penyerahan_akta_cerai extends CI_Controller
 		$excel->setActiveSheetIndex(0);
 		$excel->getActiveSheet()->setTitle('Laporan Penyerahan Akta Cerai');
 
-		// Set headers
-		$headers = [
-			'No',
-			'Nomor Perkara',
-			'Nomor Akta Cerai',
-			'Jenis Perkara',
-			'Tanggal Akta Cerai',
-			'Tanggal Putusan',
-			'Tanggal BHT',
-			'Tanggal Ikrar Talak',
-			'Penyerahan Kepada Suami',
-			'Penyerahan Kepada Istri',
-			'Nama Suami',
-			'Nama Istri'
-		];
+		$headers = ['No', 'Nomor Perkara', 'Nomor Akta Cerai', 'Jenis Perkara', 'Tanggal Akta Cerai', 'Tanggal Putusan', 'Tanggal BHT', 'Tanggal Ikrar Talak', 'Penyerahan Kepada Suami', 'Penyerahan Kepada Istri', 'Nama Suami', 'Nama Istri'];
 
 		$col = 'A';
 		foreach ($headers as $header) {
@@ -95,7 +74,6 @@ class Penyerahan_akta_cerai extends CI_Controller
 			$col++;
 		}
 
-		// Get data
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
@@ -110,7 +88,6 @@ class Penyerahan_akta_cerai extends CI_Controller
 				break;
 		}
 
-		// Fill data
 		$row = 2;
 		$no = 1;
 		foreach ($data as $item) {
@@ -123,27 +100,24 @@ class Penyerahan_akta_cerai extends CI_Controller
 			$excel->getActiveSheet()->setCellValue('G' . $row, $item->tanggal_bht);
 			$excel->getActiveSheet()->setCellValue('H' . $row, $item->tgl_ikrar_talak);
 
-			// Logic untuk penyerahan berdasarkan jenis perkara
 			if ($item->jenis_perkara_nama == 'Cerai Talak') {
-				$excel->getActiveSheet()->setCellValue('I' . $row, $item->tgl_penyerahan_akta_cerai); // Suami = Penggugat
-				$excel->getActiveSheet()->setCellValue('J' . $row, $item->tgl_penyerahan_akta_cerai_pihak2); // Istri = Tergugat
-				$excel->getActiveSheet()->setCellValue('K' . $row, $item->nama_penggugat); // Nama Suami
-				$excel->getActiveSheet()->setCellValue('L' . $row, $item->nama_tergugat); // Nama Istri
+				$excel->getActiveSheet()->setCellValue('I' . $row, $item->tgl_penyerahan_akta_cerai);
+				$excel->getActiveSheet()->setCellValue('J' . $row, $item->tgl_penyerahan_akta_cerai_pihak2);
+				$excel->getActiveSheet()->setCellValue('K' . $row, $item->nama_penggugat);
+				$excel->getActiveSheet()->setCellValue('L' . $row, $item->nama_tergugat);
 			} else {
-				$excel->getActiveSheet()->setCellValue('I' . $row, $item->tgl_penyerahan_akta_cerai_pihak2); // Suami = Tergugat
-				$excel->getActiveSheet()->setCellValue('J' . $row, $item->tgl_penyerahan_akta_cerai); // Istri = Penggugat
-				$excel->getActiveSheet()->setCellValue('K' . $row, $item->nama_tergugat); // Nama Suami
-				$excel->getActiveSheet()->setCellValue('L' . $row, $item->nama_penggugat); // Nama Istri
+				$excel->getActiveSheet()->setCellValue('I' . $row, $item->tgl_penyerahan_akta_cerai_pihak2);
+				$excel->getActiveSheet()->setCellValue('J' . $row, $item->tgl_penyerahan_akta_cerai);
+				$excel->getActiveSheet()->setCellValue('K' . $row, $item->nama_tergugat);
+				$excel->getActiveSheet()->setCellValue('L' . $row, $item->nama_penggugat);
 			}
 			$row++;
 		}
 
-		// Auto size columns
 		foreach (range('A', 'L') as $columnID) {
 			$excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}
 
-		// Output
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="Laporan_Penyerahan_Akta_Cerai_' . date('Y-m-d') . '.xls"');
 		header('Cache-Control: max-age=0');

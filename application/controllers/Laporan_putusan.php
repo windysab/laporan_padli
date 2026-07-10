@@ -1,19 +1,14 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Laporan_putusan extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		// Set timezone untuk menghindari PHP warning
 		if (!ini_get('date.timezone')) {
 			date_default_timezone_set('Asia/Jakarta');
 		}
-
 		$this->load->model('M_laporan_putusan');
 		$this->load->helper('url');
 		$this->load->helper('text');
@@ -22,7 +17,6 @@ class Laporan_putusan extends CI_Controller
 
 	public function index()
 	{
-		// Set default values if not posted
 		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
 		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
 		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
@@ -30,7 +24,6 @@ class Laporan_putusan extends CI_Controller
 		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
 		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
-		// Get data based on report type
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data['datafilter'] = $this->M_laporan_putusan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
@@ -48,24 +41,18 @@ class Laporan_putusan extends CI_Controller
 				break;
 		}
 
-		// Get list jenis perkara gugatan for dropdown
-		$data['jenis_perkara_list'] = $this->M_laporan_putusan->get_jenis_perkara_gugatan();
+		$data += [
+			'jenis_perkara_list' => $this->M_laporan_putusan->get_jenis_perkara_gugatan(),
+			'status_putusan_list' => $this->M_laporan_putusan->get_status_putusan_list(),
+			'selected_bulan' => $lap_bulan,
+			'selected_tahun' => $lap_tahun,
+			'selected_jenis' => $jenis_laporan,
+			'selected_status' => $status_putusan,
+			'selected_wilayah' => $wilayah,
+			'selected_jenis_perkara' => $jenis_perkara,
+		];
 
-		// Get list status putusan for dropdown
-		$data['status_putusan_list'] = $this->M_laporan_putusan->get_status_putusan_list();
-
-		// Pass selected values to view
-		$data['selected_bulan'] = $lap_bulan;
-		$data['selected_tahun'] = $lap_tahun;
-		$data['selected_jenis'] = $jenis_laporan;
-		$data['selected_status'] = $status_putusan;
-		$data['selected_wilayah'] = $wilayah;
-		$data['selected_jenis_perkara'] = $jenis_perkara;
-
-		$this->load->view('template/new_header');
-		$this->load->view('template/new_sidebar');
-		$this->load->view('v_laporan_putusan', $data);
-		$this->load->view('template/new_footer');
+		view_load('v_laporan_putusan', $data);
 	}
 
 	public function export_excel()
@@ -77,7 +64,6 @@ class Laporan_putusan extends CI_Controller
 		$wilayah = $this->input->post('wilayah') ?: 'Semua';
 		$jenis_perkara = $this->input->post('jenis_perkara') ?: 'semua';
 
-		// Load PHPExcel library
 		require_once APPPATH . 'PHPExcel-1.8/Classes/PHPExcel.php';
 
 		$excel = new PHPExcel();
@@ -90,18 +76,7 @@ class Laporan_putusan extends CI_Controller
 		$excel->setActiveSheetIndex(0);
 		$excel->getActiveSheet()->setTitle('Laporan Putusan Perkara');
 
-		// Set headers
-		$headers = [
-			'No',
-			'Nomor Perkara',
-			'Jenis Perkara',
-			'Pihak 1',
-			'Pihak 2',
-			'Tanggal Putusan',
-			'Status Putusan',
-			'Ringkasan Amar',
-			'Hari Sejak Putusan'
-		];
+		$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Pihak 1', 'Pihak 2', 'Tanggal Putusan', 'Status Putusan', 'Ringkasan Amar', 'Hari Sejak Putusan'];
 
 		$col = 'A';
 		foreach ($headers as $header) {
@@ -110,7 +85,6 @@ class Laporan_putusan extends CI_Controller
 			$col++;
 		}
 
-		// Get data
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data = $this->M_laporan_putusan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
@@ -125,7 +99,6 @@ class Laporan_putusan extends CI_Controller
 				break;
 		}
 
-		// Fill data
 		$row = 2;
 		$no = 1;
 		foreach ($data as $item) {
@@ -141,12 +114,10 @@ class Laporan_putusan extends CI_Controller
 			$row++;
 		}
 
-		// Auto size columns
 		foreach (range('A', 'I') as $columnID) {
 			$excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}
 
-		// Output
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="Laporan_Putusan_Perkara_' . date('Y-m-d') . '.xls"');
 		header('Cache-Control: max-age=0');

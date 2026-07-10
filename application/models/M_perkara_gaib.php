@@ -3,11 +3,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_perkara_gaib extends CI_Model
 {
-
 	// Get perkara gaib bulanan
 	public function get_perkara_gaib_bulanan($lap_tahun, $lap_bulan, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array(
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan
+		);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				perkara.perkara_id,
@@ -36,19 +46,10 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis
+			{$where_jenis['sql']}
 			ORDER BY perkara.perkara_id DESC";
 
-		$params = array(
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan
-		);
-
-		$query = $this->db->query($sql, $params);
-		return $query->result();
+		return $this->db->query($sql, $params)->result();
 	}
 
 	// Get perkara gaib tahunan
@@ -56,6 +57,11 @@ class M_perkara_gaib extends CI_Model
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
 
+		$params = array($lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
+
 		$sql = "SELECT 
 				perkara.perkara_id,
 				perkara.nomor_perkara,
@@ -83,19 +89,27 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis
+			{$where_jenis['sql']}
 			ORDER BY perkara.perkara_id DESC";
 
-		$params = array($lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun);
-
-		$query = $this->db->query($sql, $params);
-		return $query->result();
+		return $this->db->query($sql, $params)->result();
 	}
 
 	// Get perkara gaib custom date range
 	public function get_perkara_gaib_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array(
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir
+		);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				perkara.perkara_id,
@@ -124,25 +138,27 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis
+			{$where_jenis['sql']}
 			ORDER BY perkara.perkara_id DESC";
 
-		$params = array(
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir
-		);
-
-		$query = $this->db->query($sql, $params);
-		return $query->result();
+		return $this->db->query($sql, $params)->result();
 	}
 
 	// Get summary perkara gaib
 	public function get_summary_gaib_bulanan($lap_tahun, $lap_bulan, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array(
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan,
+			$lap_tahun, $lap_bulan
+		);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_gaib,
@@ -163,23 +179,19 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis";
+			{$where_jenis['sql']}";
 
-		$params = array(
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan,
-			$lap_tahun, $lap_bulan
-		);
-
-		$query = $this->db->query($sql, $params);
-		return $query->row();
+		return $this->db->query($sql, $params)->row();
 	}
 
 	public function get_summary_gaib_tahunan($lap_tahun, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array($lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_gaib,
@@ -200,17 +212,25 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis";
+			{$where_jenis['sql']}";
 
-		$params = array($lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun, $lap_tahun);
-
-		$query = $this->db->query($sql, $params);
-		return $query->row();
+		return $this->db->query($sql, $params)->row();
 	}
 
 	public function get_summary_gaib_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_perkara_condition($jenis_perkara);
+
+		$params = array(
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir,
+			$tanggal_mulai, $tanggal_akhir
+		);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT 
 				COUNT(*) as total_gaib,
@@ -231,30 +251,17 @@ class M_perkara_gaib extends CI_Model
 				OR perkara_putusan.tanggal_putusan IS NULL
 			)
 			AND perkara_pihak2.alamat LIKE '%tidak diketahui%'
-			$where_jenis";
+			{$where_jenis['sql']}";
 
-		$params = array(
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir,
-			$tanggal_mulai, $tanggal_akhir
-		);
-
-		$query = $this->db->query($sql, $params);
-		return $query->row();
+		return $this->db->query($sql, $params)->row();
 	}
 
 	// Get dokumen relas panggilan gaib
 	public function get_dokumen_relas($perkara_id)
 	{
-		try {
-			$sql = "SELECT * FROM perkara_document_siap WHERE perkara_id = ? ORDER BY id DESC";
-			$query = $this->db->query($sql, array($perkara_id));
-			return $query ? $query->result() : array();
-		} catch (Exception $e) {
-			return array();
-		}
+		$sql = "SELECT * FROM perkara_document_siap WHERE perkara_id = ? ORDER BY id DESC";
+		$query = $this->db->query($sql, array($perkara_id));
+		return $query ? $query->result() : array();
 	}
 
 	// Get jenis perkara list
@@ -268,15 +275,19 @@ class M_perkara_gaib extends CI_Model
 				AND perkara.jenis_perkara_nama != ''
 				ORDER BY perkara.jenis_perkara_nama";
 
-		$query = $this->db->query($sql);
-		return $query->result();
+		return $this->db->query($sql)->result();
 	}
 
-	// Helper method
+	// Fixed: returns array with 'sql' + 'params' for parameter binding
 	private function _get_jenis_perkara_condition($jenis_perkara)
 	{
-		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) return '';
+		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) {
+			return array('sql' => '', 'params' => array());
+		}
 
-		return " AND perkara.nomor_perkara LIKE '%" . $this->db->escape_str($jenis_perkara) . "%'";
+		return array(
+			'sql' => ' AND perkara.nomor_perkara LIKE ?',
+			'params' => array('%' . $jenis_perkara . '%')
+		);
 	}
 }

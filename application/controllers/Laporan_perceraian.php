@@ -1,18 +1,14 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Laporan_perceraian extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
-
 		if (!ini_get('date.timezone')) {
 			date_default_timezone_set('Asia/Jakarta');
 		}
-
 		$this->load->model('M_laporan_perceraian');
 		$this->load->helper('url');
 		$this->load->helper('text');
@@ -27,7 +23,6 @@ class Laporan_perceraian extends CI_Controller
 		$wilayah = validate_wilayah($this->input->post('wilayah'), 'Semua');
 		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
-		// Get data based on report type
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data['datafilter'] = $this->M_laporan_perceraian->get_laporan_perceraian_tahunan($lap_tahun, $wilayah, $jenis_perkara);
@@ -45,20 +40,16 @@ class Laporan_perceraian extends CI_Controller
 				break;
 		}
 
-		// Get list jenis perkara for dropdown
-		$data['jenis_perkara_list'] = $this->M_laporan_perceraian->get_jenis_perkara_perceraian();
+		$data += [
+			'jenis_perkara_list' => $this->M_laporan_perceraian->get_jenis_perkara_perceraian(),
+			'selected_bulan' => $lap_bulan,
+			'selected_tahun' => $lap_tahun,
+			'selected_jenis' => $jenis_laporan,
+			'selected_wilayah' => $wilayah,
+			'selected_jenis_perkara' => $jenis_perkara,
+		];
 
-		// Pass selected values to view
-		$data['selected_bulan'] = $lap_bulan;
-		$data['selected_tahun'] = $lap_tahun;
-		$data['selected_jenis'] = $jenis_laporan;
-		$data['selected_wilayah'] = $wilayah;
-		$data['selected_jenis_perkara'] = $jenis_perkara;
-
-		$this->load->view('template/new_header');
-		$this->load->view('template/new_sidebar');
-		$this->load->view('v_laporan_perceraian', $data);
-		$this->load->view('template/new_footer');
+		view_load('v_laporan_perceraian', $data);
 	}
 
 	public function export_excel()
@@ -81,24 +72,7 @@ class Laporan_perceraian extends CI_Controller
 		$excel->setActiveSheetIndex(0);
 		$excel->getActiveSheet()->setTitle('Laporan Perceraian');
 
-		// Set headers
-		$headers = [
-			'No',
-			'Nomor Perkara',
-			'Jenis Perkara',
-			'Nama Pihak 1',
-			'NIK Pihak 1',
-			'Pekerjaan Pihak 1',
-			'Nama Pihak 2',
-			'NIK Pihak 2',
-			'Pekerjaan Pihak 2',
-			'Tanggal Putusan',
-			'Tanggal BHT',
-			'Status Putusan',
-			'Nomor Akta Cerai',
-			'No Seri Akta Cerai',
-			'Tanggal Akta Cerai'
-		];
+		$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Nama Pihak 1', 'NIK Pihak 1', 'Pekerjaan Pihak 1', 'Nama Pihak 2', 'NIK Pihak 2', 'Pekerjaan Pihak 2', 'Tanggal Putusan', 'Tanggal BHT', 'Status Putusan', 'Nomor Akta Cerai', 'No Seri Akta Cerai', 'Tanggal Akta Cerai'];
 
 		$col = 'A';
 		foreach ($headers as $header) {
@@ -107,7 +81,6 @@ class Laporan_perceraian extends CI_Controller
 			$col++;
 		}
 
-		// Get data
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data = $this->M_laporan_perceraian->get_laporan_perceraian_tahunan($lap_tahun, $wilayah, $jenis_perkara);
@@ -122,7 +95,6 @@ class Laporan_perceraian extends CI_Controller
 				break;
 		}
 
-		// Fill data
 		$row = 2;
 		$no = 1;
 		foreach ($data as $item) {
@@ -144,12 +116,10 @@ class Laporan_perceraian extends CI_Controller
 			$row++;
 		}
 
-		// Auto size columns
 		foreach (range('A', 'O') as $columnID) {
 			$excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}
 
-		// Output
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="Laporan_Perceraian_' . date('Y-m-d') . '.xls"');
 		header('Cache-Control: max-age=0');

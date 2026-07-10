@@ -3,55 +3,59 @@
 class M_faktor_perceraian_usia extends CI_Model
 {
 	/**
+	 * Build address filter condition (same pattern as M_faktor_perceraian_detail)
+	 */
+	private function _get_wilayah_condition($wilayah, $alias = 'pp1')
+	{
+		if ($wilayah == 'Semua Wilayah' || $wilayah == 'Semua') {
+			return array('sql' => '', 'params' => array());
+		}
+
+		// HSU / Amuntai
+		if (stripos($wilayah, 'hulu sungai utara') !== false || $wilayah == 'Amuntai' || $wilayah == 'HSU') {
+			$sql = "AND ({$alias}.alamat LIKE '%Hulu Sungai Utara%'
+				OR {$alias}.alamat LIKE '%HSU%'
+				OR {$alias}.alamat LIKE '%Amuntai%'
+				OR {$alias}.alamat LIKE '%Haur Gading%'
+				OR {$alias}.alamat LIKE '%Banjang%'
+				OR {$alias}.alamat LIKE '%Paminggir%'
+				OR {$alias}.alamat LIKE '%Babirik%'
+				OR {$alias}.alamat LIKE '%Sungai Pandan%'
+				OR {$alias}.alamat LIKE '%Danau Panggang%'
+				OR {$alias}.alamat LIKE '%Sungai Tabukan%')";
+			return array('sql' => $sql, 'params' => array());
+		}
+
+		// Balangan
+		if ($wilayah == 'Balangan') {
+			$sql = "AND ({$alias}.alamat LIKE '%Balangan%'
+				OR {$alias}.alamat LIKE '%Paringin%'
+				OR {$alias}.alamat LIKE '%Awayan%'
+				OR {$alias}.alamat LIKE '%Tebing Tinggi%'
+				OR {$alias}.alamat LIKE '%Juai%'
+				OR {$alias}.alamat LIKE '%Lampihong%'
+				OR {$alias}.alamat LIKE '%Halong%'
+				OR {$alias}.alamat LIKE '%Batumandi%')";
+			return array('sql' => $sql, 'params' => array());
+		}
+
+		// Generic — use parameter binding
+		return array(
+			'sql' => "AND {$alias}.alamat LIKE ?",
+			'params' => array('%' . $wilayah . '%')
+		);
+	}
+
+	/**
 	 * Get divorce factors grouped by age range (Perempuan only)
-	 *
-	 * Age ranges:
-	 *  16-19, 20-25, 26-30, 31-35, 36+
-	 *
-	 * @param string $tahun Tahun laporan
-	 * @param string $wilayah Wilayah / pengadilan
-	 * @return array
 	 */
 	public function get_data($tahun = null, $wilayah = null)
 	{
-		if (empty($tahun)) {
-			$tahun = date('Y');
-		}
-		if (empty($wilayah)) {
-			$wilayah = 'Amuntai';
-		}
+		if (empty($tahun)) $tahun = date('Y');
+		if (empty($wilayah)) $wilayah = 'Amuntai';
 
-		// Build address filter
-		$where_alamat = '';
-		$params = array($tahun);
+		$wilayah_data = $this->_get_wilayah_condition($wilayah, 'pp1');
 
-		if (stripos($wilayah, 'hulu sungai utara') !== false || $wilayah == 'Amuntai') {
-			$where_alamat = "AND (pp1.alamat LIKE '%Hulu Sungai Utara%'
-				OR pp1.alamat LIKE '%HSU%'
-				OR pp1.alamat LIKE '%Amuntai%'
-				OR pp1.alamat LIKE '%Haur Gading%'
-				OR pp1.alamat LIKE '%Banjang%'
-				OR pp1.alamat LIKE '%Paminggir%'
-				OR pp1.alamat LIKE '%Babirik%'
-				OR pp1.alamat LIKE '%Sungai Pandan%'
-				OR pp1.alamat LIKE '%Danau Panggang%'
-				OR pp1.alamat LIKE '%Sungai Tabukan%')";
-		} elseif ($wilayah == 'Balangan') {
-			$where_alamat = "AND (pp1.alamat LIKE '%Balangan%'
-				OR pp1.alamat LIKE '%Paringin%'
-				OR pp1.alamat LIKE '%Awayan%'
-				OR pp1.alamat LIKE '%Tebing Tinggi%'
-				OR pp1.alamat LIKE '%Juai%'
-				OR pp1.alamat LIKE '%Lampihong%'
-				OR pp1.alamat LIKE '%Halong%'
-				OR pp1.alamat LIKE '%Batumandi%')";
-		} else {
-			$where_alamat = "AND pp1.alamat LIKE ?";
-			$params = array($tahun, '%' . $wilayah . '%');
-		}
-
-		// Hitung usia saat akta cerai diterbitkan
-		// Asumsi: tabel pihak punya kolom tanggal_lahir
 		$sql = "
 			SELECT
 				faktor.nama AS faktor,
@@ -86,22 +90,15 @@ class M_faktor_perceraian_usia extends CI_Model
 				AND pd.jenis_kelamin = 'P'
 				AND faktor.aktif = 'Y'
 				AND pd.tanggal_lahir IS NOT NULL
-				$where_alamat
+				{$wilayah_data['sql']}
 			GROUP BY
 				faktor.id, faktor.nama
 			ORDER BY
-				CAST(faktor.id AS UNSIGNED) ASC, faktor.id ASC
-		";
+				CAST(faktor.id AS UNSIGNED) ASC, faktor.id ASC";
 
+		$params = array_merge(array($tahun), $wilayah_data['params']);
 		$query = $this->db->query($sql, $params);
-		$result = $query->result();
-
-		// Jika kolom 'urutan' tidak ada, fallback ke sorting manual
-		if (empty($result)) {
-			return $result;
-		}
-
-		return $result;
+		return $query->result();
 	}
 
 	/**
@@ -109,40 +106,10 @@ class M_faktor_perceraian_usia extends CI_Model
 	 */
 	public function get_summary($tahun = null, $wilayah = null)
 	{
-		if (empty($tahun)) {
-			$tahun = date('Y');
-		}
-		if (empty($wilayah)) {
-			$wilayah = 'Amuntai';
-		}
+		if (empty($tahun)) $tahun = date('Y');
+		if (empty($wilayah)) $wilayah = 'Amuntai';
 
-		$where_alamat = '';
-		$params = array($tahun);
-
-		if (stripos($wilayah, 'hulu sungai utara') !== false || $wilayah == 'Amuntai') {
-			$where_alamat = "AND (pp1.alamat LIKE '%Hulu Sungai Utara%'
-				OR pp1.alamat LIKE '%HSU%'
-				OR pp1.alamat LIKE '%Amuntai%'
-				OR pp1.alamat LIKE '%Haur Gading%'
-				OR pp1.alamat LIKE '%Banjang%'
-				OR pp1.alamat LIKE '%Paminggir%'
-				OR pp1.alamat LIKE '%Babirik%'
-				OR pp1.alamat LIKE '%Sungai Pandan%'
-				OR pp1.alamat LIKE '%Danau Panggang%'
-				OR pp1.alamat LIKE '%Sungai Tabukan%')";
-		} elseif ($wilayah == 'Balangan') {
-			$where_alamat = "AND (pp1.alamat LIKE '%Balangan%'
-				OR pp1.alamat LIKE '%Paringin%'
-				OR pp1.alamat LIKE '%Awayan%'
-				OR pp1.alamat LIKE '%Tebing Tinggi%'
-				OR pp1.alamat LIKE '%Juai%'
-				OR pp1.alamat LIKE '%Lampihong%'
-				OR pp1.alamat LIKE '%Halong%'
-				OR pp1.alamat LIKE '%Batumandi%')";
-		} else {
-			$where_alamat = "AND pp1.alamat LIKE ?";
-			$params = array($tahun, '%' . $wilayah . '%');
-		}
+		$wilayah_data = $this->_get_wilayah_condition($wilayah, 'pp1');
 
 		$sql = "
 			SELECT
@@ -162,9 +129,9 @@ class M_faktor_perceraian_usia extends CI_Model
 			WHERE
 				YEAR(pac.tgl_akta_cerai) = ?
 				AND pd.tanggal_lahir IS NOT NULL
-				$where_alamat
-		";
+				{$wilayah_data['sql']}";
 
+		$params = array_merge(array($tahun), $wilayah_data['params']);
 		$query = $this->db->query($sql, $params);
 		return $query->row();
 	}

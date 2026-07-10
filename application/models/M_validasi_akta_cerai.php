@@ -7,6 +7,11 @@ class M_validasi_akta_cerai extends CI_Model
 	{
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
 
+		$params = array($tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
+
 		$sql = "SELECT
 				P.nomor_perkara,
 				P.jenis_perkara_nama,
@@ -34,7 +39,7 @@ class M_validasi_akta_cerai extends CI_Model
 					P.jenis_perkara_nama LIKE '%Cerai Gugat%'
 					OR P.jenis_perkara_nama LIKE '%Cerai Talak%'
 				)
-				$where_jenis
+				{$where_jenis['sql']}
 				AND (
 					PAC.perkara_id IS NULL
 					OR PAC.nomor_akta_cerai IS NULL
@@ -45,13 +50,17 @@ class M_validasi_akta_cerai extends CI_Model
 				)
 			ORDER BY PP.tanggal_bht DESC, P.nomor_perkara";
 
-		$query = $this->db->query($sql, array($tahun));
-		return $query->result();
+		return $this->db->query($sql, $params)->result();
 	}
 
 	public function get_terlambat($tahun, $batas_hari = 7, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
+
+		$params = array($tahun, (int) $batas_hari);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				P.nomor_perkara,
@@ -81,16 +90,20 @@ class M_validasi_akta_cerai extends CI_Model
 					P.jenis_perkara_nama LIKE '%Cerai Gugat%'
 					OR P.jenis_perkara_nama LIKE '%Cerai Talak%'
 				)
-				$where_jenis
+				{$where_jenis['sql']}
 			ORDER BY selisih_hari DESC, PP.tanggal_bht DESC";
 
-		$query = $this->db->query($sql, array($tahun, (int) $batas_hari));
-		return $query->result();
+		return $this->db->query($sql, $params)->result();
 	}
 
 	public function get_summary($tahun, $batas_hari = 7, $jenis_perkara = 'semua')
 	{
 		$where_jenis = $this->_get_jenis_condition($jenis_perkara);
+
+		$params = array((int) $batas_hari, $tahun);
+		if (!empty($where_jenis['params'])) {
+			$params = array_merge($params, $where_jenis['params']);
+		}
 
 		$sql = "SELECT
 				COUNT(*) AS total_bht,
@@ -107,10 +120,9 @@ class M_validasi_akta_cerai extends CI_Model
 					P.jenis_perkara_nama LIKE '%Cerai Gugat%'
 					OR P.jenis_perkara_nama LIKE '%Cerai Talak%'
 				)
-				$where_jenis";
+				{$where_jenis['sql']}";
 
-		$query = $this->db->query($sql, array((int) $batas_hari, $tahun));
-		return $query->row();
+		return $this->db->query($sql, $params)->row();
 	}
 
 	public function get_by_nomor_akta($nomor_akta)
@@ -151,12 +163,16 @@ class M_validasi_akta_cerai extends CI_Model
 		return $this->db->query($sql)->result();
 	}
 
+	// Fixed: returns array with 'sql' + 'params' for parameter binding
 	private function _get_jenis_condition($jenis_perkara)
 	{
 		if ($jenis_perkara === 'semua' || empty($jenis_perkara)) {
-			return '';
+			return array('sql' => '', 'params' => array());
 		}
 
-		return " AND P.jenis_perkara_nama = '" . $this->db->escape_str($jenis_perkara) . "'";
+		return array(
+			'sql' => ' AND P.jenis_perkara_nama = ?',
+			'params' => array($jenis_perkara)
+		);
 	}
 }

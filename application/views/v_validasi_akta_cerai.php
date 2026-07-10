@@ -33,7 +33,7 @@
 							<div class="col-lg-3 col-6">
 								<div class="small-box bg-info">
 									<div class="inner">
-										<h3><?php echo isset($summary->total_bht) ? number_format($summary->total_bht) : 0; ?></h3>
+										<h3><?= isset($summary->total_bht) ? number_format($summary->total_bht) : 0 ?></h3>
 										<p>Perkara Cerai BHT</p>
 									</div>
 									<div class="icon"><i class="fas fa-gavel"></i></div>
@@ -42,7 +42,7 @@
 							<div class="col-lg-3 col-6">
 								<div class="small-box bg-danger">
 									<div class="inner">
-										<h3><?php echo isset($summary->belum_lengkap) ? number_format($summary->belum_lengkap) : 0; ?></h3>
+										<h3><?= isset($summary->belum_lengkap) ? number_format($summary->belum_lengkap) : 0 ?></h3>
 										<p>Data Akta Belum Lengkap</p>
 									</div>
 									<div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -51,7 +51,7 @@
 							<div class="col-lg-3 col-6">
 								<div class="small-box bg-warning">
 									<div class="inner">
-										<h3><?php echo isset($summary->terlambat) ? number_format($summary->terlambat) : 0; ?></h3>
+										<h3><?= isset($summary->terlambat) ? number_format($summary->terlambat) : 0 ?></h3>
 										<p>Lewat Batas Hari</p>
 									</div>
 									<div class="icon"><i class="fas fa-clock"></i></div>
@@ -60,7 +60,7 @@
 							<div class="col-lg-3 col-6">
 								<div class="small-box bg-success">
 									<div class="inner">
-										<h3><?php echo isset($summary->rata_hari) ? number_format($summary->rata_hari, 1) : 0; ?></h3>
+										<h3><?= isset($summary->rata_hari) ? number_format($summary->rata_hari, 1) : 0 ?></h3>
 										<p>Rata-rata Hari BHT ke Akta</p>
 									</div>
 									<div class="icon"><i class="fas fa-chart-line"></i></div>
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 				</section>
-			<?php endif; ?>
+			<?php endif ?>
 
 			<section class="content">
 				<div class="container-fluid">
@@ -80,16 +80,16 @@
 									<h3 class="card-title"><i class="fas fa-filter"></i> Filter Validasi</h3>
 								</div>
 								<div class="card-body">
-									<form action="<?php echo base_url(); ?>index.php/Validasi_akta_cerai?mode=<?php echo $selected_mode; ?>" method="POST" id="filterForm">
-										<input type="hidden" name="mode" id="modeInput" value="<?php echo $selected_mode; ?>">
+									<form action="<?= base_url() ?>index.php/Validasi_akta_cerai?mode=<?= $selected_mode ?>" method="POST" id="filterForm">
+										<input type="hidden" name="mode" id="modeInput" value="<?= $selected_mode ?>">
 										<div class="row">
 											<div class="col-md-3">
 												<div class="form-group">
 													<label>Jenis Validasi:</label>
 													<select name="mode_select" class="form-control" id="modeSelect" onchange="changeMode()">
-														<option value="belum_lengkap" <?php echo ($selected_mode === 'belum_lengkap') ? 'selected' : ''; ?>>Data Akta Belum Lengkap</option>
-														<option value="terlambat" <?php echo ($selected_mode === 'terlambat') ? 'selected' : ''; ?>>Akta Cerai Terlambat</option>
-														<option value="cek_nomor" <?php echo ($selected_mode === 'cek_nomor') ? 'selected' : ''; ?>>Cek Nomor Akta</option>
+														<option value="belum_lengkap" <?= ($selected_mode === 'belum_lengkap') ? 'selected' : '' ?>>Data Akta Belum Lengkap</option>
+														<option value="terlambat" <?= ($selected_mode === 'terlambat') ? 'selected' : '' ?>>Akta Cerai Terlambat</option>
+														<option value="cek_nomor" <?= ($selected_mode === 'cek_nomor') ? 'selected' : '' ?>>Cek Nomor Akta</option>
 													</select>
 												</div>
 											</div>
@@ -98,10 +98,10 @@
 													<label>Tahun BHT:</label>
 													<select name="lap_tahun" class="form-control">
 														<?php for ($year = 2016; $year <= date('Y') + 1; $year++): ?>
-															<option value="<?php echo $year; ?>" <?php echo (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : ''; ?>>
-																<?php echo $year; ?>
+															<option value="<?= $year ?>" <?= (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : '' ?>>
+																<?= $year ?>
 															</option>
-														<?php endfor; ?>
+														<?php endfor ?>
 													</select>
 												</div>
 											</div>
@@ -109,27 +109,27 @@
 												<div class="form-group">
 													<label>Jenis Perkara:</label>
 													<select name="jenis_perkara" class="form-control">
-														<option value="semua" <?php echo ($selected_jenis_perkara === 'semua') ? 'selected' : ''; ?>>Semua Jenis</option>
+														<option value="semua" <?= ($selected_jenis_perkara === 'semua') ? 'selected' : '' ?>>Semua Jenis</option>
 														<?php if (isset($jenis_perkara_list)): ?>
 															<?php foreach ($jenis_perkara_list as $item): ?>
-																<option value="<?php echo $item->jenis_perkara_nama; ?>" <?php echo ($selected_jenis_perkara === $item->jenis_perkara_nama) ? 'selected' : ''; ?>>
-																	<?php echo $item->jenis_perkara_nama; ?>
+																<option value="<?= $item->jenis_perkara_nama ?>" <?= ($selected_jenis_perkara === $item->jenis_perkara_nama) ? 'selected' : '' ?>>
+																	<?= $item->jenis_perkara_nama ?>
 																</option>
-															<?php endforeach; ?>
-														<?php endif; ?>
+															<?php endforeach ?>
+														<?php endif ?>
 													</select>
 												</div>
 											</div>
 											<div class="col-md-2" id="batasHariGroup">
 												<div class="form-group">
 													<label>Batas Hari:</label>
-													<input type="number" min="1" name="batas_hari" class="form-control" value="<?php echo $selected_batas_hari; ?>">
+													<input type="number" min="1" name="batas_hari" class="form-control" value="<?= $selected_batas_hari ?>">
 												</div>
 											</div>
 											<div class="col-md-5" id="nomorAktaGroup">
 												<div class="form-group">
 													<label>Nomor Akta Cerai:</label>
-													<input type="text" name="nomor_akta" class="form-control" value="<?php echo isset($selected_nomor_akta) ? $selected_nomor_akta : ''; ?>" placeholder="Masukkan nomor akta cerai">
+													<input type="text" name="nomor_akta" class="form-control" value="<?= isset($selected_nomor_akta) ? $selected_nomor_akta : '' ?>" placeholder="Masukkan nomor akta cerai">
 												</div>
 											</div>
 											<div class="col-md-2">
@@ -164,35 +164,35 @@
 													<tbody>
 														<tr>
 															<th style="width: 220px;">Nomor Akta Cerai</th>
-															<td><strong><?php echo $hasil_cek->nomor_akta_cerai; ?></strong></td>
+															<td><strong><?= $hasil_cek->nomor_akta_cerai ?></strong></td>
 														</tr>
 														<tr>
 															<th>No Seri Akta Cerai</th>
-															<td><?php echo $hasil_cek->no_seri_akta_cerai ?: '-'; ?></td>
+															<td><?= $hasil_cek->no_seri_akta_cerai ?: '-' ?></td>
 														</tr>
 														<tr>
 															<th>Tanggal Akta Cerai</th>
-															<td><?php echo $hasil_cek->tgl_akta_cerai ?: '-'; ?></td>
+															<td><?= $hasil_cek->tgl_akta_cerai ?: '-' ?></td>
 														</tr>
 														<tr>
 															<th>Nomor Perkara</th>
-															<td><?php echo $hasil_cek->nomor_perkara; ?></td>
+															<td><?= $hasil_cek->nomor_perkara ?></td>
 														</tr>
 														<tr>
 															<th>Nama Pihak</th>
-															<td><?php echo $hasil_cek->penggugat; ?> <strong>vs</strong> <?php echo $hasil_cek->tergugat; ?></td>
+															<td><?= $hasil_cek->penggugat ?> <strong>vs</strong> <?= $hasil_cek->tergugat ?></td>
 														</tr>
 														<tr>
 															<th>Jenis Perkara</th>
-															<td><?php echo $hasil_cek->jenis_perkara_nama; ?></td>
+															<td><?= $hasil_cek->jenis_perkara_nama ?></td>
 														</tr>
 														<tr>
 															<th>Tanggal Putusan</th>
-															<td><?php echo $hasil_cek->tanggal_putusan ?: '-'; ?></td>
+															<td><?= $hasil_cek->tanggal_putusan ?: '-' ?></td>
 														</tr>
 														<tr>
 															<th>Tanggal BHT</th>
-															<td><?php echo $hasil_cek->tanggal_bht ?: '-'; ?></td>
+															<td><?= $hasil_cek->tanggal_bht ?: '-' ?></td>
 														</tr>
 													</tbody>
 												</table>
@@ -200,13 +200,13 @@
 										<?php elseif (!empty($selected_nomor_akta)): ?>
 											<div class="alert alert-danger">
 												<h5><i class="fas fa-times-circle"></i> Nomor Akta Tidak Ditemukan</h5>
-												Nomor akta cerai <strong><?php echo $selected_nomor_akta; ?></strong> tidak ditemukan pada database SIPP.
+												Nomor akta cerai <strong><?= $selected_nomor_akta ?></strong> tidak ditemukan pada database SIPP.
 											</div>
 										<?php else: ?>
 											<div class="alert alert-info mb-0">
 												<i class="fas fa-info-circle"></i> Masukkan nomor akta cerai untuk melakukan validasi.
 											</div>
-										<?php endif; ?>
+										<?php endif ?>
 									</div>
 								</div>
 							<?php else: ?>
@@ -214,7 +214,7 @@
 								<div class="card-header">
 									<h3 class="card-title">
 										<i class="fas fa-list"></i>
-										<?php echo ($selected_mode === 'terlambat') ? 'Daftar Perkara Terlambat' : 'Daftar Data Akta Belum Lengkap'; ?>
+										<?= ($selected_mode === 'terlambat') ? 'Daftar Perkara Terlambat' : 'Daftar Data Akta Belum Lengkap' ?>
 									</h3>
 								</div>
 								<div class="card-body">
@@ -238,47 +238,47 @@
 														<th>No Seri</th>
 														<th>Tgl Akta</th>
 														<th>Catatan</th>
-													<?php endif; ?>
+													<?php endif ?>
 												</tr>
 											</thead>
 											<tbody>
 												<?php if (isset($datafilter) && count($datafilter) > 0): ?>
 													<?php $no = 1; foreach ($datafilter as $row): ?>
 														<tr>
-															<td><?php echo $no++; ?></td>
-															<td><strong><?php echo $row->nomor_perkara; ?></strong></td>
-															<td><?php echo $row->jenis_perkara_nama; ?></td>
-															<td><?php echo character_limiter($row->penggugat, 35); ?></td>
-															<td><?php echo character_limiter($row->tergugat, 35); ?></td>
-															<td><?php echo $row->tanggal_putusan ?: '-'; ?></td>
-															<td><?php echo $row->tanggal_bht ?: '-'; ?></td>
+															<td><?= $no++ ?></td>
+															<td><strong><?= $row->nomor_perkara ?></strong></td>
+															<td><?= $row->jenis_perkara_nama ?></td>
+															<td><?= character_limiter($row->penggugat, 35) ?></td>
+															<td><?= character_limiter($row->tergugat, 35) ?></td>
+															<td><?= $row->tanggal_putusan ?: '-' ?></td>
+															<td><?= $row->tanggal_bht ?: '-' ?></td>
 															<?php if ($selected_mode === 'terlambat'): ?>
-																<td><?php echo $row->tgl_akta_cerai ?: '-'; ?></td>
-																<td><span class="badge badge-danger"><?php echo $row->selisih_hari; ?> hari</span></td>
-																<td><?php echo $row->status_keterlambatan; ?></td>
+																<td><?= $row->tgl_akta_cerai ?: '-' ?></td>
+																<td><span class="badge badge-danger"><?= $row->selisih_hari ?> hari</span></td>
+																<td><?= $row->status_keterlambatan ?></td>
 															<?php else: ?>
-																<td><?php echo $row->nomor_akta_cerai ?: '-'; ?></td>
-																<td><?php echo $row->no_seri_akta_cerai ?: '-'; ?></td>
-																<td><?php echo $row->tgl_akta_cerai ?: '-'; ?></td>
-																<td><span class="badge badge-warning"><?php echo $row->catatan_validasi ?: 'Perlu dicek'; ?></span></td>
-															<?php endif; ?>
+																<td><?= $row->nomor_akta_cerai ?: '-' ?></td>
+																<td><?= $row->no_seri_akta_cerai ?: '-' ?></td>
+																<td><?= $row->tgl_akta_cerai ?: '-' ?></td>
+																<td><span class="badge badge-warning"><?= $row->catatan_validasi ?: 'Perlu dicek' ?></span></td>
+															<?php endif ?>
 														</tr>
-													<?php endforeach; ?>
+													<?php endforeach ?>
 												<?php else: ?>
 													<tr>
-														<td colspan="<?php echo ($selected_mode === 'terlambat') ? 10 : 11; ?>" class="text-center">
+														<td colspan="<?= ($selected_mode === 'terlambat') ? 10 : 11 ?>" class="text-center">
 															<div class="alert alert-info mb-0">
 																<i class="fas fa-info-circle"></i> Tidak ada data untuk filter ini
 															</div>
 														</td>
 													</tr>
-												<?php endif; ?>
+												<?php endif ?>
 											</tbody>
 										</table>
 									</div>
 								</div>
 							</div>
-							<?php endif; ?>
+							<?php endif ?>
 						</div>
 					</div>
 				</div>
@@ -290,7 +290,7 @@
 		function changeMode() {
 			const mode = document.getElementById('modeSelect').value;
 			document.getElementById('modeInput').value = mode;
-			document.getElementById('filterForm').action = '<?php echo base_url(); ?>index.php/Validasi_akta_cerai?mode=' + mode;
+			document.getElementById('filterForm').action = '<?= base_url() ?>index.php/Validasi_akta_cerai?mode=' + mode;
 			toggleBatasHari();
 		}
 
@@ -308,7 +308,7 @@
 			changeMode();
 			const form = document.getElementById('filterForm');
 			const originalAction = form.action;
-			form.action = '<?php echo base_url(); ?>index.php/Validasi_akta_cerai/export_excel';
+			form.action = '<?= base_url() ?>index.php/Validasi_akta_cerai/export_excel';
 			form.submit();
 			form.action = originalAction;
 		}

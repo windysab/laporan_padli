@@ -12,7 +12,7 @@ class Check_db extends CI_Controller
 
 		$found_tables = [];
 		foreach ($keywords as $kw) {
-			$q = $this->db->query("SHOW TABLES LIKE '%{$kw}%'");
+			$q = $this->db->query("SHOW TABLES LIKE ?", ["%{$kw}%"]);
 			if ($q && $q->num_rows() > 0) {
 				foreach ($q->result_array() as $row) {
 					$tbl = implode('', $row);

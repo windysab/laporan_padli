@@ -9,7 +9,7 @@
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="<?php echo site_url('Dashboard') ?>">Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= site_url('Dashboard') ?>">Home</a></li>
 						<li class="breadcrumb-item"><a href="#">Data Perceraian</a></li>
 						<li class="breadcrumb-item active">Faktor Perceraian Detail</li>
 					</ol>
@@ -32,7 +32,7 @@
 								Filter Laporan
 							</h3>
 						</div>
-						<form method="post" action="<?php echo site_url('Faktor_perceraian_detail') ?>" id="filterForm">
+						<form method="post" action="<?= site_url('Faktor_perceraian_detail') ?>" id="filterForm">
 							<div class="card-body">
 								<div class="row">
 									<!-- Tahun -->
@@ -44,8 +44,8 @@
 												$selected_tahun = $this->input->post('lap_tahun') ?: date('Y');
 												for ($i = date('Y'); $i >= 2020; $i--):
 												?>
-													<option value="<?php echo $i; ?>" <?php echo ($selected_tahun == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
-												<?php endfor; ?>
+													<option value="<?= $i ?>" <?= ($selected_tahun == $i) ? 'selected' : '' ?>><?= $i ?></option>
+												<?php endfor ?>
 											</select>
 										</div>
 									</div>
@@ -55,10 +55,10 @@
 										<div class="form-group">
 											<label>Wilayah</label>
 											<select name="wilayah" class="form-control" id="wilayah">
-												<?php $selected_wilayah = $this->input->post('wilayah') ?: 'Balangan'; ?>
-												<option value="Balangan" <?php echo ($selected_wilayah == 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
-												<option value="HULU SUNGAI UTARA" <?php echo ($selected_wilayah == 'Hulu SUNGAI UTARA') ? 'selected' : ''; ?>>Hulu Sungai Utara</option>
-												<option value="Semua Wilayah" <?php echo ($selected_wilayah == 'Semua Wilayah') ? 'selected' : ''; ?>>Semua Wilayah</option>
+												<?php $selected_wilayah = $this->input->post('wilayah') ?: 'Balangan' ?>
+												<option value="Balangan" <?= ($selected_wilayah == 'Balangan') ? 'selected' : '' ?>>Balangan</option>
+												<option value="HULU SUNGAI UTARA" <?= ($selected_wilayah == 'Hulu SUNGAI UTARA') ? 'selected' : '' ?>>Hulu Sungai Utara</option>
+												<option value="Semua Wilayah" <?= ($selected_wilayah == 'Semua Wilayah') ? 'selected' : '' ?>>Semua Wilayah</option>
 											</select>
 										</div>
 									</div>
@@ -77,7 +77,7 @@
 												<button type="button" class="btn btn-info" onclick="printReport()">
 													<i class="fas fa-print"></i> Print
 												</button>
-												<a href="<?php echo site_url('Faktor_perceraian_detail/tabel_727?lap_tahun=' . $selected_tahun . '&wilayah=' . urlencode($selected_wilayah)); ?>" class="btn btn-dark">
+												<a href="<?= site_url('Faktor_perceraian_detail/tabel_727?lap_tahun=' . $selected_tahun . '&wilayah=' . urlencode($selected_wilayah)) ?>" class="btn btn-dark">
 													<i class="fas fa-table"></i> Tabel 7.27
 												</a>
 											</div>
@@ -104,14 +104,13 @@
 							$grand_total += $row->Total;
 						endif;
 					endforeach;
-				endif;
-				?>
+				endif ?>
 
 				<!-- Total Laki-laki Card -->
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-info">
 						<div class="inner">
-							<h3><?php echo number_format($total_laki); ?></h3>
+							<h3><?= number_format($total_laki) ?></h3>
 							<p>Total Laki-laki</p>
 						</div>
 						<div class="icon">
@@ -124,7 +123,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-warning">
 						<div class="inner">
-							<h3><?php echo number_format($total_perempuan); ?></h3>
+							<h3><?= number_format($total_perempuan) ?></h3>
 							<p>Total Perempuan</p>
 						</div>
 						<div class="icon">
@@ -137,7 +136,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-success">
 						<div class="inner">
-							<h3><?php echo number_format($grand_total); ?></h3>
+							<h3><?= number_format($grand_total) ?></h3>
 							<p>Total Keseluruhan</p>
 						</div>
 						<div class="icon">
@@ -150,7 +149,7 @@
 				<div class="col-lg-3 col-6">
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3><?php echo $grand_total > 0 ? round(($total_perempuan / $grand_total) * 100, 1) : 0; ?>%</h3>
+							<h3><?= $grand_total > 0 ? round(($total_perempuan / $grand_total) * 100, 1) : 0 ?>%</h3>
 							<p>Persentase Perempuan</p>
 						</div>
 						<div class="icon">
@@ -167,7 +166,7 @@
 						<div class="card-header">
 							<h3 class="card-title">
 								<i class="fas fa-table"></i>
-								Laporan Faktor Perceraian Detail - <?php echo $selected_tahun; ?> - <?php echo $selected_wilayah; ?>
+								Laporan Faktor Perceraian Detail - <?= $selected_tahun ?> - <?= $selected_wilayah ?>
 							</h3>
 						</div>
 						<div class="card-body">
@@ -191,16 +190,15 @@
 											foreach ($datafilter as $row):
 												if ($row->FaktorPerceraian != 'TOTAL'):
 													$persen_laki = $row->Total > 0 ? round(($row->{'Laki-Laki'} / $row->Total) * 100, 1) : 0;
-													$persen_perempuan = $row->Total > 0 ? round(($row->Perempuan / $row->Total) * 100, 1) : 0;
-										?>
+													$persen_perempuan = $row->Total > 0 ? round(($row->Perempuan / $row->Total) * 100, 1) : 0 ?>
 													<tr>
-														<td class="text-center"><?php echo $no++; ?></td>
-														<td><?php echo $row->FaktorPerceraian; ?></td>
-														<td class="text-center"><?php echo number_format($row->{'Laki-Laki'}); ?></td>
-														<td class="text-center"><?php echo number_format($row->Perempuan); ?></td>
-														<td class="text-center font-weight-bold"><?php echo number_format($row->Total); ?></td>
-														<td class="text-center"><?php echo $persen_laki; ?>%</td>
-														<td class="text-center"><?php echo $persen_perempuan; ?>%</td>
+														<td class="text-center"><?= $no++ ?></td>
+														<td><?= $row->FaktorPerceraian ?></td>
+														<td class="text-center"><?= number_format($row->{'Laki-Laki'}) ?></td>
+														<td class="text-center"><?= number_format($row->Perempuan) ?></td>
+														<td class="text-center font-weight-bold"><?= number_format($row->Total) ?></td>
+														<td class="text-center"><?= $persen_laki ?>%</td>
+														<td class="text-center"><?= $persen_perempuan ?>%</td>
 													</tr>
 											<?php
 												endif;
@@ -210,16 +208,16 @@
 											<tr>
 												<td colspan="7" class="text-center">Tidak ada data</td>
 											</tr>
-										<?php endif; ?>
+										<?php endif ?>
 									</tbody>
 									<tfoot>
 										<tr class="bg-light font-weight-bold">
 											<th colspan="2" class="text-center">TOTAL</th>
-											<th class="text-center"><?php echo number_format($total_laki); ?></th>
-											<th class="text-center"><?php echo number_format($total_perempuan); ?></th>
-											<th class="text-center"><?php echo number_format($grand_total); ?></th>
-											<th class="text-center"><?php echo $grand_total > 0 ? round(($total_laki / $grand_total) * 100, 1) : 0; ?>%</th>
-											<th class="text-center"><?php echo $grand_total > 0 ? round(($total_perempuan / $grand_total) * 100, 1) : 0; ?>%</th>
+											<th class="text-center"><?= number_format($total_laki) ?></th>
+											<th class="text-center"><?= number_format($total_perempuan) ?></th>
+											<th class="text-center"><?= number_format($grand_total) ?></th>
+											<th class="text-center"><?= $grand_total > 0 ? round(($total_laki / $grand_total) * 100, 1) : 0 ?>%</th>
+											<th class="text-center"><?= $grand_total > 0 ? round(($total_perempuan / $grand_total) * 100, 1) : 0 ?>%</th>
 										</tr>
 									</tfoot>
 								</table>
@@ -276,8 +274,8 @@
 		console.log('Chart.js version:', Chart.version);
 		console.log('Gender chart element:', document.getElementById('genderChart'));
 		console.log('Faktor chart element:', document.getElementById('faktorChart'));
-		console.log('Data - Total Laki:', <?php echo $total_laki; ?>);
-		console.log('Data - Total Perempuan:', <?php echo $total_perempuan; ?>);
+		console.log('Data - Total Laki:', <?= $total_laki ?>);
+		console.log('Data - Total Perempuan:', <?= $total_perempuan ?>);
 	}
 
 	// Tunggu sampai document ready
@@ -324,7 +322,7 @@
 						data: {
 							labels: ['Laki-laki', 'Perempuan'],
 							datasets: [{
-								data: [<?php echo $total_laki; ?>, <?php echo $total_perempuan; ?>],
+								data: [<?= $total_laki ?>, <?= $total_perempuan ?>],
 								backgroundColor: ['#007bff', '#ffc107'],
 								borderColor: ['#0056b3', '#e0a800'],
 								borderWidth: 2
@@ -367,19 +365,18 @@
 								$chart_count++;
 							endif;
 						endforeach;
-					endif;
-					?>
+					endif ?>
 
-					console.log('Chart labels:', [<?php echo implode(',', $chart_labels); ?>]);
-					console.log('Chart data:', [<?php echo implode(',', $chart_data); ?>]);
+					console.log('Chart labels:', [<?= implode(',', $chart_labels) ?>]);
+					console.log('Chart data:', [<?= implode(',', $chart_data) ?>]);
 
 					new Chart(faktorCanvas, {
 						type: 'bar',
 						data: {
-							labels: [<?php echo implode(',', $chart_labels); ?>],
+							labels: [<?= implode(',', $chart_labels) ?>],
 							datasets: [{
 								label: 'Jumlah Kasus',
-								data: [<?php echo implode(',', $chart_data); ?>],
+								data: [<?= implode(',', $chart_data) ?>],
 								backgroundColor: '#28a745',
 								borderColor: '#1e7e34',
 								borderWidth: 1

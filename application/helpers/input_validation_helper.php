@@ -176,3 +176,61 @@ function validate_status_putusan($status)
 	}
 	return 'semua';
 }
+
+/**
+ * Load template header, sidebar, main view, and footer in one call.
+ * Reduces 4 lines of view loading to 1 line.
+ *
+ * @param string $view  Main view name
+ * @param array  $data  Data passed to the view
+ */
+function view_load($view, $data = [])
+{
+	$CI =& get_instance();
+	$CI->load->view('template/new_header');
+	$CI->load->view('template/new_sidebar');
+	$CI->load->view($view, $data);
+	$CI->load->view('template/new_footer');
+}
+
+/**
+ * Output JSON response and exit.
+ */
+function json_output($data)
+{
+	header('Content-Type: application/json');
+	echo json_encode($data);
+	exit;
+}
+
+/**
+ * Map wilayah shorthand to full database name.
+ */
+function wilayah_map($wilayah)
+{
+	$map = [
+		'HSU' => 'Hulu Sungai Utara',
+		'Hulu Sungai Utara' => 'Hulu Sungai Utara',
+		'Balangan' => 'Balangan',
+		'Amuntai' => 'Amuntai',
+		'Semua' => 'Semua',
+		'Semua Wilayah' => 'Semua',
+	];
+	return $map[$wilayah] ?? $wilayah;
+}
+
+/**
+ * Get wilayah label for display, normalized.
+ */
+function wilayah_label($wilayah)
+{
+	$labels = [
+		'SEMUA' => 'HSU dan Balangan',
+		'SEMUA WILAYAH' => 'HSU dan Balangan',
+		'HSU' => 'HSU',
+		'HULU SUNGAI UTARA' => 'HSU',
+		'BALANGAN' => 'Balangan',
+	];
+	$key = strtoupper(trim($wilayah));
+	return $labels[$key] ?? $wilayah;
+}

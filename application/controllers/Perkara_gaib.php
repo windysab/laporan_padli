@@ -3,15 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Perkara_gaib extends CI_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
-
 		if (!ini_get('date.timezone')) {
 			date_default_timezone_set('Asia/Jakarta');
 		}
-
 		$this->load->model('M_perkara_gaib');
 		$this->load->helper('url');
 		$this->load->helper('text');
@@ -25,7 +22,6 @@ class Perkara_gaib extends CI_Controller
 		$jenis_laporan = validate_jenis_laporan($this->input->post('jenis_laporan'));
 		$jenis_perkara = validate_jenis_perkara($this->input->post('jenis_perkara'), 'semua');
 
-		// Get data based on report type
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data['datafilter'] = $this->M_perkara_gaib->get_perkara_gaib_tahunan($lap_tahun, $jenis_perkara);
@@ -43,26 +39,21 @@ class Perkara_gaib extends CI_Controller
 				break;
 		}
 
-		// Get dokumen relas for each perkara
 		if (!empty($data['datafilter'])) {
 			foreach ($data['datafilter'] as &$row) {
 				$row->dokumen_relas = $this->M_perkara_gaib->get_dokumen_relas($row->perkara_id);
 			}
 		}
 
-		// Get list jenis perkara for dropdown
-		$data['jenis_perkara_list'] = $this->M_perkara_gaib->get_jenis_perkara_gaib();
+		$data += [
+			'jenis_perkara_list' => $this->M_perkara_gaib->get_jenis_perkara_gaib(),
+			'selected_bulan' => $lap_bulan,
+			'selected_tahun' => $lap_tahun,
+			'selected_jenis' => $jenis_laporan,
+			'selected_jenis_perkara' => $jenis_perkara,
+		];
 
-		// Pass selected values to view
-		$data['selected_bulan'] = $lap_bulan;
-		$data['selected_tahun'] = $lap_tahun;
-		$data['selected_jenis'] = $jenis_laporan;
-		$data['selected_jenis_perkara'] = $jenis_perkara;
-
-		$this->load->view('template/new_header');
-		$this->load->view('template/new_sidebar');
-		$this->load->view('v_perkara_gaib', $data);
-		$this->load->view('template/new_footer');
+		view_load('v_perkara_gaib', $data);
 	}
 
 	public function export_excel()
@@ -84,22 +75,7 @@ class Perkara_gaib extends CI_Controller
 		$excel->setActiveSheetIndex(0);
 		$excel->getActiveSheet()->setTitle('Perkara Gaib');
 
-		// Set headers
-		$headers = [
-			'No',
-			'Nomor Perkara',
-			'Jenis Perkara',
-			'Majelis Hakim',
-			'Panitera Pengganti',
-			'Tgl Pendaftaran',
-			'Penetapan Majelis Hakim',
-			'Penetapan Hari Sidang',
-			'Sidang Pertama',
-			'Tgl Putusan',
-			'Status Putusan',
-			'Alamat Termohon',
-			'Dokumen Relas'
-		];
+		$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Majelis Hakim', 'Panitera Pengganti', 'Tgl Pendaftaran', 'Penetapan Majelis Hakim', 'Penetapan Hari Sidang', 'Sidang Pertama', 'Tgl Putusan', 'Status Putusan', 'Alamat Termohon', 'Dokumen Relas'];
 
 		$col = 'A';
 		foreach ($headers as $header) {
@@ -108,7 +84,6 @@ class Perkara_gaib extends CI_Controller
 			$col++;
 		}
 
-		// Get data
 		switch ($jenis_laporan) {
 			case 'tahunan':
 				$data = $this->M_perkara_gaib->get_perkara_gaib_tahunan($lap_tahun, $jenis_perkara);
@@ -123,11 +98,9 @@ class Perkara_gaib extends CI_Controller
 				break;
 		}
 
-		// Fill data
 		$row = 2;
 		$no = 1;
 		foreach ($data as $item) {
-			// Get dokumen relas
 			$dokumen = $this->M_perkara_gaib->get_dokumen_relas($item->perkara_id);
 			$dok_paths = [];
 			foreach ($dokumen as $dok) {
@@ -150,12 +123,10 @@ class Perkara_gaib extends CI_Controller
 			$row++;
 		}
 
-		// Auto size columns
 		foreach (range('A', 'M') as $columnID) {
 			$excel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
 		}
 
-		// Output
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="Perkara_Gaib_' . date('Y-m-d') . '.xls"');
 		header('Cache-Control: max-age=0');

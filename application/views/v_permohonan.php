@@ -9,33 +9,33 @@
 	<!-- Google Font: Source Sans Pro -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/fontawesome-free/css/all.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/fontawesome-free/css/all.min.css">
 	<!-- DataTables -->
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 	<!-- Theme style -->
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/build/css/adminlte.min.css">
+	<link rel="stylesheet" href="<?= base_url() ?>assets/build/css/adminlte.min.css">
 
 	<!-- jQuery -->
-	<script src="<?php echo base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
-	<script src="<?php echo base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- DataTables & Plugins -->
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/jszip/jszip.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-	<script src="<?php echo base_url(); ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/jszip/jszip.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script src="<?= base_url() ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 	<!-- AdminLTE App -->
-	<script src="<?php echo base_url(); ?>assets/build/js/adminlte.min.js"></script>
+	<script src="<?= base_url() ?>assets/build/js/adminlte.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -67,7 +67,7 @@
 							<div class="col-lg-4 col-6">
 								<div class="small-box bg-info">
 									<div class="inner">
-										<h3><?php echo isset($summary->total_masuk) ? $summary->total_masuk : 0; ?></h3>
+										<h3><?= isset($summary->total_masuk) ? $summary->total_masuk : 0 ?></h3>
 										<p>Total Perkara Masuk</p>
 									</div>
 									<div class="icon">
@@ -78,7 +78,7 @@
 							<div class="col-lg-4 col-6">
 								<div class="small-box bg-success">
 									<div class="inner">
-										<h3><?php echo isset($summary->total_putus) ? $summary->total_putus : 0; ?></h3>
+										<h3><?= isset($summary->total_putus) ? $summary->total_putus : 0 ?></h3>
 										<p>Total Perkara Putus</p>
 									</div>
 									<div class="icon">
@@ -94,8 +94,7 @@
 											$total_masuk = isset($summary->total_masuk) ? $summary->total_masuk : 0;
 											$total_putus = isset($summary->total_putus) ? $summary->total_putus : 0;
 											$persentase = ($total_masuk > 0) ? round(($total_putus / $total_masuk) * 100, 1) : 0;
-											echo $persentase;
-											?>%
+											echo $persentase ?>%
 										</h3>
 										<p>Tingkat Penyelesaian</p>
 									</div>
@@ -107,7 +106,7 @@
 						</div>
 					</div>
 				</section>
-			<?php endif; ?>
+			<?php endif ?>
 
 			<!-- Main content -->
 			<section class="content">
@@ -119,15 +118,15 @@
 									<h3 class="card-title"><i class="fas fa-filter"></i> Filter Laporan</h3>
 								</div>
 								<div class="card-body">
-									<form action="<?php echo base_url() ?>index.php/Data_Permohonan" method="POST" id="filterForm">
+									<form action="<?= base_url() ?>index.php/Data_Permohonan" method="POST" id="filterForm">
 										<div class="row">
 											<div class="col-md-2">
 												<div class="form-group">
 													<label>Wilayah:</label>
 													<select name="wilayah" class="form-control">
-														<option value="Semua" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'Semua') ? 'selected' : ''; ?>>Semua Wilayah</option>
-														<option value="HSU" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'HSU') ? 'selected' : ''; ?>>Hulu Sungai Utara</option>
-														<option value="Balangan" <?php echo (isset($selected_wilayah) && $selected_wilayah === 'Balangan') ? 'selected' : ''; ?>>Balangan</option>
+														<option value="Semua" <?= (isset($selected_wilayah) && $selected_wilayah === 'Semua') ? 'selected' : '' ?>>Semua Wilayah</option>
+														<option value="HSU" <?= (isset($selected_wilayah) && $selected_wilayah === 'HSU') ? 'selected' : '' ?>>Hulu Sungai Utara</option>
+														<option value="Balangan" <?= (isset($selected_wilayah) && $selected_wilayah === 'Balangan') ? 'selected' : '' ?>>Balangan</option>
 													</select>
 												</div>
 											</div>
@@ -137,16 +136,16 @@
 													<select name="jenis_perkara" class="form-control">
 														<?php if (isset($jenis_perkara_list) && !empty($jenis_perkara_list)): ?>
 															<?php foreach ($jenis_perkara_list as $perkara): ?>
-																<option value="<?php echo htmlspecialchars($perkara->jenis_perkara_nama); ?>"
-																	<?php echo (isset($selected_jenis_perkara) && $selected_jenis_perkara === $perkara->jenis_perkara_nama) ? 'selected' : ''; ?>>
-																	<?php echo htmlspecialchars($perkara->jenis_perkara_nama); ?>
+																<option value="<?= htmlspecialchars($perkara->jenis_perkara_nama) ?>"
+																	<?= (isset($selected_jenis_perkara) && $selected_jenis_perkara === $perkara->jenis_perkara_nama) ? 'selected' : '' ?>>
+																	<?= htmlspecialchars($perkara->jenis_perkara_nama) ?>
 																</option>
-															<?php endforeach; ?>
+															<?php endforeach ?>
 														<?php else: ?>
 															<option value="Dispensasi Kawin">Dispensasi Kawin</option>
 															<option value="Istbat Nikah">Istbat Nikah</option>
 															<option value="P3HP/Penetapan Ahli Waris">P3HP/Penetapan Ahli Waris</option>
-														<?php endif; ?>
+														<?php endif ?>
 													</select>
 												</div>
 											</div>
@@ -154,9 +153,9 @@
 												<div class="form-group">
 													<label>Jenis Laporan:</label>
 													<select name="jenis_laporan" class="form-control" id="jenisLaporan" onchange="toggleFilter()">
-														<option value="bulanan" <?php echo (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'bulanan') ? 'selected' : ''; ?>>Bulanan</option>
-														<option value="tahunan" <?php echo (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'tahunan') ? 'selected' : ''; ?>>Tahunan</option>
-														<option value="custom" <?php echo (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'custom') ? 'selected' : ''; ?>>Custom Range</option>
+														<option value="bulanan" <?= (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'bulanan') ? 'selected' : '' ?>>Bulanan</option>
+														<option value="tahunan" <?= (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'tahunan') ? 'selected' : '' ?>>Tahunan</option>
+														<option value="custom" <?= (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'custom') ? 'selected' : '' ?>>Custom Range</option>
 													</select>
 												</div>
 											</div>
@@ -164,18 +163,18 @@
 												<div class="form-group">
 													<label>Bulan:</label>
 													<select name="lap_bulan" class="form-control">
-														<option value="01" <?php echo (isset($selected_bulan) && $selected_bulan === '01') ? 'selected' : ''; ?>>Jan</option>
-														<option value="02" <?php echo (isset($selected_bulan) && $selected_bulan === '02') ? 'selected' : ''; ?>>Feb</option>
-														<option value="03" <?php echo (isset($selected_bulan) && $selected_bulan === '03') ? 'selected' : ''; ?>>Mar</option>
-														<option value="04" <?php echo (isset($selected_bulan) && $selected_bulan === '04') ? 'selected' : ''; ?>>Apr</option>
-														<option value="05" <?php echo (isset($selected_bulan) && $selected_bulan === '05') ? 'selected' : ''; ?>>Mei</option>
-														<option value="06" <?php echo (isset($selected_bulan) && $selected_bulan === '06') ? 'selected' : ''; ?>>Jun</option>
-														<option value="07" <?php echo (isset($selected_bulan) && $selected_bulan === '07') ? 'selected' : ''; ?>>Jul</option>
-														<option value="08" <?php echo (isset($selected_bulan) && $selected_bulan === '08') ? 'selected' : ''; ?>>Agu</option>
-														<option value="09" <?php echo (isset($selected_bulan) && $selected_bulan === '09') ? 'selected' : ''; ?>>Sep</option>
-														<option value="10" <?php echo (isset($selected_bulan) && $selected_bulan === '10') ? 'selected' : ''; ?>>Okt</option>
-														<option value="11" <?php echo (isset($selected_bulan) && $selected_bulan === '11') ? 'selected' : ''; ?>>Nov</option>
-														<option value="12" <?php echo (isset($selected_bulan) && $selected_bulan === '12') ? 'selected' : ''; ?>>Des</option>
+														<option value="01" <?= (isset($selected_bulan) && $selected_bulan === '01') ? 'selected' : '' ?>>Jan</option>
+														<option value="02" <?= (isset($selected_bulan) && $selected_bulan === '02') ? 'selected' : '' ?>>Feb</option>
+														<option value="03" <?= (isset($selected_bulan) && $selected_bulan === '03') ? 'selected' : '' ?>>Mar</option>
+														<option value="04" <?= (isset($selected_bulan) && $selected_bulan === '04') ? 'selected' : '' ?>>Apr</option>
+														<option value="05" <?= (isset($selected_bulan) && $selected_bulan === '05') ? 'selected' : '' ?>>Mei</option>
+														<option value="06" <?= (isset($selected_bulan) && $selected_bulan === '06') ? 'selected' : '' ?>>Jun</option>
+														<option value="07" <?= (isset($selected_bulan) && $selected_bulan === '07') ? 'selected' : '' ?>>Jul</option>
+														<option value="08" <?= (isset($selected_bulan) && $selected_bulan === '08') ? 'selected' : '' ?>>Agu</option>
+														<option value="09" <?= (isset($selected_bulan) && $selected_bulan === '09') ? 'selected' : '' ?>>Sep</option>
+														<option value="10" <?= (isset($selected_bulan) && $selected_bulan === '10') ? 'selected' : '' ?>>Okt</option>
+														<option value="11" <?= (isset($selected_bulan) && $selected_bulan === '11') ? 'selected' : '' ?>>Nov</option>
+														<option value="12" <?= (isset($selected_bulan) && $selected_bulan === '12') ? 'selected' : '' ?>>Des</option>
 													</select>
 												</div>
 											</div>
@@ -184,23 +183,23 @@
 													<label>Tahun:</label>
 													<select name="lap_tahun" class="form-control">
 														<?php for ($year = 2016; $year <= date('Y') + 1; $year++): ?>
-															<option value="<?php echo $year; ?>" <?php echo (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : ''; ?>>
-																<?php echo $year; ?>
+															<option value="<?= $year ?>" <?= (isset($selected_tahun) && $selected_tahun == $year) ? 'selected' : '' ?>>
+																<?= $year ?>
 															</option>
-														<?php endfor; ?>
+														<?php endfor ?>
 													</select>
 												</div>
 											</div>
 											<div class="col-md-2" id="filterTanggalMulai" style="display:none;">
 												<div class="form-group">
 													<label>Tanggal Mulai:</label>
-													<input type="date" name="tanggal_mulai" class="form-control" value="<?php echo $this->input->post('tanggal_mulai') ?: date('Y-m-01'); ?>">
+													<input type="date" name="tanggal_mulai" class="form-control" value="<?= $this->input->post('tanggal_mulai') ?: date('Y-m-01') ?>">
 												</div>
 											</div>
 											<div class="col-md-2" id="filterTanggalAkhir" style="display:none;">
 												<div class="form-group">
 													<label>Tanggal Akhir:</label>
-													<input type="date" name="tanggal_akhir" class="form-control" value="<?php echo $this->input->post('tanggal_akhir') ?: date('Y-m-t'); ?>">
+													<input type="date" name="tanggal_akhir" class="form-control" value="<?= $this->input->post('tanggal_akhir') ?: date('Y-m-t') ?>">
 												</div>
 											</div>
 											<div class="col-md-2">
@@ -244,7 +243,7 @@
 														<th>Sisa Sebelumnya</th>
 													<?php else: ?>
 														<th>Sisa Bulan Lalu</th>
-													<?php endif; ?>
+													<?php endif ?>
 													<th>Perkara Masuk</th>
 													<th>Perkara Putus</th>
 													<th>Sisa Perkara</th>
@@ -256,30 +255,30 @@
 													<?php $no = 1;
 													foreach ($datafilter as $row): ?>
 														<tr>
-															<td><?php echo $no++; ?></td>
-															<td><strong><?php echo $row->KECAMATAN; ?></strong></td>
+															<td><?= $no++ ?></td>
+															<td><strong><?= $row->KECAMATAN ?></strong></td>
 															<?php if (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'bulanan'): ?>
 																<td class="text-center">
-																	<span class="badge badge-secondary"><?php echo isset($row->SISA_BULAN_LALU) ? number_format($row->SISA_BULAN_LALU, 0, ',', '.') : '0'; ?></span>
+																	<span class="badge badge-secondary"><?= isset($row->SISA_BULAN_LALU) ? number_format($row->SISA_BULAN_LALU, 0, ',', '.') : '0' ?></span>
 																</td>
 															<?php elseif (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'tahunan'): ?>
 																<td class="text-center">
-																	<span class="badge badge-light"><?php echo isset($row->SISA_TAHUN_LALU) ? number_format($row->SISA_TAHUN_LALU, 0, ',', '.') : '0'; ?></span>
+																	<span class="badge badge-light"><?= isset($row->SISA_TAHUN_LALU) ? number_format($row->SISA_TAHUN_LALU, 0, ',', '.') : '0' ?></span>
 																</td>
 															<?php elseif (isset($selected_jenis_laporan) && $selected_jenis_laporan === 'custom'): ?>
 																<td class="text-center">
-																	<span class="badge badge-warning"><?php echo isset($row->SISA_SEBELUMNYA) ? number_format($row->SISA_SEBELUMNYA, 0, ',', '.') : '0'; ?></span>
+																	<span class="badge badge-warning"><?= isset($row->SISA_SEBELUMNYA) ? number_format($row->SISA_SEBELUMNYA, 0, ',', '.') : '0' ?></span>
 																</td>
 															<?php else: ?>
 																<td class="text-center">
-																	<span class="badge badge-secondary"><?php echo isset($row->SISA_BULAN_LALU) ? number_format($row->SISA_BULAN_LALU, 0, ',', '.') : '0'; ?></span>
+																	<span class="badge badge-secondary"><?= isset($row->SISA_BULAN_LALU) ? number_format($row->SISA_BULAN_LALU, 0, ',', '.') : '0' ?></span>
 																</td>
-															<?php endif; ?>
+															<?php endif ?>
 															<td class="text-center">
-																<span class="badge badge-info"><?php echo number_format($row->PERKARA_MASUK, 0, ',', '.'); ?></span>
+																<span class="badge badge-info"><?= number_format($row->PERKARA_MASUK, 0, ',', '.') ?></span>
 															</td>
 															<td class="text-center">
-																<span class="badge badge-success"><?php echo number_format($row->PERKARA_PUTUS, 0, ',', '.'); ?></span>
+																<span class="badge badge-success"><?= number_format($row->PERKARA_PUTUS, 0, ',', '.') ?></span>
 															</td>
 															<td class="text-center">
 																<?php
@@ -292,10 +291,9 @@
 																} else {
 																	$sisa_base = isset($row->SISA_BULAN_LALU) ? $row->SISA_BULAN_LALU : 0;
 																}
-																$sisa = $sisa_base + $row->PERKARA_MASUK - $row->PERKARA_PUTUS;
-																?>
-																<span class="badge <?php echo ($sisa > 0) ? 'badge-warning' : 'badge-secondary'; ?>">
-																	<?php echo number_format($sisa, 0, ',', '.'); ?>
+																$sisa = $sisa_base + $row->PERKARA_MASUK - $row->PERKARA_PUTUS ?>
+																<span class="badge <?= ($sisa > 0) ? 'badge-warning' : 'badge-secondary' ?>">
+																	<?= number_format($sisa, 0, ',', '.') ?>
 																</span>
 															</td>
 															<td class="text-center">
@@ -306,12 +304,11 @@
 																if ($persentase >= 90) $badge_class = 'badge-success';
 																elseif ($persentase >= 70) $badge_class = 'badge-info';
 																elseif ($persentase >= 50) $badge_class = 'badge-warning';
-																else $badge_class = 'badge-danger';
-																?>
-																<span class="badge <?php echo $badge_class; ?>"><?php echo $persentase; ?>%</span>
+																else $badge_class = 'badge-danger' ?>
+																<span class="badge <?= $badge_class ?>"><?= $persentase ?>%</span>
 															</td>
 														</tr>
-													<?php endforeach; ?>
+													<?php endforeach ?>
 												<?php else: ?>
 													<tr>
 														<td colspan="6" class="text-center">
@@ -320,34 +317,32 @@
 															</div>
 														</td>
 													</tr>
-												<?php endif; ?>
+												<?php endif ?>
 											</tbody>
 											<?php if (isset($datafilter) && !empty($datafilter)): ?>
 												<?php
 												$total_masuk = array_sum(array_column($datafilter, 'PERKARA_MASUK'));
 												$total_putus = array_sum(array_column($datafilter, 'PERKARA_PUTUS'));
 												$total_sisa = $total_masuk - $total_putus;
-												$total_persentase = ($total_masuk > 0) ? round(($total_putus / $total_masuk) * 100, 1) : 0;
-												?>
+												$total_persentase = ($total_masuk > 0) ? round(($total_putus / $total_masuk) * 100, 1) : 0 ?>
 												<!-- <tfoot class="bg-light">
 													<tr class="font-weight-bold">
 														<th colspan="2">TOTAL KESELURUHAN 1</th>
-														<th class="text-center"><?php echo number_format($total_masuk, 0, ',', '.'); ?></th>
-														<th class="text-center"><?php echo number_format($total_putus, 0, ',', '.'); ?></th>
-														<th class="text-center"><?php echo number_format($total_sisa, 0, ',', '.'); ?></th>
+														<th class="text-center"><?= number_format($total_masuk, 0, ',', '.') ?></th>
+														<th class="text-center"><?= number_format($total_putus, 0, ',', '.') ?></th>
+														<th class="text-center"><?= number_format($total_sisa, 0, ',', '.') ?></th>
 														<th class="text-center">
 															<?php
 															$total_badge_class = '';
 															if ($total_persentase >= 90) $total_badge_class = 'badge-success';
 															elseif ($total_persentase >= 70) $total_badge_class = 'badge-info';
 															elseif ($total_persentase >= 50) $total_badge_class = 'badge-warning';
-															else $total_badge_class = 'badge-danger';
-															?>
-															<span class="badge <?php echo $total_badge_class; ?>"><?php echo $total_persentase; ?>%</span>
+															else $total_badge_class = 'badge-danger' ?>
+															<span class="badge <?= $total_badge_class ?>"><?= $total_persentase ?>%</span>
 														</th>
 													</tr>
 												</tfoot> -->
-											<?php endif; ?>
+											<?php endif ?>
 										</table>
 									</div>
 								</div>
@@ -489,7 +484,7 @@
 			form.appendChild(exportInput);
 
 			// Temporarily modify action for export
-			form.action = '<?php echo base_url(); ?>index.php/Data_Permohonan/export_excel';
+			form.action = '<?= base_url() ?>index.php/Data_Permohonan/export_excel';
 
 			// Submit form
 			document.body.appendChild(form);

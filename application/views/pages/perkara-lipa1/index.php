@@ -25,7 +25,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <form action="<?php echo base_url()?>index.php/Ecourt" method="POST" >
+                <form action="<?= base_url() ?>index.php/Ecourt" method="POST" >
                 Jenis Perkara : 
                 <select name="jenis_perkara" required="">
                     <option value="Pdt.G" <?php echo (isset($_POST['jenis_perkara']) && $_POST['jenis_perkara'] === 'Pdt.G') ? 'selected' : ''; ?>>Pdt.G</option>
@@ -80,12 +80,12 @@
                     $no = 1;
                     foreach ($datafilter as $row ) : ?>
                   <tr>
-                    <td><?php echo $no++?></td>
-                    <td><?php echo $row->nama_pihak?></td>
-                    <td><?php echo $row->email?></td>
-                    <td><?php echo $row->jenis_perkara_nama?></td>
-                    <td><?php echo $row->nomor_perkara?></td>
-                    <td><?php echo $row->tanggal_pendaftaran?></td>
+                    <td><?= $no++ ?></td>
+                    <td><?= $row->nama_pihak ?></td>
+                    <td><?= $row->email ?></td>
+                    <td><?= $row->jenis_perkara_nama ?></td>
+                    <td><?= $row->nomor_perkara ?></td>
+                    <td><?= $row->tanggal_pendaftaran ?></td>
                   </tr>
                   <?php endforeach; ?>
                   </tbody>

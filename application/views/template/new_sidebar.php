@@ -1,8 +1,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
   	<!-- Brand Logo -->
-  	<a href="<?php echo site_url('Admin/Dashboard') ?>" class="brand-link">
-  		<img src="<?php echo base_url() ?>assets/dist/img/logo-mahkamah-agung.png" alt="Logo PA Amuntai" class="brand-image img-circle elevation-3" style="opacity: .8">
+  	<a href="<?= site_url('Admin/Dashboard') ?>" class="brand-link">
+  		<img src="<?= base_url() ?>assets/dist/img/logo-mahkamah-agung.png" alt="Logo PA Amuntai" class="brand-image img-circle elevation-3" style="opacity: .8">
   		<span class="brand-text font-weight-light">SI LAPER</span>
   		<br><small>(Sistem Laporan Perkara)</small>
 
@@ -14,7 +14,7 @@
   		<!-- Sidebar user (optional) -->
   		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
   			<div class="image">
-  				<img src="<?php echo base_url() ?>assets/dist/img/Logo PA Amuntai - Trans.png" class="img-circle elevation-2" alt="User Image">
+  				<img src="<?= base_url() ?>assets/dist/img/Logo PA Amuntai - Trans.png" class="img-circle elevation-2" alt="User Image">
   			</div>
   			<div class="info">
   				<a href="#" class="d-block">PA Amuntai</a>
@@ -27,7 +27,7 @@
 
   				<!-- Dashboard Menu -->
   				<li class="nav-item">
-  					<a href="<?php echo site_url('Dashboard') ?>" class="nav-link">
+  					<a href="<?= site_url('Dashboard') ?>" class="nav-link">
   						<i class="nav-icon fas fa-tachometer-alt"></i>
   						<p>
   							Dashboard
@@ -36,13 +36,13 @@
   					</a>
   					<!-- <ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Dashboard/simple') ?>" class="nav-link">
+  							<a href="<?= site_url('Dashboard/simple') ?>" class="nav-link">
   								<i class="fas fa-chart-line nav-icon"></i>
   								<p>Dashboard Simple</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Dashboard') ?>" class="nav-link">
+  							<a href="<?= site_url('Dashboard') ?>" class="nav-link">
   								<i class="fas fa-chart-area nav-icon"></i>
   								<p>Dashboard Modern</p>
   							</a>
@@ -60,25 +60,25 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Data_Perkara_Gugatan') ?>" class="nav-link">
+  							<a href="<?= site_url('Data_Perkara_Gugatan') ?>" class="nav-link">
   								<i class="fas fa-file-alt nav-icon"></i>
   								<p>Laporan Gugatan</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Laporan_Gugatan') ?>" class="nav-link">
+  							<a href="<?= site_url('Laporan_Gugatan') ?>" class="nav-link">
   								<i class="fas fa-file-pdf nav-icon"></i>
   								<p>Laporan Gugatan Detail</p>
   							</a>
   						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Faktor_perceraian_detail') ?>" class="nav-link">
+							<a href="<?= site_url('Faktor_perceraian_detail') ?>" class="nav-link">
   								<i class="fas fa-chart-pie nav-icon"></i>
   								<p>FAKTOR PERCERAIAN DETAIL</p>
   							</a>
   						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Faktor_perceraian_usia') ?>" class="nav-link">
+							<a href="<?= site_url('Faktor_perceraian_usia') ?>" class="nav-link">
 								<i class="fas fa-chart-bar nav-icon"></i>
 								<p>FAKTOR PERCERAIAN BERDASARKAN USIA</p>
 							</a>
@@ -97,7 +97,7 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Data_Permohonan') ?>" class="nav-link">
+  							<a href="<?= site_url('Data_Permohonan') ?>" class="nav-link">
   								<i class="fas fa-chart-bar nav-icon"></i>
   								<p>LAPORAN PERMOHONAN PER WILAYAH</p>
   							</a>
@@ -115,7 +115,7 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Laporan_putusan') ?>" class="nav-link">
+  							<a href="<?= site_url('Laporan_putusan') ?>" class="nav-link">
   								<i class="fas fa-clipboard-list nav-icon"></i>
   								<p>LAPORAN HASIL PUTUSAN PERKARA</p>
   							</a>
@@ -133,7 +133,7 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Laporan_perceraian') ?>" class="nav-link">
+  							<a href="<?= site_url('Laporan_perceraian') ?>" class="nav-link">
   								<i class="fas fa-file-alt nav-icon"></i>
   								<p>DATA PERCERAIAN</p>
   							</a>
@@ -151,7 +151,7 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Perkara_gaib') ?>" class="nav-link">
+  							<a href="<?= site_url('Perkara_gaib') ?>" class="nav-link">
   								<i class="fas fa-search nav-icon"></i>
   								<p>DATA PERKARA GAIB</p>
   							</a>
@@ -169,31 +169,31 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Penerbitan_akta_cerai') ?>" class="nav-link">
+  							<a href="<?= site_url('Penerbitan_akta_cerai') ?>" class="nav-link">
   								<i class="fas fa-file-contract nav-icon"></i>
   								<p>LAPORAN PENERBITAN AKTA CERAI</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Penyerahan_akta_cerai') ?>" class="nav-link">
+  							<a href="<?= site_url('Penyerahan_akta_cerai') ?>" class="nav-link">
   								<i class="fas fa-handshake nav-icon"></i>
   								<p>LAPORAN PENYERAHAN AKTA CERAI</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=belum_lengkap') ?>" class="nav-link">
+  							<a href="<?= site_url('Validasi_akta_cerai?mode=belum_lengkap') ?>" class="nav-link">
   								<i class="fas fa-clipboard-check nav-icon"></i>
   								<p>VALIDASI DATA AKTA CERAI</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=terlambat') ?>" class="nav-link">
+  							<a href="<?= site_url('Validasi_akta_cerai?mode=terlambat') ?>" class="nav-link">
   								<i class="fas fa-clock nav-icon"></i>
   								<p>AKTA CERAI TERLAMBAT</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Validasi_akta_cerai?mode=cek_nomor') ?>" class="nav-link">
+  							<a href="<?= site_url('Validasi_akta_cerai?mode=cek_nomor') ?>" class="nav-link">
   								<i class="fas fa-search nav-icon"></i>
   								<p>CEK NOMOR AKTA CERAI</p>
   							</a>
@@ -212,13 +212,13 @@
   					</a>
   					<ul class="nav nav-treeview">
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Delegasi') ?>" class="nav-link">
+  							<a href="<?= site_url('Delegasi') ?>" class="nav-link">
   								<i class="fas fa-arrow-down nav-icon"></i>
   								<p>Delegasi Masuk</p>
   							</a>
   						</li>
   						<li class="nav-item">
-  							<a href="<?php echo site_url('Delegasi_k') ?>" class="nav-link">
+  							<a href="<?= site_url('Delegasi_k') ?>" class="nav-link">
   								<i class="fas fa-arrow-up nav-icon"></i>
   								<p>Delegasi Keluar</p>
   							</a>
@@ -237,37 +237,37 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_sipp?tab=dashboard') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_sipp?tab=dashboard') ?>" class="nav-link">
 								<i class="fas fa-tachometer-alt nav-icon"></i>
 								<p>Dashboard Harian</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_sipp?tab=aging') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_sipp?tab=aging') ?>" class="nav-link">
 								<i class="fas fa-hourglass-half nav-icon"></i>
 								<p>Aging Report</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_sipp?tab=minutasi') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_sipp?tab=minutasi') ?>" class="nav-link">
 								<i class="fas fa-tasks nav-icon"></i>
 								<p>Monitoring Minutasi</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_sipp?tab=kinerja') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_sipp?tab=kinerja') ?>" class="nav-link">
 								<i class="fas fa-chart-line nav-icon"></i>
 								<p>Kinerja</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_dirput') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_dirput') ?>" class="nav-link">
 								<i class="fas fa-file-upload nav-icon"></i>
 								<p>Dirput Anonimisasi</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo site_url('Monitoring_dirput?mode=upload_gagal') ?>" class="nav-link">
+							<a href="<?= site_url('Monitoring_dirput?mode=upload_gagal') ?>" class="nav-link">
 								<i class="fas fa-upload nav-icon"></i>
 								<p>Upload Dirput Gagal</p>
 							</a>
@@ -283,7 +283,7 @@
   </aside>
 
   <!-- AdminLTE JS diperlukan untuk treeview -->
-  <script src="<?php echo base_url() ?>assets/dist/js/adminlte.min.js"></script>
+  <script src="<?= base_url() ?>assets/dist/js/adminlte.min.js"></script>
 
   <script>
   	$(document).ready(function() {
