@@ -7,6 +7,7 @@ class Penerbitan_akta_cerai extends CI_Controller
     {
         parent::__construct();
         $this->load->model('M_penerbitan_akta_cerai');
+        $this->load->helper('url');
     }
 
     public function index()
@@ -18,6 +19,5 @@ class Penerbitan_akta_cerai extends CI_Controller
         $this->load->view('template/new_sidebar');
         $this->load->view('v_penertiban_akta_cerai', $data);
         $this->load->view('template/new_footer');
-        $this->load->helper('url');
     }
 }
