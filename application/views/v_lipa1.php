@@ -204,5 +204,3 @@
 			</section>
 			<!-- /.content -->
 		</div>
-	</div>
-	<!-- ./wrapper -->

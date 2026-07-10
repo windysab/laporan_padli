@@ -101,8 +101,6 @@
 			</section>
 			<!-- /.content -->
 		</div>
-	</div>
-	<!-- ./wrapper -->
 
 	<!-- Page specific script -->
 	<script>
@@ -125,6 +123,3 @@
 		});
 	</script>
 
-</body>
-
-</html>
