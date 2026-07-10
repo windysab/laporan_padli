@@ -1,13 +1,11 @@
 <body class="hold-transition sidebar-mini">
 	<div class="wrapper">
-		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h5>JUMLAH DATA PERCERAIAN KABUPATEN BALANGAN</h5>
+							<h5>JUMLAH DATA PERCERAIAN KABUPATEN <?= strtoupper($wilayah) ?></h5>
 						</div>
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
@@ -16,16 +14,15 @@
 							</ol>
 						</div>
 					</div>
-				</div><!-- /.container-fluid -->
+				</div>
 			</section>
-			<!-- Main content -->
 			<section class="content">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<form action="<?= base_url() ?>index.php/Data_Perceraian_balangan" method="POST">
+									<form action="<?= base_url() ?>index.php/Data_Perceraian_<?= $wilayah ?>" method="POST">
 										Laporan Bulan :
 										<select name="lap_bulan" required="">
 											<option value="01" <?= (isset($_POST['lap_bulan']) && $_POST['lap_bulan'] === '01') ? 'selected' : '' ?>>Januari</option>
@@ -55,52 +52,43 @@
 											<option value="2025" <?= (isset($_POST['lap_tahun']) && $_POST['lap_tahun'] === '2025') ? 'selected' : '' ?>>2025</option>
 										</select>
 										<input class="btn btn-primary" type="submit" name="btn" value="Tampilkan" />
-
-								</div>
-								<!-- /.card-header -->
-								<div class="card-body">
-									<table class="table table-bordered table-striped" id="example1">
-										<thead>
-											<tr>
-												<th>KECAMATAN</th>
-												<th>PERKARA MASUK</th>
-												<th>PERKARA PUTUS</th>
-												<th>PERKARA TELAH BHT</th>
-												<th>JUMLAH AKTA CERAI</th>
-											</tr>
-										</thead>
-										<tbody>
-											<?php
-											$no = 1;
-											foreach ($datafilter as $row) : ?>
+									</div>
+									<div class="card-body">
+										<table class="table table-bordered table-striped" id="example1">
+											<thead>
 												<tr>
-													<td><?= $row->KECAMATAN ?></td>
-													<td><?= $row->PERKARA_MASUK ?></td>
-													<td><?= $row->PERKARA_PUTUS ?></td>
-													<td><?= $row->PERKARA_TELAH_BHT ?></td>
-													<td><?= $row->JUMLAH_AKTA_CERAI ?></td>
+													<th>KECAMATAN</th>
+													<th>PERKARA MASUK</th>
+													<th>PERKARA PUTUS</th>
+													<th>PERKARA TELAH BHT</th>
+													<th>JUMLAH AKTA CERAI</th>
 												</tr>
-											<?php endforeach ?>
-										</tbody>
-									</table>
+											</thead>
+											<tbody>
+												<?php
+												$no = 1;
+												foreach ($datafilter as $row) : ?>
+													<tr>
+														<td><?= $row->KECAMATAN ?></td>
+														<td><?= $row->PERKARA_MASUK ?></td>
+														<td><?= $row->PERKARA_PUTUS ?></td>
+														<td><?= $row->PERKARA_TELAH_BHT ?></td>
+														<td><?= $row->JUMLAH_AKTA_CERAI ?></td>
+													</tr>
+												<?php endforeach ?>
+											</tbody>
+										</table>
+									</div>
+									</form>
 								</div>
-								<!-- /.card-body -->
-								</form>
 							</div>
-							<!-- /.card -->
 						</div>
-						<!-- /.col -->
 					</div>
-					<!-- /.row -->
 				</div>
-				<!-- /.container-fluid -->
 			</section>
-			<!-- /.content -->
 		</div>
 	</div>
-	<!-- ./wrapper -->
 
-	<!-- Page specific script -->
 	<script>
 		$(function() {
 			$("#DataTable").DataTable({
@@ -122,5 +110,4 @@
 	</script>
 
 </body>
-
 </html>

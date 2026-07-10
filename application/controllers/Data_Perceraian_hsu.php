@@ -15,6 +15,7 @@ class Data_Perceraian_hsu extends CI_Controller
 		$lap_bulan = validate_bulan($this->input->post('lap_bulan'));
 		$lap_tahun = validate_tahun($this->input->post('lap_tahun'));
 		$data['datafilter'] = $this->M_data_perceraian_hsu->data_perceraian_hsu($lap_bulan, $lap_tahun);
-		view_load('v_perceraian_hsu', $data);
+		$data['wilayah'] = 'hsu';
+		view_load('v_perceraian', $data);
 	}
 }
