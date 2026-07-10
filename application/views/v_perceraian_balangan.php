@@ -1,6 +1,4 @@
-<body class="hold-transition sidebar-mini">
-	<div class="wrapper">
-		<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
@@ -97,8 +95,6 @@
 			</section>
 			<!-- /.content -->
 		</div>
-	</div>
-	<!-- ./wrapper -->
 
 	<!-- Page specific script -->
 	<script>
@@ -121,6 +117,3 @@
 		});
 	</script>
 
-</body>
-
-</html>
