@@ -26,8 +26,8 @@ class Perkara_Banding extends CI_Controller
         ini_set('max_execution_time', '60');
         ini_set('memory_limit', '512M');
 
-        $lap_tahun = $this->input->post('tahun');
-        $lap_bulan = $this->input->post('bulan');
+        $lap_tahun = $this->input->post('lap_tahun');
+        $lap_bulan = $this->input->post('lap_bulan');
         $data = $this->M_P_Banding->getData($lap_tahun, $lap_bulan);
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();

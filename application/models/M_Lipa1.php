@@ -83,26 +83,7 @@ class M_lipa1 extends CI_Model
     }
 
     /**
-     * Generic count query with configurable WHERE extra and date mode.
-     * Replaces getJumlah, getJumlahPensiunan, getJumlahPNS.
-     *
-     * Usage examples:
-     *   // Sisa perkara (non-pensiunan) — was getJumlah()
-     *   getJumlah("AND pekerjaan NOT LIKE '%Pensiunan%'",
-     *       [$lt_t, $eq_t, $lt_b, $t, $b, $t, $b, $t, $b, $t, $b, "%{$jp}%"], 'sisa')
-     *
-     *   // Standard count pensiunan — was getJumlahPensiunan()
-     *   getJumlah("AND pekerjaan LIKE '%Pensiunan%'",
-     *       [$t, $b, $t, $b, $t, $b, $t, $b, $t, $b, "%{$jp}%"])
-     *
-     *   // Standard count PNS — was getJumlahPNS()
-     *   getJumlah("AND pekerjaan LIKE '%PNS%'",
-     *       [$t, $b, $t, $b, $t, $b, $t, $b, $t, $b, "%{$jp}%"])
-     *
-     * @param string $where_extra  Extra WHERE conditions (e.g. "AND pekerjaan LIKE ?")
-     * @param array  $params       Bound parameters for all ? placeholders
-     * @param string $date_mode    'standard' (default) or 'sisa'
-     * @return object|null         Row with ->jumlah property
+     * Count records with configurable WHERE and date mode.
      */
     public function getJumlah($where_extra = '', $params = [], $date_mode = 'standard')
     {
