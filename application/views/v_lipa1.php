@@ -32,8 +32,9 @@
 										$jenis_perkara = $this->input->post('jenis_perkara'); // Get the selected value
 										$lap_bulan = $this->input->post('lap_bulan');
 										$lap_tahun = $this->input->post('lap_tahun');
-										$data = $this->M_lipa1->getData($lap_tahun, $lap_bulan, $jenis_perkara);
-										$result = $this->M_lipa1->getJumlah($lap_tahun, $lap_bulan, $jenis_perkara);
+																														$data = $this->M_lipa1->getData($lap_tahun, $lap_bulan, $jenis_perkara);
+																														$params = [$lap_tahun, $lap_tahun, $lap_bulan, $lap_tahun, $lap_bulan, $lap_tahun, $lap_bulan, $lap_tahun, $lap_bulan, $lap_tahun, $lap_bulan, "%{$jenis_perkara}%"];
+																														$result = $this->M_lipa1->getJumlah("AND pekerjaan NOT LIKE '%Pensiunan%'", $params, 'sisa');
 									}
 									?>
 									<form action="<?php echo base_url() ?>index.php/Lipa1/generateExcelDocument" method="POST">
