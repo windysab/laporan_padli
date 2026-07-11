@@ -1,7 +1,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
   	<!-- Brand Logo -->
-  	<a href="<?php echo site_url('Admin/Dashboard') ?>" class="brand-link">
+	<a href="<?php echo site_url('Dashboard') ?>" class="brand-link">
   		<img src="<?php echo base_url() ?>assets/dist/img/logo-mahkamah-agung.png" alt="Logo PA Amuntai" class="brand-image img-circle elevation-3" style="opacity: .8">
   		<span class="brand-text font-weight-light">LAPORAN PERKARA</span>
   	</a>
@@ -157,12 +157,6 @@
   								<p>PERKARA BANDING</p>
   							</a>
   						</li>
-  						<li class="nav-item">
-  							<a href="<?php echo site_url('Perkara_Putusan') ?>" class="nav-link">
-  								<i class="far fa-circle nav-icon"></i>
-  								<p>PERKARA PUTUSAN</p>
-  							</a>
-  						</li>
   					</ul>
 
 
@@ -181,16 +175,7 @@
   	$(document).ready(function() {
   		$('.nav-link').on('click', function() {
   			$('.nav-link').removeClass('active');
-  			$(this).addClass('active');
-
-
-  		});
-  	});
-
-  	$(document).ready(function() {
-  		$('.nav-link').on('click', function() {
-  			$('.nav-item').removeClass('active'); // Menghapus kelas 'active' dari semua item
-  			$(this).parent().addClass('active'); // Menambahkan kelas 'active' ke item yang diklik
+  			$(this).parent().addClass('active');
   		});
   	});
   </script>
