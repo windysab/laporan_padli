@@ -1,0 +1,147 @@
+name: CI — Laporan Padli Test Suite
+
+on:
+  push:
+    branches: [main, perbaiki-ponytail]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-versions: ['7.4', '8.0', '8.1']
+    
+    name: PHP ${{ matrix.php-versions }} Test
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, mysqli, pdo, pdo_mysql, json, curl
+          tools: phpcs, phploc
+
+      - name: PHP Syntax Check (Lint)
+        run: |
+          ERRORS=0
+          while IFS= read -r file; do
+            result=$(php -l "$file" 2>&1)
+            if echo "$result" | grep -q "Parse error\|Fatal error"; then
+              echo "❌ $result"
+              ERRORS=$((ERRORS + 1))
+            fi
+          done < <(find application/ -name "*.php" -type f)
+          if [ $ERRORS -eq 0 ]; then
+            echo "✅ Syntax check: PASS — semua file valid"
+          else
+            echo "❌ Syntax check: $ERRORS errors"
+            exit 1
+          fi
+
+      - name: Sidebar Controller Verification
+        run: |
+          echo "=== Checking sidebar links ==="
+          grep -oP "site_url\(['\"][^'\"]+" application/views/template/new_sidebar.php | \
+            sed "s/site_url(//;s/['\"]//g" | sort -u | while read link; do
+            controller=$(echo "$link" | cut -d'/' -f1)
+            if [ -f "application/controllers/${controller}.php" ]; then
+              echo "  ✅ $link → ${controller}.php"
+            else
+              echo "  ❌ $link → ${controller}.php NOT FOUND"
+              exit 1
+            fi
+          done
+          echo "✅ All sidebar links valid"
+
+      - name: Controller ↔ Model ↔ View Cross-Reference
+        run: |
+          ERRORS=0
+          
+          # Check each controller loads its view
+          for ctl in application/controllers/*.php; do
+            name=$(basename "$ctl" .php)
+            model_name=$(echo "$name" | sed 's/^/M_/')
+            
+            # Check matching model exists
+            if [ -f "application/models/${model_name}.php" ]; then
+              echo "  ✅ $name → model M_${name} exists"
+            else
+              echo "  ⚠️  $name → no model M_${name}.php (may use other model)"
+            fi
+            
+            # Check views referenced exist
+            grep -oP "this->load->view\(['\"]([^'\"]+)" "$ctl" | \
+              sed "s/this->load->view(//;s/['\"]//g" | while read view; do
+              if [ -f "application/views/${view}.php" ]; then
+                echo "  ✅ $name → view $view exists"
+              else
+                echo "  ❌ $name → view $view NOT FOUND"
+                ERRORS=$((ERRORS + 1))
+              fi
+            done
+          done
+          
+          if [ $ERRORS -eq 0 ]; then
+            echo "✅ All views match controllers"
+          else
+            exit 1
+          fi
+
+      - name: PHP CodeSniffer (PSR-2)
+        continue-on-error: true
+        run: |
+          phpcs --standard=PSR2 --extensions=php \
+            --ignore=application/views/template/*.php,application/views/v_*.php \
+            application/controllers/ application/models/ application/core/
+
+      - name: Security Check
+        run: |
+          echo "=== Encryption Key ==="
+          if grep -qP "\$config\['encryption_key'\]\s*=\s*'[^']{10,}'" application/config/config.php; then
+            echo "  ✅ encryption_key terisi"
+          else
+            echo "  ❌ encryption_key kosong atau terlalu pendek"
+          fi
+
+          echo ""
+          echo "=== XSS Filtering ==="
+          if grep -qP "\$config\['global_xss_filtering'\]\s*=\s*TRUE" application/config/config.php; then
+            echo "  ✅ XSS filtering ON"
+          else
+            echo "  ⚠️  XSS filtering OFF"
+          fi
+
+          echo ""
+          echo "=== CSRF Protection ==="
+          if grep -qP "\$config\['csrf_protection'\]\s*=\s*TRUE" application/config/config.php; then
+            echo "  ✅ CSRF protection ON"
+          else
+            echo "  ⚠️  CSRF protection OFF"
+          fi
+
+      - name: Function Count Summary
+        run: |
+          echo "=== Controller Methods ==="
+          for f in application/controllers/*.php; do
+            methods=$(grep -c "public function\|function " "$f")
+            echo "  $(basename $f): $methods methods"
+          done
+          
+          echo ""
+          echo "=== Model Methods ==="
+          for f in application/models/*.php; do
+            methods=$(grep -c "public function\|function " "$f")
+            echo "  $(basename $f): $methods methods"
+          done
+          
+          echo ""
+          echo "=== Lines of Code ==="
+          wc -l application/controllers/*.php application/models/*.php application/views/*.php application/views/template/*.php | tail -1
