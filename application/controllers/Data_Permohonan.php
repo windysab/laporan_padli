@@ -6,7 +6,7 @@ class Data_Permohonan extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("M_data_permohonan");
+		$this->load->model("M_data_perkara");
 		$this->load->helper('url');
 		$this->load->helper('text');
 		$this->load->helper('date');
@@ -22,21 +22,21 @@ class Data_Permohonan extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data['datafilter'] = $this->M_data_permohonan->data_permohonan_tahunan($lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_permohonan_tahunan($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'custom':
 				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
 				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
-				$data['datafilter'] = $this->M_data_permohonan->data_permohonan_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_permohonan_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
 				break;
 			default: // bulanan
-				$data['datafilter'] = $this->M_data_permohonan->data_permohonan($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_permohonan($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 		}
 
 		$data += [
-			'jenis_perkara_list' => $this->M_data_permohonan->get_jenis_perkara_permohonan(),
-			'summary' => $this->M_data_permohonan->get_summary_statistics($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah, $jenis_laporan),
+			'jenis_perkara_list' => $this->M_data_perkara->get_jenis_perkara_permohonan(),
+			'summary' => $this->M_data_perkara->get_summary_statistics($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah, $jenis_laporan),
 			'selected_bulan' => $lap_bulan,
 			'selected_tahun' => $lap_tahun,
 			'selected_jenis_perkara' => $jenis_perkara,
@@ -67,15 +67,15 @@ class Data_Permohonan extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data = $this->M_data_permohonan->data_permohonan_tahunan($lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_permohonan_tahunan($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'custom':
 				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
 				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
-				$data = $this->M_data_permohonan->data_permohonan_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_permohonan_custom($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
 				break;
 			default:
-				$data = $this->M_data_permohonan->data_permohonan($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_permohonan($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 		}
 

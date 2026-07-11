@@ -6,7 +6,7 @@ class Delegasi_k extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("M_delegasi_k");
+		$this->load->model("M_delegasi");
 		$this->load->helper('url');
 	}
 
@@ -14,7 +14,7 @@ class Delegasi_k extends CI_Controller
 	{
 		$lap_bulan = $this->input->post('lap_bulan');
 		$lap_tahun = $this->input->post('lap_tahun');
-		$data['datafilter'] = $this->M_delegasi_k->delegasi_k($lap_bulan, $lap_tahun);
+		$data['datafilter'] = $this->M_delegasi->delegasi_k($lap_bulan, $lap_tahun);
 		view_load('v_delegasi_k', $data);
 	}
 }

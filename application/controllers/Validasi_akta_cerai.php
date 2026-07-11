@@ -6,7 +6,7 @@ class Validasi_akta_cerai extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_validasi_akta_cerai');
+		$this->load->model('M_akta_cerai');
 		$this->load->helper('url');
 	}
 
@@ -19,18 +19,18 @@ class Validasi_akta_cerai extends CI_Controller
 		$nomor_akta = trim($this->input->post('nomor_akta') ?: '');
 
 		if ($mode === 'cek_nomor') {
-			$data['hasil_cek'] = $nomor_akta !== '' ? $this->M_validasi_akta_cerai->get_by_nomor_akta($nomor_akta) : null;
+			$data['hasil_cek'] = $nomor_akta !== '' ? $this->M_akta_cerai->get_by_nomor_akta($nomor_akta) : null;
 			$data['datafilter'] = [];
 		} elseif ($mode === 'terlambat') {
-			$data['datafilter'] = $this->M_validasi_akta_cerai->get_terlambat($lap_tahun, $batas_hari, $jenis_perkara);
+			$data['datafilter'] = $this->M_akta_cerai->get_terlambat($lap_tahun, $batas_hari, $jenis_perkara);
 		} else {
 			$mode = 'belum_lengkap';
-			$data['datafilter'] = $this->M_validasi_akta_cerai->get_belum_lengkap($lap_tahun, $jenis_perkara);
+			$data['datafilter'] = $this->M_akta_cerai->get_belum_lengkap($lap_tahun, $jenis_perkara);
 		}
 
 		$data += [
-			'summary' => $this->M_validasi_akta_cerai->get_summary($lap_tahun, $batas_hari, $jenis_perkara),
-			'jenis_perkara_list' => $this->M_validasi_akta_cerai->get_jenis_perkara_perceraian(),
+			'summary' => $this->M_akta_cerai->get_summary($lap_tahun, $batas_hari, $jenis_perkara),
+			'jenis_perkara_list' => $this->M_akta_cerai->get_jenis_perkara_perceraian(),
 			'selected_mode' => $mode,
 			'selected_tahun' => $lap_tahun,
 			'selected_batas_hari' => $batas_hari,
@@ -50,16 +50,16 @@ class Validasi_akta_cerai extends CI_Controller
 		$nomor_akta = trim($this->input->post('nomor_akta') ?: '');
 
 		if ($mode === 'cek_nomor') {
-			$hasil = $nomor_akta !== '' ? $this->M_validasi_akta_cerai->get_by_nomor_akta($nomor_akta) : null;
+			$hasil = $nomor_akta !== '' ? $this->M_akta_cerai->get_by_nomor_akta($nomor_akta) : null;
 			$data = $hasil ? [$hasil] : [];
 			$filename = 'Cek_Nomor_Akta_Cerai_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['Status Validasi', 'Nomor Akta', 'No Seri', 'Tanggal Akta', 'Nomor Perkara', 'Jenis Perkara', 'Penggugat', 'Tergugat', 'Tanggal Putusan', 'Tanggal BHT'];
 		} elseif ($mode === 'terlambat') {
-			$data = $this->M_validasi_akta_cerai->get_terlambat($lap_tahun, $batas_hari, $jenis_perkara);
+			$data = $this->M_akta_cerai->get_terlambat($lap_tahun, $batas_hari, $jenis_perkara);
 			$filename = 'Perkara_Akta_Cerai_Terlambat_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Penggugat', 'Tergugat', 'Tanggal Putusan', 'Tanggal BHT', 'Tanggal Akta Cerai', 'Selisih Hari', 'Status'];
 		} else {
-			$data = $this->M_validasi_akta_cerai->get_belum_lengkap($lap_tahun, $jenis_perkara);
+			$data = $this->M_akta_cerai->get_belum_lengkap($lap_tahun, $jenis_perkara);
 			$filename = 'Validasi_Data_Akta_Cerai_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Penggugat', 'Tergugat', 'Tanggal Putusan', 'Tanggal BHT', 'Nomor Akta', 'No Seri', 'Tanggal Akta', 'Catatan Validasi'];
 		}

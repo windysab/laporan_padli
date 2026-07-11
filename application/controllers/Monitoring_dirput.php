@@ -6,7 +6,7 @@ class Monitoring_dirput extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_monitoring_dirput');
+		$this->load->model('M_monitoring');
 		$this->load->helper('url');
 	}
 
@@ -18,18 +18,18 @@ class Monitoring_dirput extends CI_Controller
 		$mode = $this->input->post('mode') ?: $this->input->get('mode') ?: 'belum';
 
 		if ($mode === 'upload_gagal') {
-			$data['datafilter'] = $this->M_monitoring_dirput->get_upload_gagal($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data['datafilter'] = $this->M_monitoring->get_upload_gagal($lap_tahun, $lap_bulan, $jenis_perkara);
 		} elseif ($mode === 'sudah') {
 			$mode = 'sudah';
-			$data['datafilter'] = $this->M_monitoring_dirput->get_sudah_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data['datafilter'] = $this->M_monitoring->get_sudah_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
 		} else {
 			$mode = 'belum';
-			$data['datafilter'] = $this->M_monitoring_dirput->get_belum_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data['datafilter'] = $this->M_monitoring->get_belum_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
 		}
 
 		$data += [
-			'summary' => $this->M_monitoring_dirput->get_summary($lap_tahun, $lap_bulan, $jenis_perkara),
-			'jenis_perkara_list' => $this->M_monitoring_dirput->get_jenis_perkara_putusan(),
+			'summary' => $this->M_monitoring->get_summary($lap_tahun, $lap_bulan, $jenis_perkara),
+			'jenis_perkara_list' => $this->M_monitoring->get_jenis_perkara_putusan(),
 			'selected_bulan' => $lap_bulan,
 			'selected_tahun' => $lap_tahun,
 			'selected_jenis_perkara' => $jenis_perkara,
@@ -47,15 +47,15 @@ class Monitoring_dirput extends CI_Controller
 		$mode = $this->input->post('mode') ?: 'belum';
 
 		if ($mode === 'upload_gagal') {
-			$data = $this->M_monitoring_dirput->get_upload_gagal($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data = $this->M_monitoring->get_upload_gagal($lap_tahun, $lap_bulan, $jenis_perkara);
 			$filename = 'Upload_Dirput_Gagal_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Pihak 1', 'Pihak 2', 'Tanggal Putusan', 'Tanggal BHT', 'Status Putusan', 'Hari Sejak Putusan', 'Keterangan'];
 		} elseif ($mode === 'sudah') {
-			$data = $this->M_monitoring_dirput->get_sudah_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data = $this->M_monitoring->get_sudah_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
 			$filename = 'Putusan_Sudah_Ada_Dirput_Anonim_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Pihak 1', 'Pihak 2', 'Tanggal Putusan', 'Tanggal Publish', 'Filename', 'Published', 'Link Dirput'];
 		} else {
-			$data = $this->M_monitoring_dirput->get_belum_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
+			$data = $this->M_monitoring->get_belum_publish_anonim($lap_tahun, $lap_bulan, $jenis_perkara);
 			$filename = 'Putusan_Belum_Ada_Dirput_Anonim_' . date('Y-m-d_H-i-s') . '.csv';
 			$headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Pihak 1', 'Pihak 2', 'Tanggal Putusan', 'Tanggal BHT', 'Status Putusan', 'Hari Sejak Putusan'];
 		}

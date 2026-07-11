@@ -6,7 +6,7 @@ class Penerbitan_akta_cerai extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_penerbitan_akta_cerai');
+		$this->load->model('M_akta_cerai');
 		$this->load->helper('url');
 		$this->load->helper('text');
 		$this->load->helper('date');
@@ -20,20 +20,20 @@ class Penerbitan_akta_cerai extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data['datafilter'] = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai_tahunan($lap_tahun);
+				$data['datafilter'] = $this->M_akta_cerai->get_penerbitan_akta_cerai_tahunan($lap_tahun);
 				break;
 			case 'custom':
 				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
 				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
-				$data['datafilter'] = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir);
+				$data['datafilter'] = $this->M_akta_cerai->get_penerbitan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir);
 				break;
 			default: // bulanan
-				$data['datafilter'] = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai($lap_tahun, $lap_bulan);
+				$data['datafilter'] = $this->M_akta_cerai->get_penerbitan_akta_cerai($lap_tahun, $lap_bulan);
 				break;
 		}
 
 		$data += [
-			'summary' => $this->M_penerbitan_akta_cerai->get_summary_statistics($lap_tahun, $lap_bulan, $jenis_laporan),
+			'summary' => $this->M_akta_cerai->get_summary_statistics($lap_tahun, $lap_bulan, $jenis_laporan),
 			'selected_bulan' => $lap_bulan,
 			'selected_tahun' => $lap_tahun,
 			'selected_jenis' => $jenis_laporan,
@@ -71,10 +71,10 @@ class Penerbitan_akta_cerai extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai_tahunan($lap_tahun);
+				$data = $this->M_akta_cerai->get_penerbitan_akta_cerai_tahunan($lap_tahun);
 				break;
 			default:
-				$data = $this->M_penerbitan_akta_cerai->get_penerbitan_akta_cerai($lap_tahun, $lap_bulan);
+				$data = $this->M_akta_cerai->get_penerbitan_akta_cerai($lap_tahun, $lap_bulan);
 				break;
 		}
 

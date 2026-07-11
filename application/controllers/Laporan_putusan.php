@@ -9,7 +9,7 @@ class Laporan_putusan extends CI_Controller
 		if (!ini_get('date.timezone')) {
 			date_default_timezone_set('Asia/Jakarta');
 		}
-		$this->load->model('M_laporan_putusan');
+		$this->load->model('M_laporan');
 		$this->load->helper('url');
 		$this->load->helper('text');
 		$this->load->helper('date');
@@ -26,24 +26,24 @@ class Laporan_putusan extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data['datafilter'] = $this->M_laporan_putusan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
-				$data['summary'] = $this->M_laporan_putusan->get_summary_putusan_tahunan($lap_tahun, $wilayah, $jenis_perkara);
+				$data['datafilter'] = $this->M_laporan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
+				$data['summary'] = $this->M_laporan->get_summary_putusan_tahunan($lap_tahun, $wilayah, $jenis_perkara);
 				break;
 			case 'custom':
 				$tanggal_mulai = validate_tanggal($this->input->post('tanggal_mulai'), date('Y-m-01'));
 				$tanggal_akhir = validate_tanggal($this->input->post('tanggal_akhir'), date('Y-m-t'));
-				$data['datafilter'] = $this->M_laporan_putusan->get_laporan_putusan_custom($tanggal_mulai, $tanggal_akhir, $status_putusan, $wilayah, $jenis_perkara);
-				$data['summary'] = $this->M_laporan_putusan->get_summary_putusan_custom($tanggal_mulai, $tanggal_akhir, $wilayah, $jenis_perkara);
+				$data['datafilter'] = $this->M_laporan->get_laporan_putusan_custom($tanggal_mulai, $tanggal_akhir, $status_putusan, $wilayah, $jenis_perkara);
+				$data['summary'] = $this->M_laporan->get_summary_putusan_custom($tanggal_mulai, $tanggal_akhir, $wilayah, $jenis_perkara);
 				break;
 			default: // bulanan
-				$data['datafilter'] = $this->M_laporan_putusan->get_laporan_putusan_bulanan($lap_tahun, $lap_bulan, $status_putusan, $wilayah, $jenis_perkara);
-				$data['summary'] = $this->M_laporan_putusan->get_summary_putusan_bulanan($lap_tahun, $lap_bulan, $wilayah, $jenis_perkara);
+				$data['datafilter'] = $this->M_laporan->get_laporan_putusan_bulanan($lap_tahun, $lap_bulan, $status_putusan, $wilayah, $jenis_perkara);
+				$data['summary'] = $this->M_laporan->get_summary_putusan_bulanan($lap_tahun, $lap_bulan, $wilayah, $jenis_perkara);
 				break;
 		}
 
 		$data += [
-			'jenis_perkara_list' => $this->M_laporan_putusan->get_jenis_perkara_gugatan(),
-			'status_putusan_list' => $this->M_laporan_putusan->get_status_putusan_list(),
+			'jenis_perkara_list' => $this->M_laporan->get_jenis_perkara_gugatan(),
+			'status_putusan_list' => $this->M_laporan->get_status_putusan_list(),
 			'selected_bulan' => $lap_bulan,
 			'selected_tahun' => $lap_tahun,
 			'selected_jenis' => $jenis_laporan,
@@ -87,15 +87,15 @@ class Laporan_putusan extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data = $this->M_laporan_putusan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
+				$data = $this->M_laporan->get_laporan_putusan_tahunan($lap_tahun, $status_putusan, $wilayah, $jenis_perkara);
 				break;
 			case 'custom':
 				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
 				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
-				$data = $this->M_laporan_putusan->get_laporan_putusan_custom($tanggal_mulai, $tanggal_akhir, $status_putusan, $wilayah, $jenis_perkara);
+				$data = $this->M_laporan->get_laporan_putusan_custom($tanggal_mulai, $tanggal_akhir, $status_putusan, $wilayah, $jenis_perkara);
 				break;
 			default:
-				$data = $this->M_laporan_putusan->get_laporan_putusan_bulanan($lap_tahun, $lap_bulan, $status_putusan, $wilayah, $jenis_perkara);
+				$data = $this->M_laporan->get_laporan_putusan_bulanan($lap_tahun, $lap_bulan, $status_putusan, $wilayah, $jenis_perkara);
 				break;
 		}
 

@@ -6,7 +6,7 @@ class Faktor_perceraian_usia extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_faktor_perceraian_usia');
+		$this->load->model('M_faktor_perceraian');
 	}
 
 	public function index()
@@ -15,7 +15,7 @@ class Faktor_perceraian_usia extends CI_Controller
 		$wilayah = $this->input->post('wilayah') ?: 'Amuntai';
 		$wilayah_param = wilayah_map($wilayah);
 
-		$datafilter = $this->M_faktor_perceraian_usia->get_data($lap_tahun, $wilayah_param);
+		$datafilter = $this->M_faktor_perceraian->get_data($lap_tahun, $wilayah_param);
 		$grand_total = 0;
 		if (!empty($datafilter)) {
 			foreach ($datafilter as $row) {

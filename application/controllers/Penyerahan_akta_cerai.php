@@ -6,7 +6,7 @@ class Penyerahan_akta_cerai extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_penyerahan_akta_cerai');
+		$this->load->model('M_akta_cerai');
 		$this->load->helper('url');
 		$this->load->helper('text');
 		$this->load->helper('date');
@@ -21,18 +21,18 @@ class Penyerahan_akta_cerai extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data['datafilter'] = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
-				$data['summary'] = $this->M_penyerahan_akta_cerai->get_summary_penyerahan_tahunan($lap_tahun, $wilayah);
+				$data['datafilter'] = $this->M_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
+				$data['summary'] = $this->M_akta_cerai->get_summary_penyerahan_tahunan($lap_tahun, $wilayah);
 				break;
 			case 'custom':
 				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
 				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
-				$data['datafilter'] = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
-				$data['summary'] = $this->M_penyerahan_akta_cerai->get_summary_penyerahan_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
+				$data['datafilter'] = $this->M_akta_cerai->get_penyerahan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
+				$data['summary'] = $this->M_akta_cerai->get_summary_penyerahan_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
 				break;
 			default: // bulanan
-				$data['datafilter'] = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai($lap_tahun, $lap_bulan, $wilayah);
-				$data['summary'] = $this->M_penyerahan_akta_cerai->get_summary_penyerahan($lap_tahun, $lap_bulan, $wilayah);
+				$data['datafilter'] = $this->M_akta_cerai->get_penyerahan_akta_cerai($lap_tahun, $lap_bulan, $wilayah);
+				$data['summary'] = $this->M_akta_cerai->get_summary_penyerahan($lap_tahun, $lap_bulan, $wilayah);
 				break;
 		}
 
@@ -76,15 +76,15 @@ class Penyerahan_akta_cerai extends CI_Controller
 
 		switch ($jenis_laporan) {
 			case 'tahunan':
-				$data = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
+				$data = $this->M_akta_cerai->get_penyerahan_akta_cerai_tahunan($lap_tahun, $wilayah);
 				break;
 			case 'custom':
 				$tanggal_mulai = $this->input->post('tanggal_mulai') ?: date('Y-m-01');
 				$tanggal_akhir = $this->input->post('tanggal_akhir') ?: date('Y-m-t');
-				$data = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
+				$data = $this->M_akta_cerai->get_penyerahan_akta_cerai_custom($tanggal_mulai, $tanggal_akhir, $wilayah);
 				break;
 			default:
-				$data = $this->M_penyerahan_akta_cerai->get_penyerahan_akta_cerai($lap_tahun, $lap_bulan, $wilayah);
+				$data = $this->M_akta_cerai->get_penyerahan_akta_cerai($lap_tahun, $lap_bulan, $wilayah);
 				break;
 		}
 

@@ -9,7 +9,7 @@ class Faktor_perceraian_detail extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('M_faktor_perceraian_detail');
+        $this->load->model('M_faktor_perceraian');
     }
 
     public function index()
@@ -18,7 +18,7 @@ class Faktor_perceraian_detail extends CI_Controller
         $wilayah = $this->input->post('wilayah') ?: 'Balangan';
         $param = $this->wilayah_map[$wilayah] ?? $wilayah;
         view_load('v_faktor_perceraian_detail', [
-            'datafilter' => $this->M_faktor_perceraian_detail->data_faktor_perceraian_detail($tahun, $param),
+            'datafilter' => $this->M_faktor_perceraian->data_faktor_perceraian_detail($tahun, $param),
             'selected_tahun' => $tahun,
             'selected_wilayah' => $wilayah,
             'selected_wilayah_label' => $this->wilayah_label[strtoupper($wilayah)] ?? $wilayah,
@@ -29,7 +29,7 @@ class Faktor_perceraian_detail extends CI_Controller
     {
         $tahun = ($this->input->post('lap_tahun') ?: $this->input->get('lap_tahun')) ?: date('Y');
         $wilayah = ($this->input->post('wilayah') ?: $this->input->get('wilayah')) ?: 'HSU';
-        $raw = $this->M_faktor_perceraian_detail->data_faktor_perceraian_usia($tahun, $wilayah, 'P');
+        $raw = $this->M_faktor_perceraian->data_faktor_perceraian_usia($tahun, $wilayah, 'P');
 
         $indexed = [];
         foreach ($raw as $row) {

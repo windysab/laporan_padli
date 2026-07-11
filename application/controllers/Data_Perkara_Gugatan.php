@@ -6,7 +6,7 @@ class Data_Perkara_Gugatan extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model("M_data_perkara_gugatan");
+		$this->load->model("M_data_perkara");
 		$this->load->helper('url');
 	}
 
@@ -32,37 +32,37 @@ class Data_Perkara_Gugatan extends CI_Controller
 
 		switch ($report_type) {
 			case 'summary':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'yearly':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'monthly':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'comparison':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah);
 				break;
 			case 'faktor':
 				$jenis_kelamin = validate_jenis_kelamin($this->input->post('jenis_kelamin'));
 				$data['selected_gender'] = $jenis_kelamin;
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin);
+				$data['datafilter'] = $this->M_data_perkara->data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin);
 				break;
 			case 'faktor_detail':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
 				break;
 			case 'custom_range':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
 				break;
 			case 'yearly_comparison':
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
 				break;
 			default:
-				$data['datafilter'] = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data['datafilter'] = $this->M_data_perkara->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 		}
 
-		$data['jenis_perkara_list'] = $this->M_data_perkara_gugatan->get_jenis_perkara_gugatan();
+		$data['jenis_perkara_list'] = $this->M_data_perkara->get_jenis_perkara_gugatan();
 		view_load('v_data_perkara_gugatan', $data);
 	}
 
@@ -78,32 +78,32 @@ class Data_Perkara_Gugatan extends CI_Controller
 
 		switch ($report_type) {
 			case 'summary':
-				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'yearly':
-				$data = $this->M_data_perkara_gugatan->data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_yearly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'monthly':
-				$data = $this->M_data_perkara_gugatan->data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_monthly_perceraian($lap_tahun, $jenis_perkara, $wilayah);
 				break;
 			case 'comparison':
-				$data = $this->M_data_perkara_gugatan->data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah);
+				$data = $this->M_data_perkara->data_comparison_gugat_talak($lap_bulan, $lap_tahun, $wilayah);
 				break;
 			case 'faktor':
 				$jenis_kelamin = $this->input->post('jenis_kelamin') ?: '';
-				$data = $this->M_data_perkara_gugatan->data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin);
+				$data = $this->M_data_perkara->data_faktor_perceraian($lap_tahun, $wilayah, $jenis_kelamin);
 				break;
 			case 'faktor_detail':
-				$data = $this->M_data_perkara_gugatan->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
+				$data = $this->M_data_perkara->data_faktor_perceraian_detail($lap_bulan, $lap_tahun, $wilayah);
 				break;
 			case 'custom_range':
-				$data = $this->M_data_perkara_gugatan->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_custom_range($tanggal_mulai, $tanggal_akhir, $jenis_perkara, $wilayah);
 				break;
 			case 'yearly_comparison':
-				$data = $this->M_data_perkara_gugatan->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
+				$data = $this->M_data_perkara->data_yearly_comparison_gugat_talak($lap_tahun, $wilayah);
 				break;
 			default:
-				$data = $this->M_data_perkara_gugatan->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
+				$data = $this->M_data_perkara->data_summary_perceraian($lap_bulan, $lap_tahun, $jenis_perkara, $wilayah);
 				break;
 		}
 
