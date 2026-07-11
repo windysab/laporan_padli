@@ -34,34 +34,8 @@
   						</p>
   					</a>
   				</li>
-
-  				<!-- <li class="nav-item">
-  					<a href="#" class="nav-link">
-  						<i class="nav-icon fas fa-table"></i>
-  						<p>
-  							Laporan lipa 1
-  							<i class="fas fa-angle-left right"></i>
-  						</p>
-  					</a>
-  					<ul class="nav nav-treeview">
-  						<li class="nav-item">
-  							<a href="<?php echo site_url('Lipa1') ?>" class="nav-link">
-  								<i class="far fa-circle nav-icon"></i>
-  								<p>Laporan LIPA 1</p>
-  							</a>
-  						</li>
-  						<li class="nav-item">
-  							<a href="<?php echo site_url('perkara_banding') ?>" class="nav-link">
-  								<i class="far fa-circle nav-icon"></i>
-  								<p>Perkara Banding</p>
-  							</a>
-  						</li>
-
-
-  					</ul>
-  				</li> -->
-  				<li class="nav-item">
-  					<a href="#" class="nav-link">
+				<li class="nav-item">
+					<a href="#" class="nav-link">
   						<i class="nav-icon fas fa-folder"></i>
   						<p>
   							DELEGASI
